@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="icon" href="data:,">
-<title>Summit Plumbing Co. — Live Demo</title>
+<title>Summit Plumbing Co. | Live Demo</title>
 <style>
 /* ============================================================
    RESET + BASE
@@ -22,7 +22,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 input, textarea { font-family: inherit; }
 
 /* ============================================================
-   APP LAYOUT — split screen
+   APP LAYOUT - split screen
    ============================================================ */
 #app {
   display: flex;
@@ -137,7 +137,7 @@ input, textarea { font-family: inherit; }
 }
 
 /* ============================================================
-   WEBSITE — Summit Plumbing Co.
+   WEBSITE - Summit Plumbing Co.
    ============================================================ */
 #site-scroll {
   flex: 1;
@@ -368,7 +368,7 @@ input, textarea { font-family: inherit; }
 @keyframes popIn { from { transform: scale(.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
 /* --- sections --- */
-.section { padding: 58px 44px; }
+.section { padding: 58px 44px; scroll-margin-top: 72px; }
 .section-head { text-align: center; max-width: 620px; margin: 0 auto 38px; }
 .section-head .kicker { color: var(--blue); font-size: 12px; font-weight: 850; letter-spacing: 1.6px; text-transform: uppercase; }
 .section-head h2 { font-size: 30px; font-weight: 850; letter-spacing: -.5px; color: var(--navy); margin: 8px 0 10px; }
@@ -393,6 +393,49 @@ input, textarea { font-family: inherit; }
 }
 .svc-card h3 { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 7px; }
 .svc-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* recent jobs gallery */
+#work { background: #f7f8fa; }
+.work-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.job-card {
+  background: #fff;
+  border: 1px solid #e7ebef;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform .18s, box-shadow .18s;
+  margin: 0;
+}
+.job-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(14,42,71,.12); }
+.job-photo {
+  aspect-ratio: 4 / 3;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(150deg, var(--g1, #27476e), var(--g2, #122b47));
+}
+.job-photo::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(115deg, rgba(255,255,255,.045) 0 2px, transparent 2px 24px);
+  pointer-events: none;
+  z-index: 3;
+}
+.job-photo img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+.ph-art {
+  position: absolute; inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ph-art svg { opacity: .42; }
+.job-cap { padding: 13px 16px 15px; text-align: left; }
+.job-title { font-size: 14.5px; font-weight: 800; color: var(--navy); }
+.job-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
+@media (max-width: 980px) { .work-grid { grid-template-columns: 1fr 1fr; } }
 
 /* why strip */
 .why-strip {
@@ -1244,6 +1287,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
           </div>
           <nav class="site-nav">
             <a href="#services">Services</a>
+            <a href="#work">Our Work</a>
             <a href="#reviews">Reviews</a>
             <a href="#request">Request Service</a>
           </nav>
@@ -1266,8 +1310,8 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
               <svg width="11" height="13" viewBox="0 0 10 12" fill="none"><path d="M6 0 0 7h3.6L4 12l6-7H6.4L6 0z" fill="#ffd489"/></svg>
               Denver Metro &middot; Same-Day Service
             </span>
-            <h1>Fast, honest plumbing — <em>done right</em> the first time.</h1>
-            <p class="sub">Family-owned since 2009. Upfront pricing, licensed techs, and a real human who answers when you call — day or night.</p>
+            <h1>Fast, honest plumbing, <em>done right</em> the first time.</h1>
+            <p class="sub">Family-owned since 2009. Upfront pricing, licensed techs, and a real person answering the phone, day or night.</p>
             <div class="hero-ctas">
               <button class="btn-primary" type="button">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6.6 2.7c.5-.5 1.3-.4 1.7.1l2 2.6c.4.5.3 1.2-.1 1.6l-1.1 1.1c.8 1.7 2.2 3.1 3.9 3.9l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.6 2c.5.4.6 1.2.1 1.7l-1.5 1.5c-.5.5-1.3.7-2 .5-2.5-.7-4.9-2.1-6.9-4.1S4.7 8 4 5.5c-.2-.7 0-1.5.5-2l2.1-.8z" fill="#3a2600"/></svg>
@@ -1290,7 +1334,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
 
           <div class="lead-card" id="leadCard">
             <h3>Request Service</h3>
-            <p class="lead-sub"><span class="dot-live"></span>We respond in under 5 minutes — guaranteed.</p>
+            <p class="lead-sub"><span class="dot-live"></span>We respond in under 5 minutes. Guaranteed.</p>
             <form id="leadForm" autocomplete="off">
               <div class="field">
                 <label for="f-name">Your Name</label>
@@ -1304,7 +1348,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
                 <label for="f-issue">What's going on?</label>
                 <textarea id="f-issue" rows="3" placeholder="Kitchen sink is backing up and smells terrible…" required></textarea>
               </div>
-              <button class="lead-submit" type="submit">Get Fast Help →</button>
+              <button class="lead-submit" type="submit">Send Request</button>
               <p class="lead-fineprint">By submitting, you agree to receive text messages from Summit Plumbing Co. Message &amp; data rates may apply.</p>
             </form>
             <div class="lead-success">
@@ -1312,7 +1356,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="#1cab5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
               <h4>Request received!</h4>
-              <p id="successText">A member of our team is texting you right now.</p>
+              <p id="successText">We're texting you right now.</p>
             </div>
           </div>
         </section>
@@ -1337,7 +1381,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 4c5 0 5 4 10 4s5-4 6-4M4 10c5 0 5 4 10 4s5-4 6-4M4 16c5 0 5 4 10 4s5-4 6-4" stroke="#1d6fd1" stroke-width="1.8" stroke-linecap="round"/></svg>
               </div>
               <h3>Drain Cleaning</h3>
-              <p>Hydro-jetting and camera inspections that clear any clog — and show you exactly what caused it.</p>
+              <p>Hydro-jetting and camera inspections that clear any clog and show you exactly what caused it.</p>
             </div>
             <div class="svc-card">
               <div class="svc-icon">
@@ -1353,6 +1397,83 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
               <h3>Sump Pumps</h3>
               <p>Installs, battery backups, and flood prevention that keeps your basement dry through spring melt.</p>
             </div>
+          </div>
+        </section>
+
+        <!-- recent jobs -->
+        <section class="section" id="work">
+          <div class="section-head">
+            <span class="kicker">Our Work</span>
+            <h2>Recent jobs around Denver.</h2>
+            <p>Water heaters, repipes, drains, and everything in between. Here's a handful from the last couple of months.</p>
+          </div>
+          <div class="work-grid">
+            <figure class="job-card">
+              <div class="job-photo" style="--g1:#2c4d76;--g2:#122b47" data-alt="50 gallon water heater replacement">
+                <div class="ph-art">
+                  <svg width="66" height="66" viewBox="0 0 24 24" fill="none"><rect x="7" y="2.5" width="10" height="17" rx="3" stroke="#fff" stroke-width="1.4"/><path d="M10 6.5h4M12 19.5V22M9.5 22h5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/><path d="M12 10c-1.2 1.5-1.8 2.4-1.8 3.3a1.8 1.8 0 0 0 3.6 0c0-.9-.6-1.8-1.8-3.3z" fill="#fff"/></svg>
+                </div>
+              </div>
+              <figcaption class="job-cap">
+                <div class="job-title">50-gal water heater swap</div>
+                <div class="job-meta">Littleton · In and out same day</div>
+              </figcaption>
+            </figure>
+            <figure class="job-card">
+              <div class="job-photo" style="--g1:#50617a;--g2:#28303d" data-alt="Whole home copper to PEX repipe">
+                <div class="ph-art">
+                  <svg width="66" height="66" viewBox="0 0 24 24" fill="none"><path d="M3 8h7a4 4 0 0 1 4 4v9" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/><path d="M3 5v6M11 21h6" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/><circle cx="19.5" cy="8" r="2.5" stroke="#fff" stroke-width="1.4"/></svg>
+                </div>
+              </div>
+              <figcaption class="job-cap">
+                <div class="job-title">Copper-to-PEX whole home repipe</div>
+                <div class="job-meta">Wash Park · 3 days, walls patched</div>
+              </figcaption>
+            </figure>
+            <figure class="job-card">
+              <div class="job-photo" style="--g1:#7a5230;--g2:#452b14" data-alt="Sump pump install with battery backup">
+                <div class="ph-art">
+                  <svg width="66" height="66" viewBox="0 0 24 24" fill="none"><path d="M12 3c-3 3.8-4.7 6.1-4.7 8.4a4.7 4.7 0 0 0 9.4 0C16.7 9.1 15 6.8 12 3z" stroke="#fff" stroke-width="1.4"/><path d="M5 20h14M8 17l-2 3M16 17l2 3" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </div>
+              </div>
+              <figcaption class="job-cap">
+                <div class="job-title">Sump pump with battery backup</div>
+                <div class="job-meta">Aurora · Basement's been dry since</div>
+              </figcaption>
+            </figure>
+            <figure class="job-card">
+              <div class="job-photo" style="--g1:#33635a;--g2:#16342e" data-alt="Kitchen drain line hydro jetting">
+                <div class="ph-art">
+                  <svg width="66" height="66" viewBox="0 0 24 24" fill="none"><path d="M4 4c5 0 5 4 10 4s5-4 6-4M4 10c5 0 5 4 10 4s5-4 6-4M4 16c5 0 5 4 10 4s5-4 6-4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </div>
+              </div>
+              <figcaption class="job-cap">
+                <div class="job-title">Kitchen line hydro-jet</div>
+                <div class="job-meta">Lakewood · 40 feet of grease, gone</div>
+              </figcaption>
+            </figure>
+            <figure class="job-card">
+              <div class="job-photo" style="--g1:#41577c;--g2:#1e2c47" data-alt="Tankless water heater conversion">
+                <div class="ph-art">
+                  <svg width="66" height="66" viewBox="0 0 24 24" fill="none"><path d="M12 2.5c1 2.8 3.5 4 3.5 7a3.5 3.5 0 0 1-7 0c0-1.2.4-2.1 1-3.1.3 1 .9 1.6 1.6 1.9-.4-2.2-.1-4.2.9-5.8z" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/><rect x="6" y="14.5" width="12" height="7" rx="2" stroke="#fff" stroke-width="1.4"/><path d="M9 18h6" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/></svg>
+                </div>
+              </div>
+              <figcaption class="job-cap">
+                <div class="job-title">Tankless conversion</div>
+                <div class="job-meta">Highlands Ranch · Endless hot water</div>
+              </figcaption>
+            </figure>
+            <figure class="job-card">
+              <div class="job-photo" style="--g1:#585f66;--g2:#2b3138" data-alt="Trenchless main water line replacement">
+                <div class="ph-art">
+                  <svg width="66" height="66" viewBox="0 0 24 24" fill="none"><path d="M3 18h18M3 21h18" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/><path d="M6 18c0-2 1.5-3.5 3-4.5M18 18c0-2-1.5-3.5-3-4.5" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/><path d="M9 6.5 14.5 12M13 4l3.5 3.5c.8.8.8 2 0 2.8l-1.2 1.2c-.8.8-2 .8-2.8 0L9 8l4-4z" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
+                </div>
+              </div>
+              <figcaption class="job-cap">
+                <div class="job-title">Trenchless main line replacement</div>
+                <div class="job-meta">Englewood · Lawn stayed intact</div>
+              </figcaption>
+            </figure>
           </div>
         </section>
 
@@ -1412,7 +1533,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
                 </div>
                 <div class="rev-stars">★★★★★</div>
               </div>
-              <p class="rev-text">They text you when the tech is on the way — with a photo so you know who's coming. Best service experience I've had from any trade, period.</p>
+              <p class="rev-text">They text you when the tech is on the way, with a photo so you know who's coming. Best service experience I've had from any trade, period.</p>
             </div>
           </div>
         </section>
@@ -1431,7 +1552,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
             </div>
             <div>
               <h4>Hours</h4>
-              <p>Office: Mon–Fri, 7am–6pm<br>Emergency service: 24/7/365<br>Yes, even holidays.</p>
+              <p>Office: Mon-Fri, 7am-6pm<br>Emergency service: 24/7/365<br>Yes, even holidays.</p>
             </div>
             <div>
               <h4>Contact</h4>
@@ -1484,7 +1605,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
       </div>
     </div>
 
-    <div class="phone-label"><span class="dot-live"></span>Customer's Phone — Live View</div>
+    <div class="phone-label"><span class="dot-live"></span>Customer's Phone · Live View</div>
 
     <div class="iphone">
       <div class="side-btn silent"></div>
@@ -1600,7 +1721,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
               <p class="gate-fine">Summit Plumbing Co. · Customer Feedback</p>
             </div>
 
-            <!-- 2. redirect interstitial (4–5 stars) -->
+            <!-- 2. redirect interstitial (4-5 stars) -->
             <div class="web-page" id="pgRedirect">
               <div class="spinner"></div>
               <h3>Glad we could help!</h3>
@@ -1637,14 +1758,14 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
                 <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="#1cab5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
               <h3>Review posted!</h3>
-              <p class="web-sub">Your review is now live on Google — watch it land on the website. ⬅</p>
+              <p class="web-sub">Your review is live on Google. Watch it show up on the website.</p>
             </div>
 
-            <!-- 5. feedback form (1–3 stars) — customer never learns it's gated -->
+            <!-- 5. feedback form (1-3 stars) - customer never learns it's gated -->
             <div class="web-page" id="pgInternal">
               <div class="gate-logo">SP</div>
               <h3>We're sorry we missed the mark.</h3>
-              <p class="web-sub">Tell us what happened — Dan, our owner, personally reads every single response.</p>
+              <p class="web-sub">Tell us what happened. Dan, the owner, reads every response himself.</p>
               <div class="rated-line">You rated: <b id="intStars">★★</b></div>
               <div class="fake-textarea" id="intText" data-placeholder="What could we have done better?"></div>
               <button class="web-cta amber" id="intSend" type="button">Send Feedback</button>
@@ -1713,7 +1834,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
   <button class="cb-icon-btn" id="presentBtn" type="button" title="Presentation mode (P)">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
   </button>
-  <span class="cb-hint"><b>P</b> present &nbsp;·&nbsp; <b>1–5</b> scenarios</span>
+  <span class="cb-hint"><b>P</b> present &nbsp;·&nbsp; <b>1-5</b> scenarios</span>
 </div>
 
 <div id="toast"></div>
@@ -1721,8 +1842,24 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
 <script>
 "use strict";
 /* ============================================================
-   LEAD ENGINE DEMO — all automations simulated, zero backend
+   LEAD ENGINE DEMO - all automations simulated, zero backend
    ============================================================ */
+
+/* ============================================================
+   YOUR JOB PHOTOS
+   Drop real job photos next to this file (or in a photos/ folder)
+   and list them below, in the same order as the six "Recent jobs"
+   cards on the site. Leave an entry as null to keep the styled
+   placeholder tile for that card.
+
+   Example:
+   const JOB_PHOTOS = [
+     "photos/water-heater.jpg",
+     "photos/repipe.jpg",
+     null, null, null, null,
+   ];
+   ============================================================ */
+const JOB_PHOTOS = [null, null, null, null, null, null];
 
 // ---------- element refs ----------
 const $ = (id) => document.getElementById(id);
@@ -2117,7 +2254,7 @@ async function chooseStars(n) {
       sndTick();
     }
     if (!(await step(700))) return;
-    if (!(await typeFake($("gText"), "Fast, professional, fixed it same day. Couldn't ask for more — highly recommend Summit.")))
+    if (!(await typeFake($("gText"), "Fast, professional, fixed it same day. Couldn't ask for more. Highly recommend these guys.")))
       return;
     if (!(await step(600))) return;
     if (!(await pressCta("gPost"))) return;
@@ -2141,7 +2278,7 @@ async function chooseStars(n) {
     showWebPage("pgInternalDone");
     sndSend();
     if (!(await step(1400))) return;
-    showOwnerAlert("<b>" + n + "★ rating from Mike R. intercepted</b> — never reached Google. Full feedback forwarded to your phone so you can win him back.");
+    showOwnerAlert("<b>" + n + "★ rating from Mike R. was intercepted</b> and never reached Google. His full comments went to your phone so you can make it right.");
   }
 }
 
@@ -2198,7 +2335,7 @@ async function scnMissedCall() {
   if (!(await step(3000))) return;
 
   addIncoming(
-    "Hey, this is Summit Plumbing — sorry we missed your call! We're on a job right now. What can we help you with? Reply here and we'll get you taken care of.",
+    "Hey, this is Summit Plumbing. Sorry we missed your call, we're out on a job right now. What can we help you with? Reply here and we'll get you taken care of.",
     { caption: "Sent 47 seconds after missed call" }
   );
 
@@ -2220,7 +2357,7 @@ async function scnMissedCall() {
   showTyping();
   if (!(await step(2000))) return;
   hideTyping();
-  addIncoming("You're booked for today between 2–4pm. You'll get a confirmation text shortly. 👍");
+  addIncoming("You're on the books for today between 2 and 4pm. You'll get a confirmation text shortly. 👍");
 
   if (!(await step(900))) return;
   bumpStats({ rescued: 1, jobs: 1, revenue: 480 });
@@ -2235,7 +2372,7 @@ async function runSpeedToLead(name, issue) {
   clearThread();
 
   const firstName = (name.trim().split(/\s+/)[0] || "there");
-  successText.textContent = firstName + ", a member of our team is texting you right now.";
+  successText.textContent = firstName + ", we're texting you right now.";
   leadCard.classList.add("submitted");
 
   if (!(await step(4600))) return;
@@ -2243,7 +2380,7 @@ async function runSpeedToLead(name, issue) {
   addDaySep();
   const issueShort = issue.trim().replace(/[.!?\s]+$/, "").toLowerCase();
   const msg = "Hi " + firstName + ", thanks for reaching out to Summit Plumbing about your " + issueShort +
-    "! When's a good time for a quick call, or would you like us to text you a quote?";
+    ". When's a good time for a quick call? Or we can text you a quote, whatever's easier.";
   showBanner(msg);
   addIncoming(msg);
 
@@ -2262,10 +2399,10 @@ async function scnFormAuto() {
   if (!(await step(250))) return;
   if (!(await typeIntoInput($("f-phone"), "(303) 555-0192"))) return;
   if (!(await step(250))) return;
-  if (!(await typeIntoInput($("f-issue"), "Kitchen sink is backing up"))) return;
+  if (!(await typeIntoInput($("f-issue"), "Kitchen sink backing up"))) return;
   if (!(await step(500))) return;
   s.done();
-  runSpeedToLead("Sarah Mitchell", "Kitchen sink is backing up");
+  runSpeedToLead("Sarah Mitchell", "Kitchen sink backing up");
 }
 leadForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -2286,12 +2423,12 @@ async function scnJobComplete() {
   showBanner(msg + "summitplumbing.co/feedback");
   const bubble = addIncoming(
     msg + '<span class="tap-link pulse-link">summitplumbing.co/feedback</span>',
-    { caption: "Smart link — 4–5★ routes to Google, 1–3★ gets intercepted" }
+    { caption: "Smart link: 4-5★ routes to Google, 1-3★ gets caught" }
   );
   bubble.querySelector(".tap-link").addEventListener("click", openGate);
   s.done();
   // From here it's interactive: tap the link (or it opens itself in 8s),
-  // then pick a star rating — 1–5 keys work too while the page is open.
+  // then pick a star rating - 1-5 keys work too while the page is open.
   if (!(await step(8000))) return;
   if (!phoneWeb.classList.contains("open")) openGate();
 }
@@ -2313,7 +2450,7 @@ async function scnAfterHours() {
 
   addIncoming(
     "Thanks for calling Summit Plumbing! We're closed right now, but I can get you on tomorrow's schedule or dispatch emergency service if this can't wait. Which do you need?",
-    { caption: "AI answered at 11:47 PM — 38 seconds after call" }
+    { caption: "AI answered at 11:47 PM, 38 seconds after the call" }
   );
 
   if (!(await step(2400))) return;
@@ -2324,7 +2461,7 @@ async function scnAfterHours() {
   showTyping();
   if (!(await step(1700))) return;
   hideTyping();
-  addIncoming("On it. Emergency tech dispatched — ETA 45 minutes. Shut off your main water valve if you can (usually near the water meter). Hang tight, help is coming.");
+  addIncoming("On it. Emergency tech is headed your way, ETA 45 minutes. Shut off your main water valve if you can (usually near the water meter). Hang tight, help is coming.");
 
   if (!(await step(1000))) return;
   bumpStats({ rescued: 1, jobs: 1, revenue: 850 });
@@ -2366,7 +2503,7 @@ function showToast(msg, dur = 2200) {
 }
 function togglePresentation() {
   const on = document.body.classList.toggle("presentation");
-  showToast(on ? "Presentation mode — press P to show controls" : "Controls visible");
+  showToast(on ? "Presentation mode on. Press P to bring controls back" : "Controls visible");
 }
 $("presentBtn").addEventListener("click", togglePresentation);
 $("soundBtn").addEventListener("click", () => {
@@ -2379,7 +2516,7 @@ document.addEventListener("keydown", (e) => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   const t = e.target;
   if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
-  // while the star-rating page is open, 1–5 pick the star rating instead
+  // while the star-rating page is open, 1-5 pick the star rating instead
   if (gateState === "choose" && ["1", "2", "3", "4", "5"].includes(e.key)) {
     chooseStars(parseInt(e.key, 10));
     return;
@@ -2400,6 +2537,15 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ---------- init ----------
+document.querySelectorAll(".job-photo").forEach((el, i) => {
+  const src = JOB_PHOTOS[i];
+  if (!src) return;
+  const img = document.createElement("img");
+  img.alt = el.dataset.alt || "Completed job photo";
+  img.src = src;
+  img.addEventListener("error", () => img.remove());
+  el.appendChild(img);
+});
 renderStat("rescued", false);
 renderStat("jobs", false);
 renderStat("revenue", false);
