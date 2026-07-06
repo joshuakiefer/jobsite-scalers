@@ -45,9 +45,11 @@ Scenario 3 is interactive so you can show **both** outcomes:
    - **4–5 stars** → "Taking you to Google…" → Google review screen (stars fill, review
      auto-types, auto-posts) → the new review animates onto the website and the count ticks
      180 → 181.
-   - **1–3 stars** → private feedback page ("Private — never published") → complaint
-     auto-types and sends to the owner → confirmation that nothing was posted publicly,
-     plus an on-screen note that the bad review was intercepted.
+   - **1–3 stars** → a normal-looking feedback form (the customer never learns it's gated —
+     they just vent and feel heard). The complaint auto-types and sends, the customer sees
+     "Thank you, Dan will call you" — and on the website side an **Owner Alert** card slides
+     in: the low-star review was intercepted before it reached Google, with the full feedback
+     forwarded to the owner. That card is the pitch: only you (the owner) know the filter exists.
 
 For a live demo, run it twice: once with 5 stars, reset, then once with 2 stars. That
 contrast — good reviews amplified, bad reviews caught — is the whole pitch.

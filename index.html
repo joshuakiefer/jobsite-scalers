@@ -1011,19 +1011,8 @@ input, textarea { font-family: inherit; }
   animation: popIn .5s cubic-bezier(.2,1.4,.4,1) both;
 }
 .web-check.green { background: #e6f8ee; }
-.web-check.slate { background: #eceff3; }
 
-/* internal (private) feedback page */
-.priv-badge {
-  display: inline-flex; align-items: center; gap: 6px;
-  background: #f2ede3;
-  border: 1px solid #e3d5b8;
-  color: #8a6d1f;
-  font-size: 10.5px; font-weight: 850; letter-spacing: .8px;
-  padding: 6px 12px; border-radius: 999px;
-  text-transform: uppercase;
-  margin: 10px 0 16px;
-}
+/* low-star feedback page */
 .rated-line { font-size: 12px; color: #8b95a1; margin-bottom: 14px; }
 .rated-line b { color: #fbbc04; font-size: 14px; letter-spacing: 2px; }
 
@@ -1146,6 +1135,44 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
 }
 .cb-hint { color: #5c6b7f; font-size: 10.5px; font-weight: 600; padding: 0 8px 0 4px; }
 .cb-hint b { color: #93a5ba; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+/* owner alert (review-gate interception, shown over the website pane) */
+#owner-alert {
+  position: absolute;
+  bottom: 26px; left: 22px;
+  z-index: 70;
+  width: 340px;
+  background: rgba(13,18,28,.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,.14);
+  border-left: 4px solid #ff9d3d;
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.5);
+  display: flex;
+  gap: 12px;
+  transform: translateX(-120%);
+  opacity: 0;
+  transition: transform .55s cubic-bezier(.3,1.15,.35,1), opacity .4s;
+}
+#owner-alert.show { transform: translateX(0); opacity: 1; }
+.oa-icon {
+  width: 38px; height: 38px;
+  border-radius: 10px;
+  background: rgba(255,157,61,.16);
+  border: 1px solid rgba(255,157,61,.35);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.oa-title {
+  font-size: 10px; font-weight: 850; letter-spacing: 1.4px;
+  color: #ffb469; text-transform: uppercase;
+  margin-bottom: 4px;
+  display: flex; align-items: center; gap: 6px;
+}
+.oa-body { font-size: 12.5px; color: #dbe4ee; line-height: 1.5; }
+.oa-body b { color: #fff; }
 
 /* toast */
 #toast {
@@ -1420,6 +1447,17 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
       </div>
     </div>
 
+    <!-- owner alert (review gate interception) -->
+    <div id="owner-alert">
+      <div class="oa-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 1 3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z" stroke="#ffb469" stroke-width="1.8"/><path d="M12 8v5M12 16.2v.3" stroke="#ffb469" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <div class="oa-title">Review Gate · Owner Alert</div>
+        <div class="oa-body" id="ownerAlertText"></div>
+      </div>
+    </div>
+
     <!-- sticky mobile click-to-call -->
     <button class="sticky-call" type="button" aria-label="Call now">
       <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M6.6 2.7c.5-.5 1.3-.4 1.7.1l2 2.6c.4.5.3 1.2-.1 1.6l-1.1 1.1c.8 1.7 2.2 3.1 3.9 3.9l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.6 2c.5.4.6 1.2.1 1.7l-1.5 1.5c-.5.5-1.3.7-2 .5-2.5-.7-4.9-2.1-6.9-4.1S4.7 8 4 5.5c-.2-.7 0-1.5.5-2l2.1-.8z" fill="#fff"/></svg>
@@ -1602,26 +1640,23 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
               <p class="web-sub">Your review is now live on Google — watch it land on the website. ⬅</p>
             </div>
 
-            <!-- 5. private feedback (1–3 stars) -->
+            <!-- 5. feedback form (1–3 stars) — customer never learns it's gated -->
             <div class="web-page" id="pgInternal">
-              <span class="priv-badge">
-                <svg width="10" height="11" viewBox="0 0 11 12" fill="none"><path d="M2 5V3.5C2 1.8 3.3 .5 5.5 .5S9 1.8 9 3.5V5" stroke="#8a6d1f" stroke-width="1.4"/><rect x="1" y="5" width="9" height="6.3" rx="1.6" fill="#8a6d1f"/></svg>
-                Private — never published
-              </span>
+              <div class="gate-logo">SP</div>
               <h3>We're sorry we missed the mark.</h3>
-              <p class="web-sub">Tell us what happened. This goes straight to the owner's phone — <b>not</b> to Google or any public site.</p>
+              <p class="web-sub">Tell us what happened — Dan, our owner, personally reads every single response.</p>
               <div class="rated-line">You rated: <b id="intStars">★★</b></div>
               <div class="fake-textarea" id="intText" data-placeholder="What could we have done better?"></div>
-              <button class="web-cta amber" id="intSend" type="button">Send Private Feedback</button>
+              <button class="web-cta amber" id="intSend" type="button">Send Feedback</button>
             </div>
 
-            <!-- 6. private success -->
+            <!-- 6. feedback success -->
             <div class="web-page" id="pgInternalDone">
-              <div class="web-check slate">
-                <svg width="34" height="34" viewBox="0 0 24 24" fill="none"><path d="M12 1 3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z" stroke="#45505d" stroke-width="2"/><path d="m8.2 12 2.6 2.6 5-5" stroke="#45505d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <div class="web-check green">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="#1cab5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <h3>Sent — privately.</h3>
-              <p class="web-sub">Dan, the owner, just got your message and will call you personally. Nothing was posted publicly.</p>
+              <h3>Thank you, Mike.</h3>
+              <p class="web-sub">Your feedback went straight to Dan, our owner. He'll give you a call shortly to make this right.</p>
             </div>
 
           </div>
@@ -2095,7 +2130,7 @@ async function chooseStars(n) {
     if (!(await step(1100))) return;
     bumpStats({ revenue: 620 });
   } else {
-    // ---- GATE PATH: keep it private ----
+    // ---- GATE PATH: customer vents, owner gets alerted, Google never sees it ----
     $("intStars").textContent = "★".repeat(n);
     showWebPage("pgInternal");
     if (!(await step(1200))) return;
@@ -2105,9 +2140,24 @@ async function chooseStars(n) {
     if (!(await pressCta("intSend"))) return;
     showWebPage("pgInternalDone");
     sndSend();
-    if (!(await step(1200))) return;
-    showToast("Review gate: " + n + "★ feedback intercepted — kept off Google, owner alerted", 4500);
+    if (!(await step(1400))) return;
+    showOwnerAlert("<b>" + n + "★ rating from Mike R. intercepted</b> — never reached Google. Full feedback forwarded to your phone so you can win him back.");
   }
+}
+
+// owner alert
+const ownerAlert = $("owner-alert");
+let ownerAlertTimer = null;
+function showOwnerAlert(html) {
+  $("ownerAlertText").innerHTML = html;
+  ownerAlert.classList.add("show");
+  sndReceive();
+  clearTimeout(ownerAlertTimer);
+  ownerAlertTimer = setTimeout(hideOwnerAlert, 8000);
+}
+function hideOwnerAlert() {
+  clearTimeout(ownerAlertTimer);
+  ownerAlert.classList.remove("show");
 }
 
 // ============================================================
@@ -2124,6 +2174,7 @@ async function startScenario(n) {
   hideCall();
   hideBanner();
   closeGate();
+  hideOwnerAlert();
   composeReset();
   setRunning(n);
   const t = runToken;
@@ -2235,7 +2286,7 @@ async function scnJobComplete() {
   showBanner(msg + "summitplumbing.co/feedback");
   const bubble = addIncoming(
     msg + '<span class="tap-link pulse-link">summitplumbing.co/feedback</span>',
-    { caption: "Smart link — 4–5★ goes to Google, 1–3★ stays private" }
+    { caption: "Smart link — 4–5★ routes to Google, 1–3★ gets intercepted" }
   );
   bubble.querySelector(".tap-link").addEventListener("click", openGate);
   s.done();
@@ -2287,6 +2338,7 @@ function scnReset() {
   hideCall();
   hideBanner();
   closeGate();
+  hideOwnerAlert();
   composeReset();
   setRunning(null);
   setClock({ status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" });
