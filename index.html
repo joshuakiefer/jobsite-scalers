@@ -1,0 +1,1901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:,">
+<title>Summit Plumbing Co. — Live Demo</title>
+<style>
+/* ============================================================
+   RESET + BASE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #0b0e14;
+  color: #1a2433;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+button { font-family: inherit; cursor: pointer; border: none; background: none; }
+input, textarea { font-family: inherit; }
+
+/* ============================================================
+   APP LAYOUT — split screen
+   ============================================================ */
+#app {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+#site-pane {
+  flex: 0 0 60%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  background: #dfe4ea;
+  min-width: 0;
+}
+#phone-pane {
+  flex: 0 0 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: radial-gradient(1200px 700px at 50% 30%, #1a2233 0%, #0b0e14 70%);
+  position: relative;
+  min-width: 0;
+}
+
+/* ============================================================
+   BROWSER CHROME (makes the site read as a real website)
+   ============================================================ */
+.browser-bar {
+  height: 44px;
+  background: #e8eaed;
+  border-bottom: 1px solid #d0d3d8;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.traffic { display: flex; gap: 7px; }
+.traffic span { width: 12px; height: 12px; border-radius: 50%; display: block; }
+.traffic span:nth-child(1) { background: #ff5f57; }
+.traffic span:nth-child(2) { background: #febc2e; }
+.traffic span:nth-child(3) { background: #28c840; }
+.url-bar {
+  flex: 1;
+  max-width: 480px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 8px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px;
+  font-size: 12.5px;
+  color: #4a5460;
+  box-shadow: inset 0 0 0 1px #dcdfe3;
+}
+.url-bar svg { flex-shrink: 0; }
+
+/* ============================================================
+   WEBSITE — Summit Plumbing Co.
+   ============================================================ */
+#site-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: #f7f8fa;
+  scroll-behavior: smooth;
+}
+#site-scroll::-webkit-scrollbar { width: 9px; }
+#site-scroll::-webkit-scrollbar-track { background: transparent; }
+#site-scroll::-webkit-scrollbar-thumb { background: rgba(14,42,71,.18); border-radius: 6px; border: 2px solid #f7f8fa; }
+#site-scroll::-webkit-scrollbar-thumb:hover { background: rgba(14,42,71,.32); }
+.site {
+  --navy: #0e2a47;
+  --navy-2: #123push;
+  --blue: #1d6fd1;
+  --blue-dark: #16589f;
+  --amber: #f5a524;
+  --ink: #16212f;
+  --muted: #5b6774;
+  font-size: 15px;
+  color: var(--ink);
+}
+
+/* --- top bar --- */
+.site-topbar {
+  background: #fff;
+  border-bottom: 1px solid #e6e9ed;
+  padding: 0 34px;
+  height: 66px;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  box-shadow: 0 1px 10px rgba(14,42,71,.06);
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18.5px; color: var(--navy); letter-spacing: -.2px; white-space: nowrap; }
+.brand-mark {
+  width: 36px; height: 36px; border-radius: 9px;
+  background: linear-gradient(145deg, #1d6fd1, #0e2a47);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.site-nav { display: flex; gap: 22px; margin-left: 10px; }
+.site-nav a { color: #3c4a59; text-decoration: none; font-weight: 600; font-size: 13.5px; }
+.site-nav a:hover { color: var(--blue); }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+.badge-247 {
+  background: #fff4dd;
+  color: #9a6205;
+  border: 1px solid #f3d999;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .4px;
+  padding: 6px 11px;
+  border-radius: 999px;
+  display: flex; align-items: center; gap: 6px;
+  white-space: nowrap;
+}
+.call-btn {
+  background: var(--navy);
+  color: #fff;
+  font-weight: 800;
+  font-size: 14.5px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  display: flex; align-items: center; gap: 8px;
+  white-space: nowrap;
+  transition: background .15s;
+}
+.call-btn:hover { background: #16406b; }
+
+/* --- hero --- */
+.hero {
+  background:
+    radial-gradient(900px 400px at 85% -10%, rgba(29,111,209,.35), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(245,165,36,.18), transparent 55%),
+    linear-gradient(160deg, #0e2a47 0%, #123a63 55%, #0e2a47 100%);
+  padding: 56px 44px 64px;
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 44px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(115deg, rgba(255,255,255,.035) 0 2px, transparent 2px 26px);
+  pointer-events: none;
+}
+.hero-copy { position: relative; }
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(245,165,36,.14);
+  border: 1px solid rgba(245,165,36,.45);
+  color: #ffd489;
+  font-size: 12px; font-weight: 800; letter-spacing: 1.2px;
+  padding: 7px 14px; border-radius: 999px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+}
+.hero h1 {
+  color: #fff;
+  font-size: 40px;
+  line-height: 1.12;
+  letter-spacing: -.8px;
+  font-weight: 850;
+  margin-bottom: 16px;
+}
+.hero h1 em { font-style: normal; color: #ffc45e; }
+.hero p.sub {
+  color: #b9c9db;
+  font-size: 16.5px;
+  line-height: 1.55;
+  max-width: 460px;
+  margin-bottom: 26px;
+}
+.hero-ctas { display: flex; gap: 12px; margin-bottom: 28px; }
+.btn-primary {
+  background: linear-gradient(180deg, #ffb640, #f59c14);
+  color: #3a2600;
+  font-weight: 800;
+  font-size: 15.5px;
+  padding: 14px 24px;
+  border-radius: 12px;
+  box-shadow: 0 8px 22px rgba(245,165,36,.35);
+  display: inline-flex; align-items: center; gap: 9px;
+  transition: transform .12s;
+}
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-ghost {
+  border: 1.5px solid rgba(255,255,255,.35);
+  color: #fff;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 14px 22px;
+  border-radius: 12px;
+  transition: background .15s;
+}
+.btn-ghost:hover { background: rgba(255,255,255,.08); }
+.trust-chips { display: flex; gap: 10px; flex-wrap: wrap; }
+.chip {
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+  color: #dbe6f2;
+  font-size: 12.5px; font-weight: 700;
+  padding: 8px 13px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 7px;
+}
+.chip .star { color: #ffc85c; }
+
+/* --- lead form card --- */
+.lead-card {
+  background: #fff;
+  border-radius: 18px;
+  padding: 26px 26px 22px;
+  box-shadow: 0 24px 60px rgba(4,16,32,.45);
+  position: relative;
+  z-index: 2;
+}
+.lead-card h3 { font-size: 20px; font-weight: 850; color: var(--navy); letter-spacing: -.3px; }
+.lead-card .lead-sub {
+  font-size: 13px; color: var(--muted); margin: 5px 0 18px;
+  display: flex; align-items: center; gap: 7px;
+}
+.lead-sub .dot-live { width: 8px; height: 8px; border-radius: 50%; background: #22b862; box-shadow: 0 0 0 0 rgba(34,184,98,.5); animation: livepulse 2s infinite; flex-shrink: 0; }
+@keyframes livepulse { 0%{box-shadow:0 0 0 0 rgba(34,184,98,.45)} 70%{box-shadow:0 0 0 8px rgba(34,184,98,0)} 100%{box-shadow:0 0 0 0 rgba(34,184,98,0)} }
+.field { margin-bottom: 13px; }
+.field label { display: block; font-size: 12px; font-weight: 800; color: #45505d; letter-spacing: .3px; margin-bottom: 6px; text-transform: uppercase; }
+.field input, .field textarea {
+  width: 100%;
+  border: 1.5px solid #dde2e8;
+  border-radius: 10px;
+  padding: 11px 13px;
+  font-size: 14.5px;
+  color: var(--ink);
+  background: #fbfcfd;
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  resize: none;
+}
+.field input:focus, .field textarea:focus {
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(29,111,209,.14);
+  background: #fff;
+}
+.lead-submit {
+  width: 100%;
+  background: linear-gradient(180deg, #2a7de0, #1a63bd);
+  color: #fff;
+  font-weight: 800;
+  font-size: 15.5px;
+  padding: 14px;
+  border-radius: 11px;
+  margin-top: 4px;
+  box-shadow: 0 8px 20px rgba(29,111,209,.3);
+  transition: transform .12s;
+}
+.lead-submit:hover { transform: translateY(-1px); }
+.lead-fineprint { font-size: 10.5px; color: #98a2ad; text-align: center; margin-top: 11px; line-height: 1.45; }
+
+/* form success state */
+.lead-success {
+  position: absolute; inset: 0;
+  background: #fff;
+  border-radius: 18px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center;
+  padding: 30px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s;
+}
+.lead-card.submitted .lead-success { opacity: 1; pointer-events: auto; }
+.success-ring {
+  width: 74px; height: 74px; border-radius: 50%;
+  background: #e6f8ee;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+  animation: popIn .45s cubic-bezier(.2,1.4,.4,1) both;
+}
+.lead-success h4 { font-size: 20px; font-weight: 850; color: var(--navy); margin-bottom: 8px; }
+.lead-success p { font-size: 14px; color: var(--muted); line-height: 1.5; max-width: 260px; }
+@keyframes popIn { from { transform: scale(.5); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+/* --- sections --- */
+.section { padding: 58px 44px; }
+.section-head { text-align: center; max-width: 620px; margin: 0 auto 38px; }
+.section-head .kicker { color: var(--blue); font-size: 12px; font-weight: 850; letter-spacing: 1.6px; text-transform: uppercase; }
+.section-head h2 { font-size: 30px; font-weight: 850; letter-spacing: -.5px; color: var(--navy); margin: 8px 0 10px; }
+.section-head p { color: var(--muted); font-size: 15px; line-height: 1.55; }
+
+/* services */
+#services { background: #fff; }
+.services-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+.svc-card {
+  border: 1px solid #e7ebef;
+  border-radius: 16px;
+  padding: 24px 20px;
+  background: linear-gradient(180deg, #fff, #fafbfc);
+  transition: transform .18s, box-shadow .18s;
+}
+.svc-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(14,42,71,.1); }
+.svc-icon {
+  width: 46px; height: 46px; border-radius: 12px;
+  background: #e9f1fb;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.svc-card h3 { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 7px; }
+.svc-card p { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+/* why strip */
+.why-strip {
+  background: var(--navy);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 30px 44px;
+  gap: 14px;
+}
+.why-item { text-align: center; }
+.why-item .big { color: #fff; font-size: 23px; font-weight: 850; letter-spacing: -.4px; }
+.why-item .small { color: #93a9c1; font-size: 12px; font-weight: 700; margin-top: 3px; letter-spacing: .3px; }
+
+/* reviews */
+#reviews { background: #f2f5f8; }
+.rating-summary {
+  display: flex; align-items: center; justify-content: center; gap: 18px;
+  margin-bottom: 30px;
+}
+.rating-num {
+  font-size: 46px; font-weight: 850; color: var(--navy); letter-spacing: -1.5px;
+  line-height: 1;
+  display: inline-block;
+}
+.rating-num.pulse { animation: ratingPulse .9s ease; }
+@keyframes ratingPulse {
+  0% { transform: scale(1); text-shadow: none; }
+  35% { transform: scale(1.18); color: #d98f07; text-shadow: 0 0 24px rgba(245,165,36,.6); }
+  100% { transform: scale(1); }
+}
+.rating-detail { text-align: left; }
+.stars-lg { color: #fbbc04; font-size: 19px; letter-spacing: 2px; }
+.rating-based { font-size: 13px; color: var(--muted); font-weight: 600; margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+.review-list { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+.review-card {
+  background: #fff;
+  border: 1px solid #e6eaee;
+  border-radius: 15px;
+  padding: 18px 20px;
+  box-shadow: 0 2px 8px rgba(14,42,71,.05);
+}
+.review-card.fresh {
+  border-color: #f5c66b;
+  box-shadow: 0 10px 34px rgba(245,165,36,.28), 0 0 0 3px rgba(245,165,36,.15);
+}
+.rev-wrap { overflow: hidden; }
+.rev-wrap.animate-in { animation: none; }
+.review-top { display: flex; align-items: center; gap: 11px; margin-bottom: 9px; }
+.rev-avatar {
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-weight: 800; font-size: 15px;
+  flex-shrink: 0;
+}
+.rev-name { font-weight: 800; font-size: 14px; color: var(--ink); }
+.rev-meta { font-size: 12px; color: #8b95a1; margin-top: 1px; }
+.rev-stars { color: #fbbc04; font-size: 13.5px; letter-spacing: 1.5px; margin-left: auto; }
+.review-card p.rev-text { font-size: 13.8px; color: #37424e; line-height: 1.55; }
+.rev-badge-new {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: #fff4dd; color: #9a6205; border: 1px solid #f3d999;
+  font-size: 10px; font-weight: 850; letter-spacing: .6px;
+  padding: 3px 8px; border-radius: 999px; margin-left: 8px;
+  text-transform: uppercase;
+  vertical-align: 1px;
+}
+
+/* footer */
+.site-footer {
+  background: #091d33;
+  color: #8fa3ba;
+  padding: 38px 44px 30px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 30px; margin-bottom: 26px; }
+.site-footer h4 { color: #fff; font-size: 13px; font-weight: 800; letter-spacing: .8px; margin-bottom: 10px; text-transform: uppercase; }
+.footer-brand { display: flex; align-items: center; gap: 9px; color: #fff; font-weight: 800; font-size: 16px; margin-bottom: 12px; }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,.09); padding-top: 18px; font-size: 12px; color: #5f7690; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+/* sticky mobile click-to-call */
+.sticky-call {
+  display: none;
+  position: absolute;
+  bottom: 22px; right: 22px;
+  z-index: 40;
+  width: 62px; height: 62px;
+  border-radius: 50%;
+  background: linear-gradient(180deg, #2bb15e, #189549);
+  box-shadow: 0 10px 26px rgba(24,149,73,.45);
+  align-items: center; justify-content: center;
+  animation: livepulse 2.4s infinite;
+}
+@media (max-width: 980px) {
+  .sticky-call { display: flex; }
+  .services-grid, .why-strip, .footer-grid { grid-template-columns: 1fr 1fr; }
+  .hero { grid-template-columns: 1fr; }
+  .site-nav { display: none; }
+}
+
+/* ============================================================
+   LIVE STATS CARD (floating over the phone pane, always visible)
+   ============================================================ */
+#stats-card {
+  position: absolute;
+  top: 24px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: rgba(15,22,34,.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 16px;
+  padding: 12px 22px 13px;
+  box-shadow: 0 18px 44px rgba(0,0,0,.45);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  white-space: nowrap;
+}
+.stats-title {
+  display: flex; align-items: center; gap: 7px;
+  font-size: 10px; font-weight: 850; letter-spacing: 1.3px;
+  color: #7ee2a8; text-transform: uppercase;
+  padding-right: 20px;
+  border-right: 1px solid rgba(255,255,255,.12);
+  line-height: 1.2;
+}
+.stats-title .dot-live { width: 7px; height: 7px; border-radius: 50%; background: #34d97b; animation: livepulse 2s infinite; }
+.stat-row { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.stat-label { font-size: 10px; font-weight: 700; color: #9fb0c3; white-space: nowrap; letter-spacing: .5px; text-transform: uppercase; }
+.stat-value { font-size: 19px; font-weight: 850; letter-spacing: -.3px; color: #fff; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.stat-value.money { color: #7ee2a8; }
+.stat-value.bumped { animation: statBump .7s cubic-bezier(.2,1.6,.4,1); }
+@keyframes statBump { 0%{transform:scale(1)} 35%{transform:scale(1.28); color:#ffd479} 100%{transform:scale(1)} }
+
+/* ============================================================
+   PHONE PANE
+   ============================================================ */
+.phone-label {
+  display: flex; align-items: center; gap: 9px;
+  color: #8fa2ba;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 2.2px;
+  text-transform: uppercase;
+}
+.phone-label .dot-live { width: 8px; height: 8px; border-radius: 50%; background: #ff453a; animation: livepulse 1.6s infinite; }
+
+/* --- iPhone frame --- */
+.iphone {
+  width: 352px;
+  height: 718px;
+  background: linear-gradient(160deg, #3a3d45, #17181c 30%, #26282e 70%, #101114);
+  border-radius: 56px;
+  padding: 11px;
+  position: relative;
+  box-shadow:
+    0 40px 90px rgba(0,0,0,.7),
+    0 0 0 1px rgba(255,255,255,.07),
+    inset 0 0 4px rgba(255,255,255,.14);
+  flex-shrink: 0;
+}
+.side-btn { position: absolute; background: #2c2e34; border-radius: 3px; }
+.side-btn.power { right: -3px; top: 190px; width: 3px; height: 74px; }
+.side-btn.vol-up { left: -3px; top: 160px; width: 3px; height: 46px; }
+.side-btn.vol-dn { left: -3px; top: 216px; width: 3px; height: 46px; }
+.side-btn.silent { left: -3px; top: 118px; width: 3px; height: 26px; }
+
+.screen {
+  width: 100%; height: 100%;
+  border-radius: 46px;
+  background: #fff;
+  overflow: hidden;
+  position: relative;
+}
+.island {
+  position: absolute;
+  top: 12px; left: 50%;
+  transform: translateX(-50%);
+  width: 112px; height: 31px;
+  background: #000;
+  border-radius: 22px;
+  z-index: 90;
+}
+.island::after {
+  content: "";
+  position: absolute; right: 13px; top: 50%;
+  transform: translateY(-50%);
+  width: 9px; height: 9px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #1d2c46, #000 70%);
+}
+
+/* status bar */
+.statusbar {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 54px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 17px 30px 0 34px;
+  z-index: 80;
+  pointer-events: none;
+}
+.sb-time { font-size: 15px; font-weight: 700; color: #000; letter-spacing: -.2px; }
+.sb-icons { display: flex; align-items: center; gap: 6px; }
+.screen.dark-status .sb-time { color: #fff; }
+.screen.dark-status .sb-icons svg .sb-fill { fill: #fff; }
+.screen.dark-status .sb-icons svg .sb-dim { fill: rgba(255,255,255,.4); }
+.sb-icons svg .sb-fill { fill: #000; }
+.sb-icons svg .sb-dim { fill: rgba(0,0,0,.3); }
+
+/* --- Messages app --- */
+.messages-app {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column;
+  background: #fff;
+}
+.msg-header {
+  padding: 54px 14px 8px;
+  background: rgba(249,249,250,.94);
+  backdrop-filter: blur(10px);
+  border-bottom: .5px solid #d5d8dc;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 10;
+}
+.msg-back { color: #0a7cff; padding: 0 4px 12px; }
+.msg-contact { display: flex; flex-direction: column; align-items: center; gap: 3px; transform: translateY(2px); }
+.msg-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  background: linear-gradient(180deg, #2a7de0, #0e2a47);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 17px;
+}
+.msg-contact-name { font-size: 11px; color: #1c1c1e; font-weight: 500; display: flex; align-items: center; gap: 2px; }
+.msg-contact-name svg { opacity: .4; }
+.msg-video { color: #0a7cff; padding: 0 4px 12px; }
+
+.thread {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 14px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  scroll-behavior: smooth;
+}
+.thread::-webkit-scrollbar { width: 0; }
+.day-sep {
+  text-align: center;
+  font-size: 11px;
+  color: #86868b;
+  font-weight: 500;
+  margin: 8px 0 10px;
+}
+.day-sep b { font-weight: 700; color: #6d6d72; }
+.msg-empty {
+  margin: auto;
+  text-align: center;
+  color: #b7bcc3;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.6;
+  padding: 0 40px;
+}
+
+.bubble {
+  max-width: 74%;
+  padding: 8px 13px;
+  border-radius: 19px;
+  font-size: 14.5px;
+  line-height: 1.35;
+  word-wrap: break-word;
+  animation: bubblePop .34s cubic-bezier(.2,1.35,.45,1) both;
+  position: relative;
+  margin-bottom: 2px;
+}
+.bubble.in {
+  background: #e9e9eb;
+  color: #000;
+  align-self: flex-start;
+  border-bottom-left-radius: 6px;
+  transform-origin: bottom left;
+}
+.bubble.out {
+  background: linear-gradient(180deg, #16a0ff, #087dff);
+  color: #fff;
+  align-self: flex-end;
+  border-bottom-right-radius: 6px;
+  transform-origin: bottom right;
+}
+.bubble .tap-link { color: #0a60ff; text-decoration: underline; font-weight: 500; }
+@keyframes bubblePop {
+  0% { transform: scale(.75) translateY(8px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+.msg-caption {
+  align-self: flex-start;
+  font-size: 10.5px;
+  color: #f59c14;
+  font-weight: 700;
+  margin: 1px 6px 6px;
+  display: flex; align-items: center; gap: 5px;
+  animation: fadeIn .5s .15s both;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+.receipt {
+  align-self: flex-end;
+  font-size: 10.5px;
+  color: #86868b;
+  font-weight: 600;
+  margin: 0 6px 6px;
+  animation: fadeIn .4s both;
+}
+
+/* typing indicator */
+.typing-bubble {
+  align-self: flex-start;
+  background: #e9e9eb;
+  border-radius: 19px;
+  border-bottom-left-radius: 6px;
+  padding: 12px 15px;
+  display: flex; gap: 4px;
+  animation: bubblePop .3s cubic-bezier(.2,1.35,.45,1) both;
+  transform-origin: bottom left;
+  margin-bottom: 2px;
+}
+.typing-bubble i {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #a8a8ad;
+  animation: typingDot 1.2s infinite;
+}
+.typing-bubble i:nth-child(2) { animation-delay: .18s; }
+.typing-bubble i:nth-child(3) { animation-delay: .36s; }
+@keyframes typingDot { 0%,60%,100% { transform: translateY(0); opacity: .5; } 30% { transform: translateY(-4px); opacity: 1; } }
+
+/* compose bar */
+.compose {
+  flex-shrink: 0;
+  padding: 8px 12px 26px;
+  background: rgba(249,249,250,.95);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.compose-plus {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #e9e9eb;
+  display: flex; align-items: center; justify-content: center;
+  color: #7c7c82;
+  flex-shrink: 0;
+  font-size: 20px; font-weight: 400;
+  line-height: 1;
+}
+.compose-field {
+  flex: 1;
+  border: 1px solid #d8d8dc;
+  border-radius: 17px;
+  min-height: 34px;
+  padding: 7px 38px 7px 13px;
+  font-size: 14.5px;
+  color: #000;
+  position: relative;
+  background: #fff;
+  display: flex; align-items: center;
+}
+.compose-field .placeholder { color: #b0b0b6; }
+.compose-field.typing .placeholder { display: none; }
+.compose-field .typed-text::after {
+  content: "";
+  display: inline-block;
+  width: 2px; height: 17px;
+  background: #0a7cff;
+  margin-left: 1px;
+  vertical-align: -3px;
+  animation: caretBlink 1s steps(1) infinite;
+}
+@keyframes caretBlink { 50% { opacity: 0; } }
+.compose-send {
+  position: absolute;
+  right: 3px; top: 50%;
+  transform: translateY(-50%) scale(.6);
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: #087dff;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity .2s, transform .2s;
+}
+.compose-field.typing .compose-send { opacity: 1; transform: translateY(-50%) scale(1); }
+.home-indicator {
+  position: absolute;
+  bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  width: 128px; height: 5px;
+  border-radius: 3px;
+  background: #000;
+  z-index: 85;
+  opacity: .9;
+}
+.screen.dark-status .home-indicator, .call-screen ~ .home-indicator { background: #fff; }
+
+/* --- Call screen --- */
+.call-screen {
+  position: absolute; inset: 0;
+  z-index: 70;
+  background:
+    radial-gradient(500px 380px at 30% 18%, rgba(53,89,153,.55), transparent 65%),
+    radial-gradient(420px 420px at 75% 80%, rgba(29,52,92,.5), transparent 65%),
+    linear-gradient(180deg, #0d1523, #131b2c 55%, #0b1120);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .38s;
+}
+.call-screen.active { opacity: 1; pointer-events: auto; }
+.call-top { margin-top: 108px; text-align: center; }
+.call-avatar {
+  width: 92px; height: 92px; border-radius: 50%;
+  background: linear-gradient(180deg, #2a7de0, #0e2a47);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 34px; font-weight: 700;
+  margin: 0 auto 20px;
+  box-shadow: 0 12px 34px rgba(0,0,0,.4);
+}
+.call-name { font-size: 27px; font-weight: 600; letter-spacing: .2px; }
+.call-status { font-size: 15px; color: #9aa6ba; margin-top: 7px; font-weight: 500; min-height: 22px; }
+.call-status.failed { color: #ff6b62; font-weight: 600; }
+.call-actions {
+  margin-top: auto;
+  margin-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+}
+.call-btn-row { display: flex; gap: 34px; }
+.cbtn {
+  width: 62px; height: 62px; border-radius: 50%;
+  background: rgba(255,255,255,.14);
+  backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column;
+}
+.cbtn-label { font-size: 10.5px; color: #cfd6e0; margin-top: 7px; text-align: center; font-weight: 500; }
+.cbtn-wrap { display:flex; flex-direction:column; align-items:center; }
+.cbtn.end {
+  width: 68px; height: 68px;
+  background: linear-gradient(180deg, #ff5146, #e5372c);
+  box-shadow: 0 10px 26px rgba(229,55,44,.4);
+}
+
+/* --- notification banner --- */
+.notif {
+  position: absolute;
+  top: 56px; left: 10px; right: 10px;
+  z-index: 95;
+  background: rgba(245,245,247,.88);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 20px;
+  box-shadow: 0 10px 34px rgba(0,0,0,.28);
+  padding: 12px 14px;
+  display: flex;
+  gap: 11px;
+  align-items: flex-start;
+  transform: translateY(-130px);
+  opacity: 0;
+  transition: transform .5s cubic-bezier(.3,1.2,.35,1), opacity .4s;
+}
+.notif.show { transform: translateY(0); opacity: 1; }
+.notif-icon {
+  width: 38px; height: 38px;
+  border-radius: 9px;
+  background: linear-gradient(180deg, #67e26b, #14bc2e);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.notif-body { flex: 1; min-width: 0; }
+.notif-head { display: flex; justify-content: space-between; align-items: baseline; }
+.notif-title { font-size: 13px; font-weight: 700; color: #1c1c1e; }
+.notif-time { font-size: 11.5px; color: #7a7a80; }
+.notif-text {
+  font-size: 13px; color: #2b2b2e; line-height: 1.35; margin-top: 1px;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* ============================================================
+   CONTROL BAR
+   ============================================================ */
+#control-bar {
+  position: fixed;
+  bottom: 14px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 200;
+  background: rgba(13,18,28,.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.55);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px;
+  transition: transform .45s cubic-bezier(.3,1,.4,1), opacity .35s;
+  white-space: nowrap;
+}
+body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; pointer-events: none; }
+.cb-brand {
+  color: #6f8098;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  padding: 0 10px 0 6px;
+  border-right: 1px solid rgba(255,255,255,.1);
+  margin-right: 4px;
+  line-height: 1.3;
+}
+.cb-brand b { display: block; color: #b9c8da; font-size: 11px; }
+.cb-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  color: #e8eef6;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 9px 13px;
+  border-radius: 11px;
+  transition: background .15s, transform .12s, border-color .15s;
+}
+.cb-btn:hover { background: rgba(255,255,255,.13); transform: translateY(-1px); }
+.cb-btn:active { transform: translateY(0) scale(.97); }
+.cb-btn.running { border-color: rgba(126,226,168,.6); background: rgba(38,120,74,.25); }
+.cb-btn .kbd {
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.16);
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 6px;
+  color: #aebdd0;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+.cb-btn.reset { color: #ffb0aa; }
+.cb-btn.reset:hover { background: rgba(229,55,44,.18); }
+.cb-sep { width: 1px; height: 26px; background: rgba(255,255,255,.1); margin: 0 4px; }
+.cb-icon-btn {
+  width: 36px; height: 36px;
+  border-radius: 10px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.1);
+  color: #b9c8da;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .15s;
+  position: relative;
+}
+.cb-icon-btn:hover { background: rgba(255,255,255,.13); }
+.cb-icon-btn.off::after {
+  content: "";
+  position: absolute;
+  width: 2px; height: 22px;
+  background: #ff6b62;
+  transform: rotate(45deg);
+  border-radius: 2px;
+}
+.cb-hint { color: #5c6b7f; font-size: 10.5px; font-weight: 600; padding: 0 8px 0 4px; }
+.cb-hint b { color: #93a5ba; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+
+/* toast */
+#toast {
+  position: fixed;
+  top: 20px; left: 50%;
+  transform: translate(-50%, -80px);
+  z-index: 300;
+  background: rgba(13,18,28,.94);
+  border: 1px solid rgba(255,255,255,.14);
+  color: #dfe8f2;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 11px 20px;
+  border-radius: 12px;
+  box-shadow: 0 14px 40px rgba(0,0,0,.5);
+  transition: transform .45s cubic-bezier(.3,1.2,.4,1);
+  pointer-events: none;
+}
+#toast.show { transform: translate(-50%, 0); }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <!-- ================= LEFT: WEBSITE ================= -->
+  <div id="site-pane">
+    <div class="browser-bar">
+      <div class="traffic"><span></span><span></span><span></span></div>
+      <div class="url-bar">
+        <svg width="11" height="12" viewBox="0 0 11 12" fill="none"><path d="M2 5V3.5C2 1.8 3.3 .5 5.5 .5S9 1.8 9 3.5V5" stroke="#5f6b76" stroke-width="1.4"/><rect x="1" y="5" width="9" height="6.3" rx="1.6" fill="#5f6b76"/></svg>
+        summitplumbingco.com
+      </div>
+      <div style="width:56px"></div>
+    </div>
+
+    <div id="site-scroll">
+      <div class="site">
+
+        <!-- topbar -->
+        <header class="site-topbar">
+          <div class="brand">
+            <span class="brand-mark">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a4.5 4.5 0 0 0-6 5.7L3 17.7V21h3.3l5.7-5.7a4.5 4.5 0 0 0 5.7-6l-3 3-2.7-.3-.3-2.7 3-3z" fill="#fff"/></svg>
+            </span>
+            Summit Plumbing Co.
+          </div>
+          <nav class="site-nav">
+            <a href="#services">Services</a>
+            <a href="#reviews">Reviews</a>
+            <a href="#request">Request Service</a>
+          </nav>
+          <div class="topbar-right">
+            <span class="badge-247">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6 0 0 7h3.6L4 12l6-7H6.4L6 0z" fill="#e09a12"/></svg>
+              24/7 EMERGENCY SERVICE
+            </span>
+            <button class="call-btn" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6.6 2.7c.5-.5 1.3-.4 1.7.1l2 2.6c.4.5.3 1.2-.1 1.6l-1.1 1.1c.8 1.7 2.2 3.1 3.9 3.9l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.6 2c.5.4.6 1.2.1 1.7l-1.5 1.5c-.5.5-1.3.7-2 .5-2.5-.7-4.9-2.1-6.9-4.1S4.7 8 4 5.5c-.2-.7 0-1.5.5-2l2.1-.8z" fill="#fff"/></svg>
+              (720) 555-0148
+            </button>
+          </div>
+        </header>
+
+        <!-- hero -->
+        <section class="hero" id="request">
+          <div class="hero-copy">
+            <span class="hero-eyebrow">
+              <svg width="11" height="13" viewBox="0 0 10 12" fill="none"><path d="M6 0 0 7h3.6L4 12l6-7H6.4L6 0z" fill="#ffd489"/></svg>
+              Denver Metro &middot; Same-Day Service
+            </span>
+            <h1>Fast, honest plumbing — <em>done right</em> the first time.</h1>
+            <p class="sub">Family-owned since 2009. Upfront pricing, licensed techs, and a real human who answers when you call — day or night.</p>
+            <div class="hero-ctas">
+              <button class="btn-primary" type="button">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6.6 2.7c.5-.5 1.3-.4 1.7.1l2 2.6c.4.5.3 1.2-.1 1.6l-1.1 1.1c.8 1.7 2.2 3.1 3.9 3.9l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.6 2c.5.4.6 1.2.1 1.7l-1.5 1.5c-.5.5-1.3.7-2 .5-2.5-.7-4.9-2.1-6.9-4.1S4.7 8 4 5.5c-.2-.7 0-1.5.5-2l2.1-.8z" fill="#3a2600"/></svg>
+                Call (720) 555-0148
+              </button>
+              <button class="btn-ghost" type="button" id="heroRequestBtn">Request Service</button>
+            </div>
+            <div class="trust-chips">
+              <span class="chip">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M12 1 3 5v6c0 5.5 3.8 10.7 9 12 5.2-1.3 9-6.5 9-12V5l-9-4z" fill="#7fb3ea"/><path d="m8.2 12 2.6 2.6 5-5" stroke="#0e2a47" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Licensed &amp; Insured
+              </span>
+              <span class="chip">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#7fb3ea"/><path d="M12 6.5V12l3.6 2.2" stroke="#0e2a47" stroke-width="2.2" stroke-linecap="round"/></svg>
+                60-Min Emergency Response
+              </span>
+              <span class="chip"><span class="star">★</span> 4.9 &middot; <span class="review-count">180</span> Google Reviews</span>
+            </div>
+          </div>
+
+          <div class="lead-card" id="leadCard">
+            <h3>Request Service</h3>
+            <p class="lead-sub"><span class="dot-live"></span>We respond in under 5 minutes — guaranteed.</p>
+            <form id="leadForm" autocomplete="off">
+              <div class="field">
+                <label for="f-name">Your Name</label>
+                <input id="f-name" type="text" placeholder="Sarah Mitchell" required>
+              </div>
+              <div class="field">
+                <label for="f-phone">Mobile Phone</label>
+                <input id="f-phone" type="tel" placeholder="(303) 555-0192" required>
+              </div>
+              <div class="field">
+                <label for="f-issue">What's going on?</label>
+                <textarea id="f-issue" rows="3" placeholder="Kitchen sink is backing up and smells terrible…" required></textarea>
+              </div>
+              <button class="lead-submit" type="submit">Get Fast Help →</button>
+              <p class="lead-fineprint">By submitting, you agree to receive text messages from Summit Plumbing Co. Message &amp; data rates may apply.</p>
+            </form>
+            <div class="lead-success">
+              <div class="success-ring">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="#1cab5c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <h4>Request received!</h4>
+              <p id="successText">A member of our team is texting you right now.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- services -->
+        <section class="section" id="services">
+          <div class="section-head">
+            <span class="kicker">What We Do</span>
+            <h2>Every pipe, every problem, handled.</h2>
+            <p>From a dripping faucet to a whole-home repipe, our licensed techs show up on time with the parts on the truck.</p>
+          </div>
+          <div class="services-grid">
+            <div class="svc-card">
+              <div class="svc-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><rect x="7" y="2.5" width="10" height="17" rx="3" stroke="#1d6fd1" stroke-width="1.8"/><path d="M10 6.5h4M12 19.5V22M9.5 22h5" stroke="#1d6fd1" stroke-width="1.8" stroke-linecap="round"/><path d="M12 10c-1.2 1.5-1.8 2.4-1.8 3.3a1.8 1.8 0 0 0 3.6 0c0-.9-.6-1.8-1.8-3.3z" fill="#1d6fd1"/></svg>
+              </div>
+              <h3>Water Heaters</h3>
+              <p>Repair &amp; same-day replacement of tank and tankless systems. Most swaps done in under 4 hours.</p>
+            </div>
+            <div class="svc-card">
+              <div class="svc-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 4c5 0 5 4 10 4s5-4 6-4M4 10c5 0 5 4 10 4s5-4 6-4M4 16c5 0 5 4 10 4s5-4 6-4" stroke="#1d6fd1" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <h3>Drain Cleaning</h3>
+              <p>Hydro-jetting and camera inspections that clear any clog — and show you exactly what caused it.</p>
+            </div>
+            <div class="svc-card">
+              <div class="svc-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M3 8h7a4 4 0 0 1 4 4v9" stroke="#1d6fd1" stroke-width="1.8" stroke-linecap="round"/><path d="M3 5v6M11 21h6" stroke="#1d6fd1" stroke-width="1.8" stroke-linecap="round"/><circle cx="19.5" cy="8" r="2.5" stroke="#1d6fd1" stroke-width="1.8"/></svg>
+              </div>
+              <h3>Whole-Home Repipes</h3>
+              <p>Copper &amp; PEX repipes with clean drywall repair included. Financing available on approved credit.</p>
+            </div>
+            <div class="svc-card">
+              <div class="svc-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3c-3 3.8-4.7 6.1-4.7 8.4a4.7 4.7 0 0 0 9.4 0C16.7 9.1 15 6.8 12 3z" stroke="#1d6fd1" stroke-width="1.8"/><path d="M5 20h14M8 17l-2 3M16 17l2 3" stroke="#1d6fd1" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </div>
+              <h3>Sump Pumps</h3>
+              <p>Installs, battery backups, and flood prevention that keeps your basement dry through spring melt.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- why strip -->
+        <section class="why-strip">
+          <div class="why-item"><div class="big">16 Years</div><div class="small">SERVING DENVER METRO</div></div>
+          <div class="why-item"><div class="big">9 Techs</div><div class="small">LICENSED &amp; BACKGROUND-CHECKED</div></div>
+          <div class="why-item"><div class="big">100%</div><div class="small">SATISFACTION GUARANTEE</div></div>
+          <div class="why-item"><div class="big">60 Min</div><div class="small">EMERGENCY RESPONSE TIME</div></div>
+        </section>
+
+        <!-- reviews -->
+        <section class="section" id="reviews">
+          <div class="section-head">
+            <span class="kicker">Our Reputation</span>
+            <h2>Neighbors who'd call us again.</h2>
+          </div>
+          <div class="rating-summary">
+            <span class="rating-num" id="ratingNum">4.9</span>
+            <div class="rating-detail">
+              <div class="stars-lg">★★★★★</div>
+              <div class="rating-based">
+                <svg width="15" height="15" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                Based on <span class="review-count">180</span> Google reviews
+              </div>
+            </div>
+          </div>
+          <div class="review-list" id="reviewList">
+            <div class="review-card">
+              <div class="review-top">
+                <div class="rev-avatar" style="background:linear-gradient(160deg,#7b61c9,#4a3a8c)">J</div>
+                <div>
+                  <div class="rev-name">Jennifer Kowalski</div>
+                  <div class="rev-meta">2 weeks ago</div>
+                </div>
+                <div class="rev-stars">★★★★★</div>
+              </div>
+              <p class="rev-text">Called at 8am with a busted water heater, had hot water again by 2pm. Fair price, zero pressure, and they laid down floor protection without being asked.</p>
+            </div>
+            <div class="review-card">
+              <div class="review-top">
+                <div class="rev-avatar" style="background:linear-gradient(160deg,#e0793a,#b3541e)">D</div>
+                <div>
+                  <div class="rev-name">Dave Reznick</div>
+                  <div class="rev-meta">1 month ago</div>
+                </div>
+                <div class="rev-stars">★★★★★</div>
+              </div>
+              <p class="rev-text">Miguel walked me through everything before starting and the final bill matched the quote to the penny. That never happens with contractors.</p>
+            </div>
+            <div class="review-card">
+              <div class="review-top">
+                <div class="rev-avatar" style="background:linear-gradient(160deg,#3aa87c,#1f7d57)">A</div>
+                <div>
+                  <div class="rev-name">Angela Torres</div>
+                  <div class="rev-meta">1 month ago</div>
+                </div>
+                <div class="rev-stars">★★★★★</div>
+              </div>
+              <p class="rev-text">They text you when the tech is on the way — with a photo so you know who's coming. Best service experience I've had from any trade, period.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- footer -->
+        <footer class="site-footer">
+          <div class="footer-grid">
+            <div>
+              <div class="footer-brand">
+                <span class="brand-mark" style="width:30px;height:30px;border-radius:8px">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M14.7 6.3a4.5 4.5 0 0 0-6 5.7L3 17.7V21h3.3l5.7-5.7a4.5 4.5 0 0 0 5.7-6l-3 3-2.7-.3-.3-2.7 3-3z" fill="#fff"/></svg>
+                </span>
+                Summit Plumbing Co.
+              </div>
+              <p>4180 S Broadway, Englewood, CO 80113<br>Colorado Master Plumber License #MP-188442</p>
+            </div>
+            <div>
+              <h4>Hours</h4>
+              <p>Office: Mon–Fri, 7am–6pm<br>Emergency service: 24/7/365<br>Yes, even holidays.</p>
+            </div>
+            <div>
+              <h4>Contact</h4>
+              <p>(720) 555-0148<br>hello@summitplumbingco.com</p>
+            </div>
+          </div>
+          <div class="footer-bottom">
+            <span>© 2026 Summit Plumbing Co. All rights reserved.</span>
+            <span>Proudly serving Denver, Englewood, Littleton &amp; Aurora</span>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+
+    <!-- sticky mobile click-to-call -->
+    <button class="sticky-call" type="button" aria-label="Call now">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M6.6 2.7c.5-.5 1.3-.4 1.7.1l2 2.6c.4.5.3 1.2-.1 1.6l-1.1 1.1c.8 1.7 2.2 3.1 3.9 3.9l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.6 2c.5.4.6 1.2.1 1.7l-1.5 1.5c-.5.5-1.3.7-2 .5-2.5-.7-4.9-2.1-6.9-4.1S4.7 8 4 5.5c-.2-.7 0-1.5.5-2l2.1-.8z" fill="#fff"/></svg>
+    </button>
+
+  </div>
+
+  <!-- ================= RIGHT: PHONE ================= -->
+  <div id="phone-pane">
+    <!-- live stats card -->
+    <div id="stats-card">
+      <div class="stats-title"><span class="dot-live"></span>This Month · Live</div>
+      <div class="stat-row">
+        <span class="stat-label">Missed Calls Rescued</span>
+        <span class="stat-value" id="statRescued">23</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Jobs Booked</span>
+        <span class="stat-value" id="statJobs">6</span>
+      </div>
+      <div class="stat-row">
+        <span class="stat-label">Revenue Saved</span>
+        <span class="stat-value money" id="statRevenue">$7,400</span>
+      </div>
+    </div>
+
+    <div class="phone-label"><span class="dot-live"></span>Customer's Phone — Live View</div>
+
+    <div class="iphone">
+      <div class="side-btn silent"></div>
+      <div class="side-btn vol-up"></div>
+      <div class="side-btn vol-dn"></div>
+      <div class="side-btn power"></div>
+
+      <div class="screen" id="screen">
+        <div class="island"></div>
+
+        <div class="statusbar">
+          <span class="sb-time" id="sbTime">2:14</span>
+          <span class="sb-icons">
+            <!-- signal -->
+            <svg width="18" height="12" viewBox="0 0 18 12"><rect class="sb-fill" x="0" y="7.5" width="3" height="4.5" rx="1"/><rect class="sb-fill" x="4.7" y="5" width="3" height="7" rx="1"/><rect class="sb-fill" x="9.4" y="2.5" width="3" height="9.5" rx="1"/><rect class="sb-fill" x="14.1" y="0" width="3" height="12" rx="1"/></svg>
+            <!-- wifi -->
+            <svg width="17" height="12" viewBox="0 0 17 12"><path class="sb-fill" d="M8.5 9.7 6.4 12h4.2L8.5 9.7zM8.5 6.4c1.5 0 2.9.6 3.9 1.6l1.5-1.7A7.6 7.6 0 0 0 8.5 4.2c-2.1 0-4 .8-5.4 2.1l1.5 1.7a5.6 5.6 0 0 1 3.9-1.6zM8.5 1.1C5.4 1.1 2.6 2.3.5 4.3L2 6a9.6 9.6 0 0 1 13 0l1.5-1.7A11.5 11.5 0 0 0 8.5 1.1z"/></svg>
+            <!-- battery -->
+            <svg width="25" height="12" viewBox="0 0 25 12"><rect class="sb-dim" x="0" y="0" width="22" height="12" rx="3.4"/><rect class="sb-fill" x="1.7" y="1.7" width="15.5" height="8.6" rx="2"/><path class="sb-dim" d="M23.2 4v4c1-.3 1.7-1 1.7-2s-.7-1.7-1.7-2z"/></svg>
+          </span>
+        </div>
+
+        <!-- Messages app -->
+        <div class="messages-app">
+          <div class="msg-header">
+            <span class="msg-back">
+              <svg width="12" height="20" viewBox="0 0 12 20" fill="none"><path d="M10.5 1.5 2 10l8.5 8.5" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div class="msg-contact">
+              <div class="msg-avatar">SP</div>
+              <span class="msg-contact-name">Summit Plumbing
+                <svg width="7" height="11" viewBox="0 0 7 11" fill="none"><path d="M1 1l4.5 4.5L1 10" stroke="#8e8e93" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+            <span class="msg-video">
+              <svg width="24" height="16" viewBox="0 0 24 16" fill="none"><rect x="0" y="0" width="16" height="16" rx="4" fill="currentColor"/><path d="M17.5 5.5 23 2v12l-5.5-3.5v-5z" fill="currentColor"/></svg>
+            </span>
+          </div>
+
+          <div class="thread" id="thread">
+            <div class="msg-empty" id="threadEmpty">Messages from Summit Plumbing<br>will appear here in real time.</div>
+          </div>
+
+          <div class="compose">
+            <span class="compose-plus">+</span>
+            <div class="compose-field" id="composeField">
+              <span class="placeholder">iMessage</span><span class="typed-text" id="composeText" style="display:none"></span>
+              <span class="compose-send">
+                <svg width="13" height="14" viewBox="0 0 13 14" fill="none"><path d="M6.5 12.5v-11M2 6l4.5-4.5L11 6" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Call screen overlay -->
+        <div class="call-screen" id="callScreen">
+          <div class="call-top">
+            <div class="call-avatar">SP</div>
+            <div class="call-name">Summit Plumbing</div>
+            <div class="call-status" id="callStatus">calling mobile…</div>
+          </div>
+          <div class="call-actions">
+            <div class="call-btn-row">
+              <div class="cbtn-wrap">
+                <div class="cbtn">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="#fff"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </div>
+                <span class="cbtn-label">speaker</span>
+              </div>
+              <div class="cbtn-wrap">
+                <div class="cbtn">
+                  <svg width="26" height="18" viewBox="0 0 24 16" fill="none"><rect x="0" y="1" width="15" height="14" rx="4" fill="#fff"/><path d="M16.5 5.5 22.5 2v12l-6-3.5v-5z" fill="#fff"/></svg>
+                </div>
+                <span class="cbtn-label">FaceTime</span>
+              </div>
+              <div class="cbtn-wrap">
+                <div class="cbtn">
+                  <svg width="22" height="24" viewBox="0 0 22 24" fill="none"><rect x="7" y="2" width="8" height="13" rx="4" fill="#fff"/><path d="M4 11a7 7 0 0 0 14 0M11 18v4M7.5 22h7" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+                </div>
+                <span class="cbtn-label">mute</span>
+              </div>
+            </div>
+            <div class="cbtn-wrap">
+              <div class="cbtn end">
+                <svg width="30" height="12" viewBox="0 0 30 12" fill="none"><path d="M15 0C8.8 0 3.5 2.1.9 5.2c-.7.8-.9 1.9-.5 2.9l.8 2c.4 1 1.5 1.5 2.5 1.2l4.1-1.2c.9-.3 1.5-1.1 1.5-2V6.3c1.7-.6 3.6-.9 5.7-.9s4 .3 5.7.9v1.8c0 .9.6 1.7 1.5 2l4.1 1.2c1 .3 2.1-.2 2.5-1.2l.8-2c.4-1 .2-2.1-.5-2.9C26.5 2.1 21.2 0 15 0z" fill="#fff"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- notification banner -->
+        <div class="notif" id="notif">
+          <div class="notif-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3C6.9 3 3 6.3 3 10.4c0 2.3 1.2 4.3 3.1 5.6-.1 1-.5 2.2-1.6 3.2 1.8-.1 3.2-.8 4.2-1.5.7.2 2.1.4 3.3.4 5.1 0 9-3.3 9-7.4S17.1 3 12 3z" fill="#fff"/></svg>
+          </div>
+          <div class="notif-body">
+            <div class="notif-head">
+              <span class="notif-title">Summit Plumbing</span>
+              <span class="notif-time">now</span>
+            </div>
+            <div class="notif-text" id="notifText"></div>
+          </div>
+        </div>
+
+        <div class="home-indicator"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= CONTROL BAR ================= -->
+<div id="control-bar">
+  <div class="cb-brand">Demo<b>Controls</b></div>
+  <button class="cb-btn" id="btn1" type="button">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M6.6 2.7c.5-.5 1.3-.4 1.7.1l2 2.6c.4.5.3 1.2-.1 1.6l-1.1 1.1c.8 1.7 2.2 3.1 3.9 3.9l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.6 2c.5.4.6 1.2.1 1.7l-1.5 1.5c-.5.5-1.3.7-2 .5-2.5-.7-4.9-2.1-6.9-4.1S4.7 8 4 5.5c-.2-.7 0-1.5.5-2l2.1-.8z" fill="#ff9d95"/><path d="M15 4l6 6M21 4l-6 6" stroke="#ff9d95" stroke-width="2" stroke-linecap="round"/></svg>
+    Missed Call <span class="kbd">1</span>
+  </button>
+  <button class="cb-btn" id="btn2" type="button">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="#8fc3ff" stroke-width="2"/><path d="M7.5 9h9M7.5 13h9M7.5 17h5" stroke="#8fc3ff" stroke-width="2" stroke-linecap="round"/></svg>
+    Form Submission <span class="kbd">2</span>
+  </button>
+  <button class="cb-btn" id="btn3" type="button">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 14.8 8l6.2.9-4.5 4.4 1.1 6.2L12 16.6l-5.6 2.9 1.1-6.2L3 8.9 9.2 8 12 2.5z" fill="#ffd479"/></svg>
+    Job Complete <span class="kbd">3</span>
+  </button>
+  <button class="cb-btn" id="btn4" type="button">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" fill="#b3a4ff"/></svg>
+    After-Hours Call <span class="kbd">4</span>
+  </button>
+  <div class="cb-sep"></div>
+  <button class="cb-btn reset" id="btn5" type="button">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 10a8 8 0 1 1 1.7 6.9" stroke="#ffb0aa" stroke-width="2.2" stroke-linecap="round"/><path d="M4 5v5h5" stroke="#ffb0aa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Reset <span class="kbd">5</span>
+  </button>
+  <div class="cb-sep"></div>
+  <button class="cb-icon-btn" id="soundBtn" type="button" title="Toggle sound (S)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+  <button class="cb-icon-btn" id="presentBtn" type="button" title="Presentation mode (P)">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
+  </button>
+  <span class="cb-hint"><b>P</b> present &nbsp;·&nbsp; <b>1–5</b> scenarios</span>
+</div>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   LEAD ENGINE DEMO — all automations simulated, zero backend
+   ============================================================ */
+
+// ---------- element refs ----------
+const $ = (id) => document.getElementById(id);
+const thread = $("thread");
+const threadEmpty = $("threadEmpty");
+const composeField = $("composeField");
+const composeText = $("composeText");
+const callScreen = $("callScreen");
+const callStatus = $("callStatus");
+const notif = $("notif");
+const notifText = $("notifText");
+const screen = $("screen");
+const sbTime = $("sbTime");
+const siteScroll = $("site-scroll");
+const reviewList = $("reviewList");
+const ratingNum = $("ratingNum");
+const leadCard = $("leadCard");
+const leadForm = $("leadForm");
+const successText = $("successText");
+const toast = $("toast");
+
+// ---------- run-token cancellation ----------
+let runToken = 0;
+function cancelRun() { runToken++; }
+function step(ms) {
+  const t = runToken;
+  return new Promise((res) => setTimeout(() => res(t === runToken), ms));
+}
+const jitter = (ms, v = 0.25) => ms + (Math.random() * 2 - 1) * ms * v;
+
+// ---------- sound (subtle, WebAudio, no assets) ----------
+let audioCtx = null;
+let soundOn = true;
+function ac() {
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (AC) audioCtx = new AC();
+  }
+  return audioCtx;
+}
+function tone(freq, startIn, dur, { type = "sine", gain = 0.06, glideTo = null } = {}) {
+  const c = ac();
+  if (!c) return;
+  const t0 = c.currentTime + startIn;
+  const o = c.createOscillator();
+  const g = c.createGain();
+  o.type = type;
+  o.frequency.setValueAtTime(freq, t0);
+  if (glideTo) o.frequency.exponentialRampToValueAtTime(glideTo, t0 + dur);
+  g.gain.setValueAtTime(0.0001, t0);
+  g.gain.exponentialRampToValueAtTime(gain, t0 + 0.015);
+  g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+  o.connect(g).connect(c.destination);
+  o.start(t0);
+  o.stop(t0 + dur + 0.05);
+}
+function sndReceive() {
+  if (!soundOn) return;
+  try { tone(987, 0, 0.16, { gain: 0.055 }); tone(1318, 0.11, 0.3, { gain: 0.05 }); } catch (e) { /* audio unavailable */ }
+}
+function sndSend() {
+  if (!soundOn) return;
+  try { tone(420, 0, 0.18, { gain: 0.04, glideTo: 900 }); } catch (e) { /* audio unavailable */ }
+}
+function sndTick() {
+  if (!soundOn) return;
+  try { tone(1560, 0, 0.07, { gain: 0.025 }); } catch (e) { /* audio unavailable */ }
+}
+
+// ---------- scenario clock (fake, per scenario) ----------
+let clock = { status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" };
+function setClock(c) {
+  clock = c;
+  sbTime.textContent = c.status;
+}
+
+// ---------- phone: thread helpers ----------
+function clearThread() {
+  thread.innerHTML = "";
+  hideBanner();
+  composeReset();
+}
+function showEmptyThread() {
+  clearThread();
+  const el = document.createElement("div");
+  el.className = "msg-empty";
+  el.innerHTML = "Messages from Summit Plumbing<br>will appear here in real time.";
+  thread.appendChild(el);
+}
+function addDaySep() {
+  const el = document.createElement("div");
+  el.className = "day-sep";
+  const parts = clock.sep.split(" ");
+  el.innerHTML = "<b>" + parts[0] + "</b> " + parts.slice(1).join(" ");
+  thread.appendChild(el);
+  scrollThread();
+}
+function scrollThread() {
+  thread.scrollTop = thread.scrollHeight;
+}
+function addIncoming(html, { caption = null } = {}) {
+  const b = document.createElement("div");
+  b.className = "bubble in";
+  b.innerHTML = html;
+  thread.appendChild(b);
+  if (caption) {
+    const c = document.createElement("div");
+    c.className = "msg-caption";
+    c.innerHTML =
+      '<svg width="10" height="10" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" fill="#f59c14"/><path d="M12 6.5V12l3.6 2.2" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></svg>' +
+      caption;
+    thread.appendChild(c);
+  }
+  sndReceive();
+  scrollThread();
+  return b;
+}
+let lastReceipt = null;
+function addOutgoing(text) {
+  const b = document.createElement("div");
+  b.className = "bubble out";
+  b.textContent = text;
+  thread.appendChild(b);
+  if (lastReceipt) lastReceipt.remove();
+  const r = document.createElement("div");
+  r.className = "receipt";
+  r.textContent = "Delivered";
+  thread.appendChild(r);
+  lastReceipt = r;
+  sndSend();
+  scrollThread();
+  return b;
+}
+function markRead() {
+  if (lastReceipt) lastReceipt.textContent = clock.read;
+}
+let typingEl = null;
+function showTyping() {
+  hideTyping();
+  typingEl = document.createElement("div");
+  typingEl.className = "typing-bubble";
+  typingEl.innerHTML = "<i></i><i></i><i></i>";
+  thread.appendChild(typingEl);
+  scrollThread();
+}
+function hideTyping() {
+  if (typingEl) { typingEl.remove(); typingEl = null; }
+}
+
+// ---------- phone: compose auto-typing (customer replies) ----------
+function composeReset() {
+  composeField.classList.remove("typing");
+  composeText.style.display = "none";
+  composeText.textContent = "";
+}
+async function customerTypesAndSends(text) {
+  composeField.classList.add("typing");
+  composeText.style.display = "inline";
+  composeText.textContent = "";
+  for (const ch of text) {
+    composeText.textContent += ch;
+    if (!(await step(jitter(46, 0.6)))) { composeReset(); return false; }
+  }
+  if (!(await step(420))) { composeReset(); return false; }
+  composeReset();
+  addOutgoing(text);
+  return true;
+}
+
+// ---------- phone: call screen ----------
+function showCall(statusText) {
+  callStatus.textContent = statusText;
+  callStatus.classList.remove("failed");
+  callScreen.classList.add("active");
+  screen.classList.add("dark-status");
+}
+function setCallFailed(text) {
+  callStatus.textContent = text;
+  callStatus.classList.add("failed");
+}
+function hideCall() {
+  callScreen.classList.remove("active");
+  screen.classList.remove("dark-status");
+}
+
+// ---------- phone: notification banner ----------
+let bannerTimer = null;
+function showBanner(text) {
+  notifText.textContent = text;
+  notif.classList.add("show");
+  clearTimeout(bannerTimer);
+  bannerTimer = setTimeout(hideBanner, 4200);
+}
+function hideBanner() {
+  clearTimeout(bannerTimer);
+  notif.classList.remove("show");
+}
+
+// ---------- stats ----------
+const STATS_BASE = { rescued: 23, jobs: 6, revenue: 7400 };
+const stats = { ...STATS_BASE };
+const statEls = { rescued: $("statRescued"), jobs: $("statJobs"), revenue: $("statRevenue") };
+function renderStat(key, animate) {
+  const el = statEls[key];
+  const to = stats[key];
+  const prefix = key === "revenue" ? "$" : "";
+  if (!animate) { el.textContent = prefix + to.toLocaleString("en-US"); el.dataset.v = to; return; }
+  const from = parseFloat(el.dataset.v || "0");
+  el.dataset.v = to;
+  el.classList.remove("bumped");
+  void el.offsetWidth; // restart animation
+  el.classList.add("bumped");
+  const start = performance.now();
+  const dur = 850;
+  (function frame(t) {
+    const p = Math.min(1, (t - start) / dur);
+    const e = 1 - Math.pow(1 - p, 3);
+    el.textContent = prefix + Math.round(from + (to - from) * e).toLocaleString("en-US");
+    if (p < 1) requestAnimationFrame(frame);
+  })(start);
+  sndTick();
+}
+function bumpStats({ rescued = 0, jobs = 0, revenue = 0 }) {
+  if (rescued) { stats.rescued += rescued; renderStat("rescued", true); }
+  if (jobs) { stats.jobs += jobs; renderStat("jobs", true); }
+  if (revenue) { stats.revenue += revenue; renderStat("revenue", true); }
+}
+function resetStats() {
+  Object.assign(stats, STATS_BASE);
+  ["rescued", "jobs", "revenue"].forEach((k) => renderStat(k, false));
+}
+
+// ---------- website: reviews ----------
+let reviewCount = 180;
+let addedReviews = 0;
+function renderReviewCounts(animate) {
+  document.querySelectorAll(".review-count").forEach((el) => {
+    if (!animate) { el.textContent = reviewCount; el.dataset.v = reviewCount; return; }
+    const from = parseFloat(el.dataset.v || reviewCount - 1);
+    el.dataset.v = reviewCount;
+    const start = performance.now();
+    (function frame(t) {
+      const p = Math.min(1, (t - start) / 700);
+      el.textContent = Math.round(from + (reviewCount - from) * p);
+      if (p < 1) requestAnimationFrame(frame);
+    })(start);
+  });
+}
+function pulseRating() {
+  ratingNum.classList.remove("pulse");
+  void ratingNum.offsetWidth;
+  ratingNum.classList.add("pulse");
+}
+function addReviewCard() {
+  const wrap = document.createElement("div");
+  wrap.className = "rev-wrap";
+  wrap.innerHTML =
+    '<div class="review-card fresh">' +
+      '<div class="review-top">' +
+        '<div class="rev-avatar" style="background:linear-gradient(160deg,#2a7de0,#16589f)">M</div>' +
+        '<div><div class="rev-name">Mike Radliff<span class="rev-badge-new">✦ New</span></div>' +
+        '<div class="rev-meta">Just now</div></div>' +
+        '<div class="rev-stars">★★★★★</div>' +
+      '</div>' +
+      '<p class="rev-text">Fast, professional, fixed it same day. They even texted me this review link so I didn\'t have to hunt for it. Highly recommend.</p>' +
+    '</div>';
+  reviewList.insertBefore(wrap, reviewList.firstChild);
+  // animate height + fade without layout jank
+  const h = wrap.scrollHeight;
+  wrap.style.height = "0px";
+  wrap.style.opacity = "0";
+  wrap.style.transform = "translateY(-10px)";
+  wrap.style.transition = "height .5s cubic-bezier(.3,1,.4,1), opacity .45s .15s, transform .5s .1s";
+  requestAnimationFrame(() => {
+    wrap.style.height = h + "px";
+    wrap.style.opacity = "1";
+    wrap.style.transform = "translateY(0)";
+  });
+  setTimeout(() => { wrap.style.height = "auto"; }, 600);
+  addedReviews++;
+  reviewCount++;
+  renderReviewCounts(true);
+  pulseRating();
+}
+function resetReviews() {
+  document.querySelectorAll(".rev-wrap").forEach((el) => el.remove());
+  reviewCount = 180;
+  addedReviews = 0;
+  renderReviewCounts(false);
+}
+function scrollSiteTo(sel) {
+  const el = document.querySelector(sel);
+  if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+// ---------- website: form ----------
+function resetForm() {
+  leadForm.reset();
+  leadCard.classList.remove("submitted");
+}
+async function typeIntoInput(el, text) {
+  el.focus();
+  el.value = "";
+  for (const ch of text) {
+    el.value += ch;
+    if (!(await step(jitter(38, 0.6)))) return false;
+  }
+  el.blur();
+  return true;
+}
+
+// ============================================================
+// SCENARIOS
+// ============================================================
+const btns = { 1: $("btn1"), 2: $("btn2"), 3: $("btn3"), 4: $("btn4"), 5: $("btn5") };
+function setRunning(n) {
+  Object.values(btns).forEach((b) => b.classList.remove("running"));
+  if (n) btns[n].classList.add("running");
+}
+async function startScenario(n) {
+  cancelRun();
+  hideTyping();
+  hideCall();
+  hideBanner();
+  composeReset();
+  setRunning(n);
+  const t = runToken;
+  const done = () => { if (t === runToken) setRunning(null); };
+  return { token: t, done };
+}
+
+// ---- 1. Missed Call Text-Back ----
+async function scnMissedCall() {
+  const s = await startScenario(1);
+  setClock({ status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" });
+  clearThread();
+
+  showCall("calling mobile…");
+  if (!(await step(2100))) return;
+  setCallFailed("No Answer");
+  if (!(await step(1300))) return;
+  hideCall();
+
+  addDaySep();
+  if (!(await step(3000))) return;
+
+  addIncoming(
+    "Hey, this is Summit Plumbing — sorry we missed your call! We're on a job right now. What can we help you with? Reply here and we'll get you taken care of.",
+    { caption: "Sent 47 seconds after missed call" }
+  );
+
+  if (!(await step(2600))) return;
+  if (!(await customerTypesAndSends("My water heater is leaking"))) return;
+
+  if (!(await step(1100))) return;
+  markRead();
+  showTyping();
+  if (!(await step(1900))) return;
+  hideTyping();
+  addIncoming("Sorry to hear that! We can have a tech out today. What's your address?");
+
+  if (!(await step(2100))) return;
+  if (!(await customerTypesAndSends("2847 Yarrow St, Lakewood"))) return;
+
+  if (!(await step(1000))) return;
+  markRead();
+  showTyping();
+  if (!(await step(2000))) return;
+  hideTyping();
+  addIncoming("You're booked for today between 2–4pm. You'll get a confirmation text shortly. 👍");
+
+  if (!(await step(900))) return;
+  bumpStats({ rescued: 1, jobs: 1, revenue: 480 });
+  s.done();
+}
+
+// ---- 2. Speed-to-Lead (form) ----
+async function runSpeedToLead(name, issue) {
+  // called after form submit (manual or simulated)
+  const s = await startScenario(2);
+  setClock({ status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" });
+  clearThread();
+
+  const firstName = (name.trim().split(/\s+/)[0] || "there");
+  successText.textContent = firstName + ", a member of our team is texting you right now.";
+  leadCard.classList.add("submitted");
+
+  if (!(await step(4600))) return;
+
+  addDaySep();
+  const issueShort = issue.trim().replace(/[.!?\s]+$/, "").toLowerCase();
+  const msg = "Hi " + firstName + ", thanks for reaching out to Summit Plumbing about your " + issueShort +
+    "! When's a good time for a quick call, or would you like us to text you a quote?";
+  showBanner(msg);
+  addIncoming(msg);
+
+  if (!(await step(1600))) return;
+  bumpStats({ jobs: 1, revenue: 350 });
+  s.done();
+}
+async function scnFormAuto() {
+  // keyboard/button path: auto-type the form, then submit
+  const s = await startScenario(2);
+  resetForm();
+  showEmptyThread();
+  scrollSiteTo("#request");
+  if (!(await step(700))) return;
+  if (!(await typeIntoInput($("f-name"), "Sarah Mitchell"))) return;
+  if (!(await step(250))) return;
+  if (!(await typeIntoInput($("f-phone"), "(303) 555-0192"))) return;
+  if (!(await step(250))) return;
+  if (!(await typeIntoInput($("f-issue"), "Kitchen sink is backing up"))) return;
+  if (!(await step(500))) return;
+  s.done();
+  runSpeedToLead("Sarah Mitchell", "Kitchen sink is backing up");
+}
+leadForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const name = $("f-name").value || "there";
+  const issue = $("f-issue").value || "plumbing issue";
+  runSpeedToLead(name, issue);
+});
+
+// ---- 3. Review Engine ----
+async function scnJobComplete() {
+  const s = await startScenario(3);
+  setClock({ status: "4:52", sep: "Today 4:52 PM", read: "Read 4:53 PM" });
+  clearThread();
+  addDaySep();
+
+  if (!(await step(900))) return;
+  const msg = "Thanks for letting us handle your water heater today, Mike! If we did a good job, would you mind leaving us a quick review? It takes 10 seconds: ";
+  showBanner(msg + "g.page/summit-plumbing");
+  addIncoming(msg + '<span class="tap-link">g.page/summit-plumbing</span>');
+
+  if (!(await step(2000))) return;
+  scrollSiteTo("#reviews");
+  if (!(await step(800))) return;
+  addReviewCard();
+
+  if (!(await step(1200))) return;
+  bumpStats({ revenue: 620 });
+  s.done();
+}
+
+// ---- 4. After-Hours AI Answer ----
+async function scnAfterHours() {
+  const s = await startScenario(4);
+  setClock({ status: "11:47 PM", sep: "Today 11:47 PM", read: "Read 11:49 PM" });
+  clearThread();
+
+  showCall("calling mobile…");
+  if (!(await step(2100))) return;
+  setCallFailed("No Answer");
+  if (!(await step(1300))) return;
+  hideCall();
+
+  addDaySep();
+  if (!(await step(2600))) return;
+
+  addIncoming(
+    "Thanks for calling Summit Plumbing! We're closed right now, but I can get you on tomorrow's schedule or dispatch emergency service if this can't wait. Which do you need?",
+    { caption: "AI answered at 11:47 PM — 38 seconds after call" }
+  );
+
+  if (!(await step(2400))) return;
+  if (!(await customerTypesAndSends("EMERGENCY - pipe burst"))) return;
+
+  if (!(await step(900))) return;
+  markRead();
+  showTyping();
+  if (!(await step(1700))) return;
+  hideTyping();
+  addIncoming("On it. Emergency tech dispatched — ETA 45 minutes. Shut off your main water valve if you can (usually near the water meter). Hang tight, help is coming.");
+
+  if (!(await step(1000))) return;
+  bumpStats({ rescued: 1, jobs: 1, revenue: 850 });
+  s.done();
+}
+
+// ---- 5. Reset ----
+function scnReset() {
+  cancelRun();
+  hideTyping();
+  hideCall();
+  hideBanner();
+  composeReset();
+  setRunning(null);
+  setClock({ status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" });
+  showEmptyThread();
+  resetStats();
+  resetReviews();
+  resetForm();
+  siteScroll.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+// ============================================================
+// CONTROLS
+// ============================================================
+btns[1].addEventListener("click", scnMissedCall);
+btns[2].addEventListener("click", scnFormAuto);
+btns[3].addEventListener("click", scnJobComplete);
+btns[4].addEventListener("click", scnAfterHours);
+btns[5].addEventListener("click", scnReset);
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => toast.classList.remove("show"), 2200);
+}
+function togglePresentation() {
+  const on = document.body.classList.toggle("presentation");
+  showToast(on ? "Presentation mode — press P to show controls" : "Controls visible");
+}
+$("presentBtn").addEventListener("click", togglePresentation);
+$("soundBtn").addEventListener("click", () => {
+  soundOn = !soundOn;
+  $("soundBtn").classList.toggle("off", !soundOn);
+  showToast(soundOn ? "Sound on" : "Sound off");
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target;
+  if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.isContentEditable)) return;
+  switch (e.key) {
+    case "1": scnMissedCall(); break;
+    case "2": scnFormAuto(); break;
+    case "3": scnJobComplete(); break;
+    case "4": scnAfterHours(); break;
+    case "5": scnReset(); break;
+    case "p": case "P": togglePresentation(); break;
+    case "s": case "S": $("soundBtn").click(); break;
+    case "Escape":
+      if (document.body.classList.contains("presentation")) togglePresentation();
+      break;
+  }
+});
+
+// ---------- init ----------
+renderStat("rescued", false);
+renderStat("jobs", false);
+renderStat("revenue", false);
+renderReviewCounts(false);
+</script>
+</body>
+</html>
