@@ -1925,13 +1925,37 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
    Set an entry to null to show the styled placeholder tile instead.
    If a photo fails to load, the placeholder shows automatically.
    ============================================================ */
+// Each entry is a single image, or a list of images to try in order
+// (first one that loads wins; if none load, the styled tile shows).
+// The /all suffix means "match ANY of these keywords".
 const JOB_PHOTOS = [
-  "https://loremflickr.com/1200/900/boiler?lock=14",        // water heater swap
-  "https://loremflickr.com/1200/900/pipes,copper?lock=27",  // whole home repipe
-  "https://loremflickr.com/1200/900/basement?lock=8",       // sump pump
-  "https://loremflickr.com/1200/900/plumbing?lock=33",      // drain hydro-jet
-  "https://loremflickr.com/1200/900/plumber?lock=5",        // tankless conversion
-  "https://loremflickr.com/1200/900/excavator?lock=21",     // main line replacement
+  [ // water heater swap
+    "https://loremflickr.com/1200/900/boiler,waterheater,heater/all?lock=14",
+    "https://loremflickr.com/1200/900/plumbing,pipes/all?lock=6",
+    "https://loremflickr.com/1200/900/construction,tools/all?lock=41",
+  ],
+  [ // whole home repipe
+    "https://loremflickr.com/1200/900/pipes,copper,plumbing/all?lock=27",
+    "https://loremflickr.com/1200/900/pipe,industrial/all?lock=12",
+    "https://loremflickr.com/1200/900/construction,tools/all?lock=8",
+  ],
+  [ // sump pump
+    "https://loremflickr.com/1200/900/basement,cellar,pump/all?lock=8",
+    "https://loremflickr.com/1200/900/concrete,construction/all?lock=17",
+    "https://loremflickr.com/1200/900/construction,tools/all?lock=23",
+  ],
+  [ // drain hydro-jet
+    "https://loremflickr.com/1200/900/sink,drain,plumbing/all?lock=33",
+    "https://loremflickr.com/1200/900/kitchen,sink/all?lock=9",
+    "https://loremflickr.com/1200/900/construction,tools/all?lock=15",
+  ],
+  [ // tankless conversion
+    "https://loremflickr.com/1200/900/plumber,bathroom,tap/all?lock=5",
+    "https://loremflickr.com/1200/900/faucet,bathroom/all?lock=11",
+    "https://loremflickr.com/1200/900/construction,tools/all?lock=29",
+  ],
+  // main line replacement (confirmed working, unchanged)
+  "https://loremflickr.com/1200/900/excavator?lock=21",
 ];
 
 // ---------- element refs ----------
@@ -2699,16 +2723,23 @@ document.addEventListener("keydown", (e) => {
 });
 
 // ---------- init ----------
-document.querySelectorAll(".job-photo").forEach((el, i) => {
-  const src = JOB_PHOTOS[i];
-  if (!src) return;
+function loadJobPhoto(el, candidates, idx) {
+  if (idx >= candidates.length) return;
   const img = document.createElement("img");
   img.alt = el.dataset.alt || "Completed job photo";
   img.loading = "lazy";
   img.decoding = "async";
-  img.src = src;
-  img.addEventListener("error", () => img.remove());
+  img.addEventListener("error", () => {
+    img.remove();
+    loadJobPhoto(el, candidates, idx + 1);
+  });
+  img.src = candidates[idx];
   el.appendChild(img);
+}
+document.querySelectorAll(".job-photo").forEach((el, i) => {
+  const entry = JOB_PHOTOS[i];
+  if (!entry) return;
+  loadJobPhoto(el, Array.isArray(entry) ? entry : [entry], 0);
 });
 renderStat("rescued", false);
 renderStat("jobs", false);
