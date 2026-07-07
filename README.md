@@ -133,6 +133,14 @@ photo ever fails to load the tile falls back to the placeholder rather than a br
 image. The captions live in the HTML right below each card if you want to change
 neighborhoods or job types.
 
+## Rolling this out for real clients
+
+The `template/` folder contains a config-driven static site generator that turns this
+demo's website into a real deliverable: one config file per client, one command, and it
+builds a complete multi-page SEO site (home + a real page per service + a real page per
+city + sitemap) ready to deploy on Vercel or Netlify, with the lead form posting to any
+webhook (GHL or otherwise). See `template/README.md`.
+
 ## What's simulated
 
 Every automation is timed, scripted animation: the outgoing call screen, the "No Answer,"
