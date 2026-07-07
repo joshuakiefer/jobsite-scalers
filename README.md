@@ -86,31 +86,23 @@ you're typing in the form, so type freely.
 
 ## Job photos in the gallery
 
-The "Recent jobs" gallery ships with six real photos pulled live from loremflickr.com
-(free Creative Commons photos matched to keywords like plumbing, pipes, and boiler). Each
-URL has a `lock` number that pins the same photo on every load, so the site looks
-consistent take after take.
-
-**Before you record, eyeball all six tiles once.** If a photo doesn't fit its caption,
-open `index.html`, find `const JOB_PHOTOS` near the top of the script, and change that
-tile's lock number to any other number, then reload. Repeat until you like all six.
-
-To use a contractor's real job photos instead (the stronger pitch), drop image files next
-to `index.html` and swap the entries:
+The "Recent jobs" gallery ships with six embedded photos in the `photos/` folder, wired up
+in `const JOB_PHOTOS` near the top of the script in `index.html`. To swap any tile for a
+different photo, drop the new file in `photos/` and change that entry's path:
 
 ```js
 const JOB_PHOTOS = [
   "photos/water-heater.jpg",   // 50-gal water heater swap
   "photos/repipe.jpg",         // Copper-to-PEX repipe
-  null,                        // null shows the styled placeholder tile
-  null, null, null,
+  ...
 ];
 ```
 
 Landscape photos around 1200px wide look best; they're cropped to a 4:3 tile
-automatically. If a photo ever fails to load (offline demo, dead link), the tile falls
-back to the styled placeholder rather than a broken image. The captions live in the HTML
-right below each card if you want to change neighborhoods or job types.
+automatically. Set an entry to `null` to show a styled placeholder tile instead, and if a
+photo ever fails to load the tile falls back to the placeholder rather than a broken
+image. The captions live in the HTML right below each card if you want to change
+neighborhoods or job types.
 
 ## What's simulated
 
