@@ -79,24 +79,33 @@ you're typing in the form, so type freely.
    Revenue Saved - all of it climbed live during the demo. That's the monthly money report.
 7. **`5` - Reset** and you're ready to run it again.
 
-## Adding real job photos
+## Job photos in the gallery
 
-The site has a "Recent jobs" gallery with six styled placeholder tiles. To swap in a
-contractor's real photos, open `index.html`, find `const JOB_PHOTOS` near the top of the
-script, and list the image files in card order:
+The "Recent jobs" gallery ships with six real photos pulled live from loremflickr.com
+(free Creative Commons photos matched to keywords like plumbing, pipes, and boiler). Each
+URL has a `lock` number that pins the same photo on every load, so the site looks
+consistent take after take.
+
+**Before you record, eyeball all six tiles once.** If a photo doesn't fit its caption,
+open `index.html`, find `const JOB_PHOTOS` near the top of the script, and change that
+tile's lock number to any other number, then reload. Repeat until you like all six.
+
+To use a contractor's real job photos instead (the stronger pitch), drop image files next
+to `index.html` and swap the entries:
 
 ```js
 const JOB_PHOTOS = [
   "photos/water-heater.jpg",   // 50-gal water heater swap
   "photos/repipe.jpg",         // Copper-to-PEX repipe
-  null,                        // null keeps the styled placeholder tile
+  null,                        // null shows the styled placeholder tile
   null, null, null,
 ];
 ```
 
-Put the files next to `index.html` (a `photos/` folder keeps it tidy). Landscape photos
-around 1200px wide look best; they're cropped to a 4:3 tile automatically. The captions
-live in the HTML right below each card if you want to change neighborhoods or job types.
+Landscape photos around 1200px wide look best; they're cropped to a 4:3 tile
+automatically. If a photo ever fails to load (offline demo, dead link), the tile falls
+back to the styled placeholder rather than a broken image. The captions live in the HTML
+right below each card if you want to change neighborhoods or job types.
 
 ## What's simulated
 

@@ -424,7 +424,10 @@ input, textarea { font-family: inherit; }
   width: 100%; height: 100%;
   object-fit: cover;
   z-index: 2;
+  filter: saturate(.92) contrast(1.03);
+  transition: transform .45s cubic-bezier(.2,.7,.3,1);
 }
+.job-card:hover .job-photo img { transform: scale(1.045); }
 .ph-art {
   position: absolute; inset: 0;
   display: flex;
@@ -1847,19 +1850,28 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
 
 /* ============================================================
    YOUR JOB PHOTOS
-   Drop real job photos next to this file (or in a photos/ folder)
-   and list them below, in the same order as the six "Recent jobs"
-   cards on the site. Leave an entry as null to keep the styled
-   placeholder tile for that card.
+   Six entries, one per "Recent jobs" card, in order.
 
-   Example:
-   const JOB_PHOTOS = [
+   The defaults below pull real, free-to-use photos from
+   loremflickr.com (Creative Commons photos matched to a keyword;
+   the lock number pins the same photo on every load). If a tile's
+   photo doesn't fit, change its lock number to any other number
+   and reload to get a different one.
+
+   To use a contractor's real job photos, drop image files next to
+   this file and swap the entries:
      "photos/water-heater.jpg",
-     "photos/repipe.jpg",
-     null, null, null, null,
-   ];
+   Set an entry to null to show the styled placeholder tile instead.
+   If a photo fails to load, the placeholder shows automatically.
    ============================================================ */
-const JOB_PHOTOS = [null, null, null, null, null, null];
+const JOB_PHOTOS = [
+  "https://loremflickr.com/1200/900/boiler?lock=14",        // water heater swap
+  "https://loremflickr.com/1200/900/pipes,copper?lock=27",  // whole home repipe
+  "https://loremflickr.com/1200/900/basement?lock=8",       // sump pump
+  "https://loremflickr.com/1200/900/plumbing?lock=33",      // drain hydro-jet
+  "https://loremflickr.com/1200/900/plumber?lock=5",        // tankless conversion
+  "https://loremflickr.com/1200/900/excavator?lock=21",     // main line replacement
+];
 
 // ---------- element refs ----------
 const $ = (id) => document.getElementById(id);
@@ -2542,6 +2554,8 @@ document.querySelectorAll(".job-photo").forEach((el, i) => {
   if (!src) return;
   const img = document.createElement("img");
   img.alt = el.dataset.alt || "Completed job photo";
+  img.loading = "lazy";
+  img.decoding = "async";
   img.src = src;
   img.addEventListener("error", () => img.remove());
   el.appendChild(img);
