@@ -2536,7 +2536,17 @@ async function runSpeedToLead(name, issue) {
   showBanner(msg);
   addIncoming(msg);
 
-  if (!(await step(1600))) return;
+  if (!(await step(3000))) return;
+  if (!(await customerTypesAndSends("Tomorrow morning works, before 9 if you can"))) return;
+
+  if (!(await step(1000))) return;
+  markRead();
+  showTyping();
+  if (!(await step(1800))) return;
+  hideTyping();
+  addIncoming("Done. You're on for 8am tomorrow with Miguel. He'll text you when he's 20 minutes out. 👍");
+
+  if (!(await step(1000))) return;
   bumpStats({ jobs: 1, revenue: 350 });
   s.done();
 }
