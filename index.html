@@ -176,16 +176,69 @@ input, textarea { font-family: inherit; }
   z-index: 20;
   box-shadow: 0 1px 10px rgba(14,42,71,.06);
 }
-.brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18.5px; color: var(--navy); letter-spacing: -.2px; white-space: nowrap; }
+.brand { cursor: pointer; display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 18.5px; color: var(--navy); letter-spacing: -.2px; white-space: nowrap; }
 .brand-mark {
   width: 36px; height: 36px; border-radius: 9px;
   background: linear-gradient(145deg, #1d6fd1, #0e2a47);
   display: flex; align-items: center; justify-content: center;
   flex-shrink: 0;
 }
-.site-nav { display: flex; gap: 22px; margin-left: 10px; }
+.site-nav { display: flex; gap: 22px; margin-left: 10px; align-items: center; height: 66px; }
 .site-nav a { color: #3c4a59; text-decoration: none; font-weight: 600; font-size: 13.5px; }
 .site-nav a:hover { color: var(--blue); }
+.site-nav .has-caret::after {
+  content: "";
+  display: inline-block;
+  width: 6px; height: 6px;
+  border-right: 1.8px solid currentColor;
+  border-bottom: 1.8px solid currentColor;
+  transform: rotate(45deg) translateY(-2px);
+  margin-left: 7px;
+  opacity: .55;
+}
+.nav-item { position: relative; height: 66px; display: flex; align-items: center; }
+.dropdown {
+  position: absolute;
+  top: 100%; left: -10px;
+  background: #fff;
+  border: 1px solid #e4e8ed;
+  border-radius: 13px;
+  box-shadow: 0 18px 44px rgba(14,42,71,.16);
+  padding: 8px;
+  min-width: 236px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity .16s, transform .16s, visibility .16s;
+  z-index: 40;
+}
+.nav-item:hover .dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.dropdown a {
+  display: block;
+  padding: 8.5px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3c4a59;
+  white-space: nowrap;
+}
+.dropdown a:hover { background: #eef4fc; color: var(--blue); }
+
+/* hero breadcrumb (SEO subpages) */
+.crumb {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #8fa6bf;
+  margin-bottom: 14px;
+}
+.crumb span { margin: 0 6px; opacity: .6; }
+.crumb b { color: #ffc45e; font-weight: 700; }
+.hero-copy.swapped { animation: heroSwap .4s ease both; }
+@keyframes heroSwap { from { opacity: .25; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 14px; }
 .badge-247 {
   background: #fff4dd;
@@ -1251,7 +1304,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
           <span class="tab-fav">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#1d6fd1"/><path d="M15.7 7.3a3.6 3.6 0 0 0-4.8 4.56L6 16.76V19h2.24l4.9-4.9a3.6 3.6 0 0 0 4.56-4.8l-2.4 2.4-2.16-.24-.24-2.16 2.4-2.4z" fill="#fff"/></svg>
           </span>
-          <span class="tab-title">Summit Plumbing Co. | 24/7 Plumber in Denver</span>
+          <span class="tab-title" id="tabTitle">Summit Plumbing Co. | 24/7 Plumber in Denver</span>
           <span class="tab-close">
             <svg width="9" height="9" viewBox="0 0 10 10" fill="none"><path d="M1 1l8 8M9 1L1 9" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
           </span>
@@ -1269,7 +1322,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
         <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M4 10a8 8 0 1 1 1.7 6.9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M4 5v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
         <div class="url-bar">
           <svg width="11" height="12" viewBox="0 0 11 12" fill="none"><path d="M2 5V3.5C2 1.8 3.3 .5 5.5 .5S9 1.8 9 3.5V5" stroke="#5f6b76" stroke-width="1.4"/><rect x="1" y="5" width="9" height="6.3" rx="1.6" fill="#5f6b76"/></svg>
-          summitplumbingco.com
+          <span id="urlText">summitplumbingco.com</span>
         </div>
         <span class="nav-ico"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M12 3.5 14.7 9l6 .9-4.3 4.2 1 6L12 17.2 6.6 20l1-6L3.3 9.9l6-.9L12 3.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg></span>
         <span class="profile-mini">J</span>
@@ -1289,10 +1342,17 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
             Summit Plumbing Co.
           </div>
           <nav class="site-nav">
-            <a href="#services">Services</a>
+            <a href="#" id="navHome">Home</a>
+            <div class="nav-item">
+              <a href="#services" class="has-caret">Services</a>
+              <div class="dropdown" id="ddServices"></div>
+            </div>
+            <div class="nav-item">
+              <a href="#" class="has-caret" id="navLocations">Locations</a>
+              <div class="dropdown" id="ddLocations"></div>
+            </div>
             <a href="#work">Our Work</a>
             <a href="#reviews">Reviews</a>
-            <a href="#request">Request Service</a>
           </nav>
           <div class="topbar-right">
             <span class="badge-247">
@@ -1313,8 +1373,9 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
               <svg width="11" height="13" viewBox="0 0 10 12" fill="none"><path d="M6 0 0 7h3.6L4 12l6-7H6.4L6 0z" fill="#ffd489"/></svg>
               Denver Metro &middot; Same-Day Service
             </span>
-            <h1>Fast, honest plumbing, <em>done right</em> the first time.</h1>
-            <p class="sub">Family-owned since 2009. Upfront pricing, licensed techs, and a real person answering the phone, day or night.</p>
+            <div class="crumb" id="crumb" hidden>Summit Plumbing <span>&rsaquo;</span> <b id="crumbLabel"></b></div>
+            <h1 id="heroH1">Fast, honest plumbing, <em>done right</em> the first time.</h1>
+            <p class="sub" id="heroSub">Family-owned since 2009. Upfront pricing, licensed techs, and a real person answering the phone, day or night.</p>
             <div class="hero-ctas">
               <button class="btn-primary" type="button">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M6.6 2.7c.5-.5 1.3-.4 1.7.1l2 2.6c.4.5.3 1.2-.1 1.6l-1.1 1.1c.8 1.7 2.2 3.1 3.9 3.9l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.6 2c.5.4.6 1.2.1 1.7l-1.5 1.5c-.5.5-1.3.7-2 .5-2.5-.7-4.9-2.1-6.9-4.1S4.7 8 4 5.5c-.2-.7 0-1.5.5-2l2.1-.8z" fill="#3a2600"/></svg>
@@ -2186,6 +2247,85 @@ async function typeIntoInput(el, text) {
   return true;
 }
 
+// ---------- SEO pages (services + locations, simulated navigation) ----------
+const SERVICES_LIST = [
+  "Water Heater Repair", "Tankless Water Heaters", "Drain Cleaning",
+  "Sewer Line Repair", "Whole-Home Repipes", "Sump Pumps",
+  "Gas Line Services", "Leak Detection", "Toilet & Faucet Repair",
+  "Emergency Plumbing",
+];
+const LOCATIONS_LIST = [
+  "Denver", "Englewood", "Littleton", "Lakewood", "Aurora",
+  "Highlands Ranch", "Centennial", "Arvada", "Wheat Ridge", "Castle Rock",
+];
+const slugify = (t) => t.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+
+const heroH1 = $("heroH1");
+const heroSub = $("heroSub");
+const heroCopy = document.querySelector(".hero-copy");
+const crumb = $("crumb");
+const crumbLabel = $("crumbLabel");
+const tabTitle = $("tabTitle");
+const urlText = $("urlText");
+const HOME_PAGE = {
+  h1: heroH1.innerHTML,
+  sub: heroSub.textContent,
+  url: urlText.textContent,
+  title: tabTitle.textContent,
+};
+
+function setPage({ h1, sub, url, title, crumbText }) {
+  heroH1.innerHTML = h1;
+  heroSub.textContent = sub;
+  urlText.textContent = url;
+  tabTitle.textContent = title;
+  if (crumbText) {
+    crumb.hidden = false;
+    crumbLabel.textContent = crumbText;
+  } else {
+    crumb.hidden = true;
+  }
+  heroCopy.classList.remove("swapped");
+  void heroCopy.offsetWidth;
+  heroCopy.classList.add("swapped");
+  siteScroll.scrollTo({ top: 0, behavior: "smooth" });
+}
+function goHomePage() {
+  setPage({ ...HOME_PAGE, crumbText: null });
+}
+function goServicePage(name) {
+  setPage({
+    h1: name + ", <em>done right.</em>",
+    sub: "Same-day " + name.toLowerCase() + " across the Denver metro. Upfront pricing, licensed techs, and a real person answering the phone.",
+    url: "summitplumbingco.com/" + slugify(name),
+    title: name + " | Summit Plumbing Co.",
+    crumbText: name,
+  });
+}
+function goLocationPage(city) {
+  setPage({
+    h1: "Fast, honest plumbing in <em>" + city + "</em>.",
+    sub: "Serving " + city + " since 2009. Upfront pricing, licensed techs, and a real person answering the phone, day or night.",
+    url: "summitplumbingco.com/plumber-" + slugify(city) + "-co",
+    title: "Plumber in " + city + ", CO | Summit Plumbing Co.",
+    crumbText: city + ", CO",
+  });
+}
+function fillDropdown(dd, items, go) {
+  items.forEach((name) => {
+    const a = document.createElement("a");
+    a.href = "#";
+    a.textContent = name;
+    a.addEventListener("click", (e) => { e.preventDefault(); go(name); });
+    dd.appendChild(a);
+  });
+}
+fillDropdown($("ddServices"), SERVICES_LIST, goServicePage);
+fillDropdown($("ddLocations"), LOCATIONS_LIST, goLocationPage);
+$("navHome").addEventListener("click", (e) => { e.preventDefault(); goHomePage(); });
+$("navLocations").addEventListener("click", (e) => e.preventDefault());
+document.querySelector(".brand").addEventListener("click", goHomePage);
+
 // ---------- review gate (in-phone browser) ----------
 const phoneWeb = $("phoneWeb");
 const webUrl = $("webUrl");
@@ -2495,7 +2635,7 @@ function scnReset() {
   resetStats();
   resetReviews();
   resetForm();
-  siteScroll.scrollTo({ top: 0, behavior: "smooth" });
+  goHomePage();
 }
 
 // ============================================================

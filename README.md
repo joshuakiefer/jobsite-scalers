@@ -62,22 +62,27 @@ you're typing in the form, so type freely.
 
 1. **Open on the website.** Scroll it slowly - let the prospect want the site itself. Point out
    the 4.9★ / 180 reviews and the 24/7 badge.
-2. **`2` - Form Submission (the money shot).** The form fills itself and submits; ~5 seconds
+2. **Show the SEO pages.** Hover **Services** and **Locations** in the nav: ten dedicated
+   pages each. Click a city (say, Littleton) and watch the URL change to
+   `summitplumbingco.com/plumber-littleton-co` with its own headline and page title. The
+   line: *"That's 20 pages of Google real estate. When someone in Littleton searches
+   'plumber near me', one of these pages is what ranks."* Click Home or the logo to go back.
+3. **`2` - Form Submission (the money shot).** The form fills itself and submits; ~5 seconds
    later the customer's phone lights up with a personalized text pulling the actual form values.
    Narrate: *"Your competitor calls back tomorrow. You texted back in five seconds."*
-3. **`1` - Missed Call.** Customer calls, nobody answers... and 47 seconds later the system
+4. **`1` - Missed Call.** Customer calls, nobody answers... and 47 seconds later the system
    texts back, holds the conversation, and books the job for 2-4pm. Watch the stats card bump.
-4. **`4` - After-Hours.** 11:47 PM, pipe burst. The AI answers, dispatches emergency service,
+5. **`4` - After-Hours.** 11:47 PM, pipe burst. The AI answers, dispatches emergency service,
    and even tells the customer to shut off the water main. This is the "you were asleep and
    still made $850" moment.
-5. **`3` - Job Complete (review gate).** Review request hits the customer's phone. Click the
+6. **`3` - Job Complete (review gate).** Review request hits the customer's phone. Click the
    link, tap **5 stars** → customer lands on Google, the review posts, and it slides onto the
    website as the count ticks 180 → 181. Then reset, run it again, and tap **2 stars** →
    the complaint goes privately to the owner and never touches Google. Good reviews amplified,
    bad reviews intercepted - the system feeds itself and protects itself.
-6. **Point at the stats card** (above the phone): Missed Calls Rescued, Jobs Booked,
+7. **Point at the stats card** (above the phone): Missed Calls Rescued, Jobs Booked,
    Revenue Saved - all of it climbed live during the demo. That's the monthly money report.
-7. **`5` - Reset** and you're ready to run it again.
+8. **`5` - Reset** and you're ready to run it again.
 
 ## Job photos in the gallery
 
