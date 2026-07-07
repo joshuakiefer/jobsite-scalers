@@ -1929,33 +1929,12 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
 // (first one that loads wins; if none load, the styled tile shows).
 // The /all suffix means "match ANY of these keywords".
 const JOB_PHOTOS = [
-  [ // water heater swap
-    "https://loremflickr.com/1200/900/boiler,waterheater,heater/all?lock=14",
-    "https://loremflickr.com/1200/900/plumbing,pipes/all?lock=6",
-    "https://loremflickr.com/1200/900/construction,tools/all?lock=41",
-  ],
-  [ // whole home repipe
-    "https://loremflickr.com/1200/900/pipes,copper,plumbing/all?lock=27",
-    "https://loremflickr.com/1200/900/pipe,industrial/all?lock=12",
-    "https://loremflickr.com/1200/900/construction,tools/all?lock=8",
-  ],
-  [ // sump pump
-    "https://loremflickr.com/1200/900/basement,cellar,pump/all?lock=8",
-    "https://loremflickr.com/1200/900/concrete,construction/all?lock=17",
-    "https://loremflickr.com/1200/900/construction,tools/all?lock=23",
-  ],
-  [ // drain hydro-jet
-    "https://loremflickr.com/1200/900/sink,drain,plumbing/all?lock=33",
-    "https://loremflickr.com/1200/900/kitchen,sink/all?lock=9",
-    "https://loremflickr.com/1200/900/construction,tools/all?lock=15",
-  ],
-  [ // tankless conversion
-    "https://loremflickr.com/1200/900/plumber,bathroom,tap/all?lock=5",
-    "https://loremflickr.com/1200/900/faucet,bathroom/all?lock=11",
-    "https://loremflickr.com/1200/900/construction,tools/all?lock=29",
-  ],
-  // main line replacement (confirmed working, unchanged)
-  "https://loremflickr.com/1200/900/excavator?lock=21",
+  null, // water heater swap (styled tile until real photo added)
+  null, // whole home repipe
+  null, // sump pump
+  null, // drain hydro-jet
+  null, // tankless conversion
+  "https://loremflickr.com/1200/900/excavator?lock=21", // main line replacement
 ];
 
 // ---------- element refs ----------
