@@ -381,6 +381,43 @@ input, textarea { font-family: inherit; }
   box-shadow: 0 0 0 3px rgba(29,111,209,.14);
   background: #fff;
 }
+.field-addr { position: relative; }
+.addr-drop {
+  position: absolute;
+  top: calc(100% + 4px); left: 0; right: 0;
+  background: #fff;
+  border: 1px solid #dde2e8;
+  border-radius: 12px;
+  box-shadow: 0 16px 40px rgba(14,42,71,.18);
+  z-index: 40;
+  overflow: hidden;
+  display: none;
+}
+.addr-drop.open { display: block; }
+.addr-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 13px;
+  cursor: pointer;
+  font-size: 13.5px;
+  color: #37424e;
+}
+.addr-item.active, .addr-item:hover { background: #eef4fc; }
+.addr-item svg { flex-shrink: 0; }
+.addr-item b { color: #16212f; font-weight: 700; }
+.addr-item .addr-city { color: #8b95a1; font-size: 12.5px; margin-left: 4px; }
+.addr-foot {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  border-top: 1px solid #eef1f4;
+  font-size: 10px;
+  color: #98a2b3;
+  font-weight: 600;
+}
 .lead-submit {
   width: 100%;
   background: linear-gradient(180deg, #2a7de0, #1a63bd);
@@ -1682,6 +1719,11 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
                 <label for="f-phone">Mobile Phone</label>
                 <input id="f-phone" type="tel" placeholder="(303) 555-0192" required>
               </div>
+              <div class="field field-addr">
+                <label for="f-address">Service Address</label>
+                <input id="f-address" type="text" placeholder="Start typing your address…" autocomplete="off" required>
+                <div class="addr-drop" id="addrDrop"></div>
+              </div>
               <div class="field">
                 <label for="f-issue">What's going on?</label>
                 <textarea id="f-issue" rows="3" placeholder="Kitchen sink is backing up and smells terrible…" required></textarea>
@@ -2621,16 +2663,107 @@ function scrollSiteTo(sel) {
   if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
+// ---------- website: address autocomplete (simulated Places) ----------
+const ADDR_INPUT = () => $("f-address");
+const addrDrop = $("addrDrop");
+const STREETS = [
+  ["2847", "Yarrow St", "Lakewood, CO 80226"],
+  ["415", "S Clarkson St", "Englewood, CO 80113"],
+  ["1268", "W Maplewood Ave", "Littleton, CO 80120"],
+  ["3391", "E Iliff Ave", "Aurora, CO 80014"],
+  ["508", "S Broadway", "Englewood, CO 80113"],
+  ["7742", "Wadsworth Blvd", "Wheat Ridge, CO 80033"],
+  ["96", "E Otero Ave", "Centennial, CO 80122"],
+  ["5210", "W 38th Ave", "Denver, CO 80211"],
+  ["1830", "S University Blvd", "Highlands Ranch, CO 80126"],
+  ["644", "Ralston Rd", "Arvada, CO 80002"],
+  ["2205", "S Gaylord St", "Denver, CO 80209"],
+  ["918", "W Bowles Ave", "Littleton, CO 80123"],
+];
+let addrItems = [];
+let addrActive = -1;
+function escapeHtml(t) {
+  return t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+}
+function addrSuggestions(raw) {
+  const m = raw.match(/^\s*(\d+)\s*(.*)$/);
+  const num = m ? m[1] : null;
+  const rest = (m ? m[2] : raw).trim().toLowerCase();
+  return STREETS
+    .filter(([, street, city]) => !rest || (street + ", " + city).toLowerCase().includes(rest))
+    .slice(0, 4)
+    .map(([defNum, street, city]) => ({
+      num: num || defNum,
+      street, city,
+      full: (num || defNum) + " " + street + ", " + city,
+      match: rest,
+    }));
+}
+function renderAddrDrop() {
+  const raw = ADDR_INPUT().value;
+  if (!raw.trim()) { closeAddrDrop(); return; }
+  addrItems = addrSuggestions(raw);
+  if (!addrItems.length) { closeAddrDrop(); return; }
+  addrActive = -1;
+  addrDrop.innerHTML = addrItems.map((it, i) => {
+    let streetHtml = escapeHtml(it.num + " " + it.street);
+    if (it.match) {
+      const idx = it.street.toLowerCase().indexOf(it.match);
+      if (idx >= 0) {
+        const pre = it.num + " " + it.street.slice(0, idx);
+        const hit = it.street.slice(idx, idx + it.match.length);
+        const post = it.street.slice(idx + it.match.length);
+        streetHtml = escapeHtml(pre) + "<b>" + escapeHtml(hit) + "</b>" + escapeHtml(post);
+      }
+    }
+    return '<div class="addr-item" data-i="' + i + '">' +
+      '<svg width="13" height="16" viewBox="0 0 14 18" fill="none"><path d="M7 0C3.1 0 0 3.1 0 7c0 5.2 7 11 7 11s7-5.8 7-11c0-3.9-3.1-7-7-7z" fill="#9aa5b1"/><circle cx="7" cy="7" r="2.6" fill="#fff"/></svg>' +
+      '<span>' + streetHtml + '<span class="addr-city">' + escapeHtml(it.city) + '</span></span></div>';
+  }).join("") +
+  '<div class="addr-foot">powered by <svg width="11" height="11" viewBox="0 0 48 48" style="vertical-align:-1px"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Google</div>';
+  addrDrop.classList.add("open");
+}
+function closeAddrDrop() {
+  addrDrop.classList.remove("open");
+  addrItems = [];
+  addrActive = -1;
+}
+function setAddrActive(i) {
+  addrActive = i;
+  addrDrop.querySelectorAll(".addr-item").forEach((el, j) => el.classList.toggle("active", j === i));
+}
+function pickAddr(i) {
+  if (!addrItems[i]) return;
+  ADDR_INPUT().value = addrItems[i].full;
+  closeAddrDrop();
+}
+ADDR_INPUT().addEventListener("input", renderAddrDrop);
+ADDR_INPUT().addEventListener("focus", renderAddrDrop);
+ADDR_INPUT().addEventListener("blur", () => setTimeout(closeAddrDrop, 160));
+ADDR_INPUT().addEventListener("keydown", (e) => {
+  if (!addrDrop.classList.contains("open")) return;
+  if (e.key === "ArrowDown") { e.preventDefault(); setAddrActive(Math.min(addrActive + 1, addrItems.length - 1)); }
+  else if (e.key === "ArrowUp") { e.preventDefault(); setAddrActive(Math.max(addrActive - 1, 0)); }
+  else if (e.key === "Enter") { e.preventDefault(); pickAddr(addrActive >= 0 ? addrActive : 0); }
+  else if (e.key === "Escape") { e.stopPropagation(); closeAddrDrop(); }
+});
+addrDrop.addEventListener("mousedown", (e) => {
+  const item = e.target.closest(".addr-item");
+  if (item) { e.preventDefault(); pickAddr(parseInt(item.dataset.i, 10)); }
+});
+
 // ---------- website: form ----------
 function resetForm() {
   leadForm.reset();
   leadCard.classList.remove("submitted");
+  closeAddrDrop();
 }
 async function typeIntoInput(el, text) {
   el.focus();
   el.value = "";
   for (const ch of text) {
     el.value += ch;
+    el.dispatchEvent(new Event("input", { bubbles: true }));
     if (!(await step(jitter(38, 0.6)))) return false;
   }
   el.blur();
@@ -3176,7 +3309,7 @@ async function scnMissedCall() {
 }
 
 // ---- 2. Speed-to-Lead (form) ----
-async function runSpeedToLead(name, issue) {
+async function runSpeedToLead(name, issue, address = "") {
   // called after form submit (manual or simulated)
   const s = await startScenario(2);
   currentConv = name;
@@ -3205,9 +3338,10 @@ async function runSpeedToLead(name, issue) {
   showTyping();
   if (!(await step(1800))) return;
   hideTyping();
-  addIncoming("Done. You're on for 8am tomorrow with Miguel. He'll text you when he's 20 minutes out. 👍");
+  const streetShort = address ? address.split(",")[0] : "";
+  addIncoming("Done. You're on for 8am tomorrow with Miguel" + (streetShort ? " at " + streetShort : "") + ". He'll text you when he's 20 minutes out. 👍");
   ownerEvent(name, "Booked tomorrow 8am · Miguel assigned", "Job booked: " + name + ", tomorrow 8am · Miguel assigned");
-  ownerBooking(["Tmrw", "8:00am"], issue.charAt(0).toUpperCase() + issue.slice(1), name + " · Miguel assigned");
+  ownerBooking(["Tmrw", "8:00am"], issue.charAt(0).toUpperCase() + issue.slice(1), name + (address ? " · " + address.split(",").slice(0, 2).join(",") : " · Miguel assigned"));
 
   if (!(await step(1000))) return;
   bumpStats({ jobs: 1, revenue: 350 });
@@ -3224,16 +3358,31 @@ async function scnFormAuto() {
   if (!(await step(250))) return;
   if (!(await typeIntoInput($("f-phone"), "(303) 555-0192"))) return;
   if (!(await step(250))) return;
+  // address: type a partial, let the lookup suggest, pick the top match
+  const addrEl = $("f-address");
+  addrEl.focus();
+  addrEl.value = "";
+  for (const ch of "2847 Yarr") {
+    addrEl.value += ch;
+    addrEl.dispatchEvent(new Event("input", { bubbles: true }));
+    if (!(await step(jitter(85, 0.4)))) return;
+  }
+  if (!(await step(600))) return;
+  setAddrActive(0);
+  if (!(await step(650))) return;
+  pickAddr(0);
+  addrEl.blur();
+  if (!(await step(350))) return;
   if (!(await typeIntoInput($("f-issue"), "Kitchen sink backing up"))) return;
   if (!(await step(500))) return;
   s.done();
-  runSpeedToLead("Sarah Mitchell", "Kitchen sink backing up");
+  runSpeedToLead("Sarah Mitchell", "Kitchen sink backing up", "2847 Yarrow St, Lakewood, CO 80226");
 }
 leadForm.addEventListener("submit", (e) => {
   e.preventDefault();
   const name = $("f-name").value || "there";
   const issue = $("f-issue").value || "plumbing issue";
-  runSpeedToLead(name, issue);
+  runSpeedToLead(name, issue, $("f-address").value);
 });
 
 // ---- 3. Review Engine (gated) ----
