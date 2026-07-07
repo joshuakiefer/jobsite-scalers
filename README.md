@@ -30,6 +30,7 @@ Tips for a clean recording:
 | `3` | Simulate Job Complete → review request text with the smart feedback link |
 | `4` | Simulate After-Hours Call (11:47 PM) → AI answer → emergency dispatch |
 | `5` | Reset demo (clears phone, stats, reviews, and form) |
+| `V` | Flip the phone between Customer view (iMessage) and Owner view (GHL-style app) |
 | `P` | Toggle presentation mode (hides/shows the control bar) |
 | `S` | Toggle sound |
 | `Esc` | Close the feedback page / exit presentation mode |
@@ -53,6 +54,21 @@ Scenario 3 is interactive so you can show **both** outcomes:
 
 For a live demo, run it twice: once with 5 stars, reset, then once with 2 stars. That
 contrast - good reviews amplified, bad reviews caught - is the whole pitch.
+
+### The owner view (press `V`)
+
+The phone flips between two sides of the same system:
+
+- **Customer's Phone**: the iMessage thread every scenario plays out on.
+- **Owner's App**: a GHL-style mobile app (Conversations inbox, tabs, push notifications)
+  showing what the business owner sees. Every automation fires an owner notification in
+  real time: "Missed call rescued", "New lead: Sarah Mitchell", "Job booked: tomorrow
+  8am", "New 5-star Google review", "EMERGENCY: burst pipe, tech dispatched".
+
+While you're on the customer view, owner events stack a red unread badge on the
+**Owner's App** toggle. That's a deliberate beat for the demo: run a scenario on the
+customer side, then flip with `V` and say *"and this is what was happening on YOUR phone
+the whole time."* Reset (`5`) clears the inbox back to its seed conversations.
 
 You can also fill out the **Request Service** form by hand - submitting it triggers the
 speed-to-lead text using whatever name and issue you typed. Shortcut keys are ignored while
@@ -80,9 +96,13 @@ you're typing in the form, so type freely.
    website as the count ticks 180 → 181. Then reset, run it again, and tap **2 stars** →
    the complaint goes privately to the owner and never touches Google. Good reviews amplified,
    bad reviews intercepted - the system feeds itself and protects itself.
-7. **Point at the stats card** (above the phone): Missed Calls Rescued, Jobs Booked,
+7. **`V` - Flip to the owner's app.** After a scenario or two, the Owner's App toggle is
+   wearing a red badge. Flip it: the GHL-style inbox shows every lead, booking, and review
+   that just happened, with push notifications. The line: *"You didn't touch anything.
+   Here's everything the system handled, sitting in your pocket."* Flip back with `V`.
+8. **Point at the stats card** (above the phone): Missed Calls Rescued, Jobs Booked,
    Revenue Saved - all of it climbed live during the demo. That's the monthly money report.
-8. **`5` - Reset** and you're ready to run it again.
+9. **`5` - Reset** and you're ready to run it again.
 
 ## Job photos in the gallery
 

@@ -642,6 +642,152 @@ input, textarea { font-family: inherit; }
 }
 .phone-label .dot-live { width: 8px; height: 8px; border-radius: 50%; background: #ff453a; animation: livepulse 1.6s infinite; }
 
+/* --- view toggle (customer / owner) --- */
+.view-toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.vt-seg {
+  display: flex;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+}
+.vt-btn {
+  position: relative;
+  color: #8fa2ba;
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: .8px;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: 9px;
+  transition: background .18s, color .18s;
+  display: flex; align-items: center; gap: 7px;
+}
+.vt-btn:hover { color: #c9d6e5; }
+.vt-btn.active { background: rgba(255,255,255,.14); color: #fff; }
+.vt-badge {
+  background: #ff453a;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  min-width: 17px; height: 17px;
+  border-radius: 999px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 5px;
+  animation: popIn .35s cubic-bezier(.2,1.4,.4,1) both;
+}
+.vt-kbd {
+  color: #5c6b7f; font-size: 10px; font-weight: 700;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* --- owner app (GHL / LeadConnector style) --- */
+.owner-app {
+  position: absolute; inset: 0;
+  background: #f6f7f9;
+  display: flex;
+  flex-direction: column;
+  visibility: hidden;
+  z-index: 60;
+}
+.screen.owner-mode .owner-app { visibility: visible; }
+.screen.owner-mode .messages-app,
+.screen.owner-mode .call-screen,
+.screen.owner-mode .phone-web,
+.screen.owner-mode #notif { visibility: hidden; }
+.screen:not(.owner-mode) #ownerNotif { visibility: hidden; }
+.screen.owner-mode .sb-time { color: #000; }
+.screen.owner-mode .sb-icons svg .sb-fill { fill: #000; }
+.screen.owner-mode .sb-icons svg .sb-dim { fill: rgba(0,0,0,.3); }
+.screen.owner-mode .home-indicator { background: #000; }
+
+.oa-header {
+  padding: 58px 18px 10px;
+  background: #fff;
+  border-bottom: .5px solid #e2e5e9;
+  flex-shrink: 0;
+}
+.oa-loc {
+  font-size: 10px; font-weight: 850; letter-spacing: 1.2px;
+  color: #155eef; text-transform: uppercase;
+  display: flex; align-items: center; gap: 5px;
+  margin-bottom: 4px;
+}
+.oa-title-row { display: flex; align-items: center; justify-content: space-between; }
+.oa-title { font-size: 23px; font-weight: 850; color: #101828; letter-spacing: -.4px; }
+.oa-bell { position: relative; color: #475467; display: flex; }
+.oa-bell-dot {
+  position: absolute; top: -3px; right: -4px;
+  min-width: 15px; height: 15px;
+  background: #ff453a; color: #fff;
+  font-size: 9px; font-weight: 800;
+  border-radius: 999px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 4px;
+}
+.oa-search {
+  margin: 11px 0 2px;
+  background: #eef0f3;
+  border-radius: 10px;
+  height: 34px;
+  display: flex; align-items: center; gap: 8px;
+  padding: 0 12px;
+  color: #98a2b3;
+  font-size: 13px;
+}
+.oa-list { flex: 1; overflow-y: auto; background: #fff; }
+.oa-list::-webkit-scrollbar { width: 0; }
+.oa-row {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 12px 16px;
+  border-bottom: .5px solid #eef0f3;
+  animation: fadeIn .3s both;
+}
+.oa-row.fresh { background: #f2f7ff; }
+.oa-avatar {
+  width: 42px; height: 42px; border-radius: 50%;
+  color: #fff; font-weight: 800; font-size: 15px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.oa-mid { flex: 1; min-width: 0; }
+.oa-name { font-size: 14px; font-weight: 750; color: #101828; }
+.oa-snippet {
+  font-size: 12.5px; color: #667085; margin-top: 2px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.oa-row.fresh .oa-snippet { color: #155eef; font-weight: 600; }
+.oa-right { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; flex-shrink: 0; }
+.oa-time { font-size: 11px; color: #98a2b3; font-weight: 600; }
+.oa-unread {
+  background: #155eef; color: #fff;
+  font-size: 10px; font-weight: 800;
+  min-width: 18px; height: 18px; border-radius: 999px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0 5px;
+}
+.oa-tabs {
+  flex-shrink: 0;
+  background: rgba(250,250,251,.97);
+  border-top: .5px solid #e2e5e9;
+  display: flex;
+  padding: 8px 6px 26px;
+}
+.oa-tab {
+  flex: 1;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  color: #98a2b3;
+  font-size: 9.5px; font-weight: 700;
+}
+.oa-tab.active { color: #155eef; }
+
 /* --- iPhone frame --- */
 .iphone {
   width: 352px;
@@ -1669,7 +1815,14 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
       </div>
     </div>
 
-    <div class="phone-label"><span class="dot-live"></span>Customer's Phone · Live View</div>
+    <div class="view-toggle">
+      <span class="phone-label" style="gap:0"><span class="dot-live"></span></span>
+      <div class="vt-seg">
+        <button class="vt-btn active" id="vtCustomer" type="button">Customer's Phone</button>
+        <button class="vt-btn" id="vtOwner" type="button">Owner's App<span class="vt-badge" id="vtBadge" hidden>1</span></button>
+      </div>
+      <span class="vt-kbd">V to flip</span>
+    </div>
 
     <div class="iphone">
       <div class="side-btn silent"></div>
@@ -1861,6 +2014,85 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
           </div>
         </div>
 
+        <!-- owner view: GHL-style app -->
+        <div class="owner-app" id="ownerApp">
+          <div class="oa-header">
+            <div class="oa-loc">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="6" fill="#155eef"/><path d="M6 13.5 12 6l-1.5 5.5H18L12 19l1.5-5.5H6z" fill="#fff"/></svg>
+              Summit Plumbing Co.
+            </div>
+            <div class="oa-title-row">
+              <span class="oa-title">Conversations</span>
+              <span class="oa-bell">
+                <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M12 3a6 6 0 0 0-6 6v3.2l-1.6 3.1c-.3.7.1 1.7 1 1.7h13.2c.9 0 1.3-1 1-1.7L18 12.2V9a6 6 0 0 0-6-6zM9.5 19a2.5 2.5 0 0 0 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <span class="oa-bell-dot" id="oaBellDot" hidden>1</span>
+              </span>
+            </div>
+            <div class="oa-search">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+              Search conversations
+            </div>
+          </div>
+          <div class="oa-list" id="oaList">
+            <div class="oa-row" data-name="Jennifer Kowalski">
+              <div class="oa-avatar" style="background:linear-gradient(160deg,#7b61c9,#4a3a8c)">JK</div>
+              <div class="oa-mid">
+                <div class="oa-name">Jennifer Kowalski</div>
+                <div class="oa-snippet">Thanks again, you guys were great!</div>
+              </div>
+              <div class="oa-right"><span class="oa-time">Tue</span></div>
+            </div>
+            <div class="oa-row" data-name="Dave Reznick">
+              <div class="oa-avatar" style="background:linear-gradient(160deg,#e0793a,#b3541e)">DR</div>
+              <div class="oa-mid">
+                <div class="oa-name">Dave Reznick</div>
+                <div class="oa-snippet">Quote approved, see you Thursday 👍</div>
+              </div>
+              <div class="oa-right"><span class="oa-time">Mon</span></div>
+            </div>
+            <div class="oa-row" data-name="Angela Torres">
+              <div class="oa-avatar" style="background:linear-gradient(160deg,#3aa87c,#1f7d57)">AT</div>
+              <div class="oa-mid">
+                <div class="oa-name">Angela Torres</div>
+                <div class="oa-snippet">Perfect, the gate code is 4482</div>
+              </div>
+              <div class="oa-right"><span class="oa-time">Mon</span></div>
+            </div>
+          </div>
+          <div class="oa-tabs">
+            <span class="oa-tab active">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3C6.9 3 3 6.3 3 10.4c0 2.3 1.2 4.3 3.1 5.6-.1 1-.5 2.2-1.6 3.2 1.8-.1 3.2-.8 4.2-1.5.7.2 2.1.4 3.3.4 5.1 0 9-3.3 9-7.4S17.1 3 12 3z" fill="currentColor"/></svg>
+              Conversations
+            </span>
+            <span class="oa-tab">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              Calendars
+            </span>
+            <span class="oa-tab">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v10M15 9.5c0-1.4-1.3-2.2-3-2.2s-3 .8-3 2.2c0 2.9 6 1.5 6 4.6 0 1.4-1.3 2.3-3 2.3s-3-.9-3-2.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              Payments
+            </span>
+            <span class="oa-tab">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.8"/></svg>
+              Dashboard
+            </span>
+          </div>
+        </div>
+
+        <!-- owner push notification -->
+        <div class="notif" id="ownerNotif">
+          <div class="notif-icon" style="background:linear-gradient(180deg,#3b82f6,#155eef)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M6 13.5 12 6l-1.5 5.5H18L12 19l1.5-5.5H6z" fill="#fff"/></svg>
+          </div>
+          <div class="notif-body">
+            <div class="notif-head">
+              <span class="notif-title">LeadConnector</span>
+              <span class="notif-time">now</span>
+            </div>
+            <div class="notif-text" id="ownerNotifText"></div>
+          </div>
+        </div>
+
         <div class="home-indicator"></div>
       </div>
     </div>
@@ -1898,7 +2130,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
   <button class="cb-icon-btn" id="presentBtn" type="button" title="Presentation mode (P)">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
   </button>
-  <span class="cb-hint"><b>P</b> present &nbsp;·&nbsp; <b>1-5</b> scenarios</span>
+  <span class="cb-hint"><b>P</b> present &nbsp;·&nbsp; <b>V</b> owner view &nbsp;·&nbsp; <b>1-5</b> scenarios</span>
 </div>
 
 <div id="toast"></div>
@@ -2250,6 +2482,131 @@ async function typeIntoInput(el, text) {
   return true;
 }
 
+// ---------- owner view (GHL-style app) ----------
+const oaList = $("oaList");
+const vtBadge = $("vtBadge");
+const oaBellDot = $("oaBellDot");
+const ownerNotifEl = $("ownerNotif");
+const ownerNotifText = $("ownerNotifText");
+let ownerUnseen = 0;
+let ownerBellCount = 0;
+let ownerNotifTimer = null;
+
+function isOwnerView() { return screen.classList.contains("owner-mode"); }
+function setPhoneView(view) {
+  const owner = view === "owner";
+  screen.classList.toggle("owner-mode", owner);
+  $("vtCustomer").classList.toggle("active", !owner);
+  $("vtOwner").classList.toggle("active", owner);
+  if (owner) {
+    ownerUnseen = 0;
+    vtBadge.hidden = true;
+  } else {
+    hideOwnerBanner();
+  }
+}
+$("vtCustomer").addEventListener("click", () => setPhoneView("customer"));
+$("vtOwner").addEventListener("click", () => setPhoneView("owner"));
+
+function showOwnerBanner(text) {
+  ownerNotifText.textContent = text;
+  ownerNotifEl.classList.add("show");
+  clearTimeout(ownerNotifTimer);
+  ownerNotifTimer = setTimeout(hideOwnerBanner, 4200);
+}
+function hideOwnerBanner() {
+  clearTimeout(ownerNotifTimer);
+  ownerNotifEl.classList.remove("show");
+}
+const PERSON_SVG = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8.2" r="4" fill="#fff"/><path d="M4.5 20c.9-3.6 4-5.6 7.5-5.6s6.6 2 7.5 5.6" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg>';
+function ownerAvatarFor(name) {
+  // phone-number contacts get a person icon, not digit "initials"
+  if (/\d{3}/.test(name)) {
+    return { inner: PERSON_SVG, bg: "linear-gradient(160deg,#8494a8,#5b6b7f)" };
+  }
+  const initials = name.replace(/[^A-Za-z ]/g, "").trim().split(/\s+/).map(w => w[0] || "").join("").slice(0, 2).toUpperCase() || "?";
+  const palettes = [
+    "linear-gradient(160deg,#2a7de0,#16589f)",
+    "linear-gradient(160deg,#e0793a,#b3541e)",
+    "linear-gradient(160deg,#3aa87c,#1f7d57)",
+    "linear-gradient(160deg,#7b61c9,#4a3a8c)",
+  ];
+  let h = 0;
+  for (const c of name) h = (h * 31 + c.charCodeAt(0)) % 9973;
+  return { inner: initials, bg: palettes[h % palettes.length] };
+}
+// records an owner-side event: updates the inbox row, pings the owner phone
+// if it's visible, otherwise stacks the unread badge on the toggle
+function ownerEvent(convName, snippet, notifText) {
+  let row = oaList.querySelector('[data-name="' + convName + '"]');
+  if (!row) {
+    const { inner, bg } = ownerAvatarFor(convName);
+    row = document.createElement("div");
+    row.className = "oa-row";
+    row.dataset.name = convName;
+    row.innerHTML =
+      '<div class="oa-avatar" style="background:' + bg + '">' + inner + '</div>' +
+      '<div class="oa-mid"><div class="oa-name">' + convName + '</div>' +
+      '<div class="oa-snippet"></div></div>' +
+      '<div class="oa-right"><span class="oa-time">Now</span></div>';
+  }
+  row.classList.add("fresh");
+  row.querySelector(".oa-snippet").textContent = snippet;
+  row.querySelector(".oa-time").textContent = "Now";
+  let unread = row.querySelector(".oa-unread");
+  if (!unread) {
+    unread = document.createElement("span");
+    unread.className = "oa-unread";
+    unread.textContent = "0";
+    row.querySelector(".oa-right").appendChild(unread);
+  }
+  unread.textContent = parseInt(unread.textContent, 10) + 1;
+  oaList.insertBefore(row, oaList.firstChild);
+  ownerBellCount++;
+  oaBellDot.textContent = ownerBellCount;
+  oaBellDot.hidden = false;
+  if (isOwnerView()) {
+    showOwnerBanner(notifText);
+    sndReceive();
+  } else {
+    ownerUnseen++;
+    vtBadge.textContent = ownerUnseen;
+    vtBadge.hidden = false;
+  }
+}
+function resetOwnerView() {
+  setPhoneView("customer");
+  ownerUnseen = 0;
+  ownerBellCount = 0;
+  vtBadge.hidden = true;
+  oaBellDot.hidden = true;
+  hideOwnerBanner();
+  oaList.querySelectorAll(".oa-row").forEach((row) => {
+    if (["Jennifer Kowalski", "Dave Reznick", "Angela Torres"].includes(row.dataset.name)) {
+      row.classList.remove("fresh");
+      const u = row.querySelector(".oa-unread");
+      if (u) u.remove();
+    } else {
+      row.remove();
+    }
+  });
+  // restore seed order
+  const order = ["Jennifer Kowalski", "Dave Reznick", "Angela Torres"];
+  order.forEach((n) => {
+    const r = oaList.querySelector('[data-name="' + n + '"]');
+    if (r) oaList.appendChild(r);
+  });
+  const seedSnips = {
+    "Jennifer Kowalski": ["Thanks again, you guys were great!", "Tue"],
+    "Dave Reznick": ["Quote approved, see you Thursday 👍", "Mon"],
+    "Angela Torres": ["Perfect, the gate code is 4482", "Mon"],
+  };
+  Object.entries(seedSnips).forEach(([n, [snip, t]]) => {
+    const r = oaList.querySelector('[data-name="' + n + '"]');
+    if (r) { r.querySelector(".oa-snippet").textContent = snip; r.querySelector(".oa-time").textContent = t; }
+  });
+}
+
 // ---------- SEO pages (services + locations, simulated navigation) ----------
 const SERVICES_LIST = [
   "Water Heater Repair", "Tankless Water Heaters", "Drain Cleaning",
@@ -2419,6 +2776,7 @@ async function chooseStars(n) {
     scrollSiteTo("#reviews");
     if (!(await step(800))) return;
     addReviewCard(n);
+    ownerEvent("Mike Radliff", "⭐ Left a " + n + "-star Google review", "New " + n + "-star Google review from Mike Radliff");
     if (!(await step(1100))) return;
     bumpStats({ revenue: 620 });
   } else {
@@ -2434,6 +2792,7 @@ async function chooseStars(n) {
     sndSend();
     if (!(await step(1400))) return;
     showOwnerAlert("<b>" + n + "★ rating from Mike R. was intercepted</b> and never reached Google. His full comments went to your phone so you can make it right.");
+    ownerEvent("Mike Radliff", n + "-star feedback intercepted · call him back", n + "-star feedback intercepted, kept off Google. Full comments inside. Call Mike back.");
   }
 }
 
@@ -2493,6 +2852,7 @@ async function scnMissedCall() {
     "Hey, this is Summit Plumbing. Sorry we missed your call, we're out on a job right now. What can we help you with? Reply here and we'll get you taken care of.",
     { caption: "Sent 47 seconds after missed call" }
   );
+  ownerEvent("(303) 555-8142", "Missed call rescued · auto text-back sent", "Missed call rescued: text-back sent to (303) 555-8142 automatically");
 
   if (!(await step(2600))) return;
   if (!(await customerTypesAndSends("My water heater is leaking"))) return;
@@ -2513,6 +2873,7 @@ async function scnMissedCall() {
   if (!(await step(2000))) return;
   hideTyping();
   addIncoming("You're on the books for today between 2 and 4pm. You'll get a confirmation text shortly. 👍");
+  ownerEvent("(303) 555-8142", "Booked today 2-4pm · leaking water heater", "Job booked: leaking water heater, today 2-4pm · 2847 Yarrow St");
 
   if (!(await step(900))) return;
   bumpStats({ rescued: 1, jobs: 1, revenue: 480 });
@@ -2538,6 +2899,7 @@ async function runSpeedToLead(name, issue) {
     ". When's a good time for a quick call? Or we can text you a quote, whatever's easier.";
   showBanner(msg);
   addIncoming(msg);
+  ownerEvent(name, "New website lead · replied to in 5 seconds", "New lead: " + name + " · " + issueShort);
 
   if (!(await step(3000))) return;
   if (!(await customerTypesAndSends("Tomorrow morning works, before 9 if you can"))) return;
@@ -2548,6 +2910,7 @@ async function runSpeedToLead(name, issue) {
   if (!(await step(1800))) return;
   hideTyping();
   addIncoming("Done. You're on for 8am tomorrow with Miguel. He'll text you when he's 20 minutes out. 👍");
+  ownerEvent(name, "Booked tomorrow 8am · Miguel assigned", "Job booked: " + name + ", tomorrow 8am · Miguel assigned");
 
   if (!(await step(1000))) return;
   bumpStats({ jobs: 1, revenue: 350 });
@@ -2591,6 +2954,7 @@ async function scnJobComplete() {
     { caption: "Smart link: 4-5★ routes to Google, 1-3★ gets caught" }
   );
   bubble.querySelector(".tap-link").addEventListener("click", openGate);
+  ownerEvent("Mike Radliff", "Job closed · review request sent", "Job complete: review request sent to Mike Radliff");
   s.done();
   // From here it's interactive: tap the link (or it opens itself in 8s),
   // then pick a star rating - 1-5 keys work too while the page is open.
@@ -2627,6 +2991,7 @@ async function scnAfterHours() {
   if (!(await step(1700))) return;
   hideTyping();
   addIncoming("On it. Emergency tech is headed your way, ETA 45 minutes. Shut off your main water valve if you can (usually near the water meter). Hang tight, help is coming.");
+  ownerEvent("(720) 555-9034", "🚨 EMERGENCY dispatched · burst pipe · ETA 45 min", "EMERGENCY at 11:47 PM: burst pipe, tech dispatched. Booked while you slept.");
 
   if (!(await step(1000))) return;
   bumpStats({ rescued: 1, jobs: 1, revenue: 850 });
@@ -2648,6 +3013,7 @@ function scnReset() {
   resetStats();
   resetReviews();
   resetForm();
+  resetOwnerView();
   goHomePage();
 }
 
@@ -2692,6 +3058,7 @@ document.addEventListener("keydown", (e) => {
     case "3": scnJobComplete(); break;
     case "4": scnAfterHours(); break;
     case "5": scnReset(); break;
+    case "v": case "V": setPhoneView(isOwnerView() ? "customer" : "owner"); break;
     case "p": case "P": togglePresentation(); break;
     case "s": case "S": $("soundBtn").click(); break;
     case "Escape":
