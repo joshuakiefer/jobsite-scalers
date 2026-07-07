@@ -60,10 +60,19 @@ contrast - good reviews amplified, bad reviews caught - is the whole pitch.
 The phone flips between two sides of the same system:
 
 - **Customer's Phone**: the iMessage thread every scenario plays out on.
-- **Owner's App**: a GHL-style mobile app (Conversations inbox, tabs, push notifications)
-  showing what the business owner sees. Every automation fires an owner notification in
-  real time: "Missed call rescued", "New lead: Sarah Mitchell", "Job booked: tomorrow
-  8am", "New 5-star Google review", "EMERGENCY: burst pipe, tech dispatched".
+- **Owner's App**: a GHL-style mobile app showing what the business owner sees. Three
+  working tabs, deliberately scoped to the offer (no CRM, no payments):
+  - **Conversations**: every lead thread. Tap a conversation to open the business side of
+    it: customer messages on the left, the system's replies on the right, each tagged
+    "AI · auto-replied", with a "Reply as Summit Plumbing to take over" composer. If a
+    scenario is running while the thread is open, new messages appear live.
+  - **Reviews**: every review that came through the engine, with a status chip: green
+    "On Google" for 4-5 stars, amber "Private · Call back" for intercepted 1-3 stars.
+  - **Bookings**: every job the automations booked, including the after-hours emergency.
+
+  Every automation fires an owner push notification in real time: "Missed call rescued",
+  "New lead: Sarah Mitchell", "Job booked: tomorrow 8am", "New 5-star Google review",
+  "EMERGENCY: burst pipe, tech dispatched".
 
 While you're on the customer view, owner events stack a red unread badge on the
 **Owner's App** toggle. That's a deliberate beat for the demo: run a scenario on the

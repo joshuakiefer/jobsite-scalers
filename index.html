@@ -787,6 +787,134 @@ input, textarea { font-family: inherit; }
   font-size: 9.5px; font-weight: 700;
 }
 .oa-tab.active { color: #155eef; }
+.oa-panels { flex: 1; position: relative; overflow: hidden; background: #fff; display: flex; }
+.oa-panel { flex: 1; overflow-y: auto; display: none; }
+.oa-panel.active { display: block; }
+.oa-panel::-webkit-scrollbar { width: 0; }
+.oa-row { cursor: pointer; }
+.oa-row:active { background: #f2f4f7; }
+
+/* reviews panel */
+.oa-review {
+  display: flex; gap: 11px;
+  padding: 13px 16px;
+  border-bottom: .5px solid #eef0f3;
+  animation: fadeIn .3s both;
+}
+.oa-rev-mid { flex: 1; min-width: 0; }
+.oa-rev-name { font-size: 13.5px; font-weight: 750; color: #101828; }
+.oa-rev-stars { color: #fbbc04; font-size: 12px; letter-spacing: 1.5px; margin: 2px 0 3px; }
+.oa-rev-stars .off { color: #d0d5dd; }
+.oa-rev-text { font-size: 12px; color: #667085; line-height: 1.45; }
+.oa-chip {
+  align-self: flex-start;
+  flex-shrink: 0;
+  font-size: 9.5px; font-weight: 850; letter-spacing: .5px;
+  padding: 4px 9px; border-radius: 999px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.oa-chip.google { background: #e8f6ee; color: #12805c; border: 1px solid #b9e5cf; }
+.oa-chip.private { background: #fdf1e2; color: #a05c07; border: 1px solid #f3d9ae; }
+
+/* bookings panel */
+.oa-booking {
+  display: flex; align-items: center; gap: 12px;
+  padding: 13px 16px;
+  border-bottom: .5px solid #eef0f3;
+  animation: fadeIn .3s both;
+}
+.oa-when {
+  flex-shrink: 0;
+  width: 76px;
+  background: #eef4ff;
+  border: 1px solid #d6e4ff;
+  border-radius: 10px;
+  padding: 7px 4px;
+  text-align: center;
+}
+.oa-when b { display: block; font-size: 10px; font-weight: 850; color: #155eef; letter-spacing: .4px; text-transform: uppercase; }
+.oa-when span { display: block; font-size: 11.5px; font-weight: 750; color: #101828; margin-top: 1px; }
+.oa-booking.urgent .oa-when { background: #fef0ef; border-color: #f6cdca; }
+.oa-booking.urgent .oa-when b { color: #d92d20; }
+.oa-book-job { font-size: 13.5px; font-weight: 750; color: #101828; }
+.oa-book-where { font-size: 12px; color: #667085; margin-top: 2px; }
+
+/* conversation detail (business side) */
+.oa-detail {
+  position: absolute; inset: 0;
+  background: #f6f7f9;
+  display: flex; flex-direction: column;
+  transform: translateX(105%);
+  transition: transform .38s cubic-bezier(.3,1,.4,1);
+  z-index: 8;
+}
+.oa-detail.open { transform: translateX(0); }
+.oa-d-header {
+  padding: 56px 14px 10px;
+  background: #fff;
+  border-bottom: .5px solid #e2e5e9;
+  display: flex; align-items: center; gap: 10px;
+  flex-shrink: 0;
+}
+.oa-d-back { color: #155eef; display: flex; padding: 4px; cursor: pointer; }
+.oa-d-name { font-size: 15px; font-weight: 800; color: #101828; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.oa-ai-pill {
+  display: flex; align-items: center; gap: 5px;
+  background: #e8f6ee; border: 1px solid #b9e5cf;
+  color: #12805c;
+  font-size: 9.5px; font-weight: 850; letter-spacing: .5px;
+  padding: 5px 10px; border-radius: 999px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.oa-ai-pill .dot-live { width: 6px; height: 6px; border-radius: 50%; background: #17b26a; animation: livepulse 2s infinite; }
+.oa-d-thread {
+  flex: 1; overflow-y: auto;
+  padding: 14px 14px 10px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.oa-d-thread::-webkit-scrollbar { width: 0; }
+.oa-bubble {
+  max-width: 76%;
+  padding: 8px 12px;
+  border-radius: 16px;
+  font-size: 13px;
+  line-height: 1.4;
+  animation: bubblePop .3s cubic-bezier(.2,1.35,.45,1) both;
+  margin-bottom: 2px;
+}
+.oa-bubble.cust { background: #e9e9eb; color: #101828; align-self: flex-start; border-bottom-left-radius: 5px; transform-origin: bottom left; }
+.oa-bubble.biz { background: #155eef; color: #fff; align-self: flex-end; border-bottom-right-radius: 5px; transform-origin: bottom right; }
+.oa-ai-tag {
+  align-self: flex-end;
+  display: flex; align-items: center; gap: 4px;
+  font-size: 9.5px; font-weight: 750; color: #98a2b3;
+  margin: 0 4px 7px;
+}
+.oa-d-compose {
+  flex-shrink: 0;
+  padding: 9px 12px 26px;
+  background: #fff;
+  border-top: .5px solid #e2e5e9;
+  display: flex; align-items: center; gap: 9px;
+}
+.oa-d-field {
+  flex: 1;
+  border: 1px solid #d0d5dd;
+  border-radius: 17px;
+  min-height: 34px;
+  padding: 8px 13px;
+  font-size: 13px;
+  color: #98a2b3;
+  background: #fff;
+}
+.oa-d-send {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #eef0f3; color: #98a2b3;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
 
 /* --- iPhone frame --- */
 .iphone {
@@ -2022,17 +2150,19 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
               Summit Plumbing Co.
             </div>
             <div class="oa-title-row">
-              <span class="oa-title">Conversations</span>
+              <span class="oa-title" id="oaTitle">Conversations</span>
               <span class="oa-bell">
                 <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M12 3a6 6 0 0 0-6 6v3.2l-1.6 3.1c-.3.7.1 1.7 1 1.7h13.2c.9 0 1.3-1 1-1.7L18 12.2V9a6 6 0 0 0-6-6zM9.5 19a2.5 2.5 0 0 0 5 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 <span class="oa-bell-dot" id="oaBellDot" hidden>1</span>
               </span>
             </div>
-            <div class="oa-search">
+            <div class="oa-search" id="oaSearch">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="2"/><path d="m15.5 15.5 4.5 4.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
               Search conversations
             </div>
           </div>
+          <div class="oa-panels">
+          <div class="oa-panel active" id="panelConvos">
           <div class="oa-list" id="oaList">
             <div class="oa-row" data-name="Jennifer Kowalski">
               <div class="oa-avatar" style="background:linear-gradient(160deg,#7b61c9,#4a3a8c)">JK</div>
@@ -2059,25 +2189,44 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
               <div class="oa-right"><span class="oa-time">Mon</span></div>
             </div>
           </div>
+          </div>
+
+          <div class="oa-panel" id="panelReviews"></div>
+          <div class="oa-panel" id="panelBookings"></div>
+
+          <!-- conversation detail: the business side of the thread -->
+          <div class="oa-detail" id="oaDetail">
+            <div class="oa-d-header">
+              <span class="oa-d-back" id="oaBack">
+                <svg width="11" height="18" viewBox="0 0 12 20" fill="none"><path d="M10.5 1.5 2 10l8.5 8.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="oa-d-name" id="oaDetailName">Conversation</span>
+              <span class="oa-ai-pill"><span class="dot-live"></span>AI Autopilot On</span>
+            </div>
+            <div class="oa-d-thread" id="oaDetailThread"></div>
+            <div class="oa-d-compose">
+              <div class="oa-d-field">Reply as Summit Plumbing to take over…</div>
+              <span class="oa-d-send">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 11.5 21 3l-8.5 18-2.3-7.2L3 11.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+          </div>
+
           <div class="oa-tabs">
-            <span class="oa-tab active">
+            <span class="oa-tab active" data-tab="convos" id="tabConvos">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 3C6.9 3 3 6.3 3 10.4c0 2.3 1.2 4.3 3.1 5.6-.1 1-.5 2.2-1.6 3.2 1.8-.1 3.2-.8 4.2-1.5.7.2 2.1.4 3.3.4 5.1 0 9-3.3 9-7.4S17.1 3 12 3z" fill="currentColor"/></svg>
               Conversations
             </span>
-            <span class="oa-tab">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-              Calendars
+            <span class="oa-tab" data-tab="reviews" id="tabReviews">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 14.8 8l6.2.9-4.5 4.4 1.1 6.2L12 16.6l-5.6 2.9 1.1-6.2L3 8.9 9.2 8 12 2.5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+              Reviews
             </span>
-            <span class="oa-tab">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v10M15 9.5c0-1.4-1.3-2.2-3-2.2s-3 .8-3 2.2c0 2.9 6 1.5 6 4.6 0 1.4-1.3 2.3-3 2.3s-3-.9-3-2.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-              Payments
-            </span>
-            <span class="oa-tab">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.8"/><rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" stroke-width="1.8"/></svg>
-              Dashboard
+            <span class="oa-tab" data-tab="bookings" id="tabBookings">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="16" rx="3" stroke="currentColor" stroke-width="1.8"/><path d="M3 10h18M8 3v4M16 3v4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="m8.5 15 2.3 2.3 4.7-4.6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Bookings
             </span>
           </div>
-        </div>
 
         <!-- owner push notification -->
         <div class="notif" id="ownerNotif">
@@ -2272,6 +2421,11 @@ function addIncoming(html, { caption = null } = {}) {
   const b = document.createElement("div");
   b.className = "bubble in";
   b.innerHTML = html;
+  if (currentConv) {
+    const tmp = document.createElement("div");
+    tmp.innerHTML = html;
+    logConv(currentConv, "biz", tmp.textContent);
+  }
   thread.appendChild(b);
   if (caption) {
     const c = document.createElement("div");
@@ -2290,6 +2444,7 @@ function addOutgoing(text) {
   const b = document.createElement("div");
   b.className = "bubble out";
   b.textContent = text;
+  if (currentConv) logConv(currentConv, "cust", text);
   thread.appendChild(b);
   if (lastReceipt) lastReceipt.remove();
   const r = document.createElement("div");
@@ -2574,8 +2729,144 @@ function ownerEvent(convName, snippet, notifText) {
     vtBadge.hidden = false;
   }
 }
+// --- owner tabs ---
+const OA_TAB_TITLES = { convos: "Conversations", reviews: "Reviews", bookings: "Bookings" };
+function setOwnerTab(tab) {
+  document.querySelectorAll(".oa-tab").forEach((t) => t.classList.toggle("active", t.dataset.tab === tab));
+  $("panelConvos").classList.toggle("active", tab === "convos");
+  $("panelReviews").classList.toggle("active", tab === "reviews");
+  $("panelBookings").classList.toggle("active", tab === "bookings");
+  $("oaTitle").textContent = OA_TAB_TITLES[tab];
+  $("oaSearch").style.display = tab === "convos" ? "flex" : "none";
+  closeOwnerConv();
+  if (tab === "reviews") renderOwnerReviews();
+  if (tab === "bookings") renderOwnerBookings();
+}
+document.querySelectorAll(".oa-tab").forEach((t) =>
+  t.addEventListener("click", () => setOwnerTab(t.dataset.tab)));
+
+// --- conversation logs (business side of every thread) ---
+let currentConv = null;
+const SEED_LOGS = {
+  "Jennifer Kowalski": [
+    { from: "biz", text: "All done, Jennifer! Water's back on and we hauled away the old unit. Thanks for choosing Summit." },
+    { from: "cust", text: "Thanks again, you guys were great!" },
+  ],
+  "Dave Reznick": [
+    { from: "biz", text: "Here's the quote we talked through: $1,840 for the repipe section, parts and labor." },
+    { from: "cust", text: "Quote approved, see you Thursday 👍" },
+  ],
+  "Angela Torres": [
+    { from: "biz", text: "Miguel is scheduled for Monday at 9am. He'll text when he's on the way." },
+    { from: "cust", text: "Perfect, the gate code is 4482" },
+  ],
+};
+const convLogs = {};
+function logConv(name, from, text) {
+  if (!convLogs[name]) convLogs[name] = [];
+  convLogs[name].push({ from, text });
+  // live-append if the owner is watching this exact thread
+  if ($("oaDetail").classList.contains("open") && $("oaDetailName").textContent === name) {
+    appendOwnerBubble({ from, text });
+  }
+}
+const AI_TAG_SVG = '<svg width="9" height="9" viewBox="0 0 24 24" fill="none"><path d="M6 13.5 12 6l-1.5 5.5H18L12 19l1.5-5.5H6z" fill="#98a2b3"/></svg>';
+function appendOwnerBubble(m) {
+  const th = $("oaDetailThread");
+  const b = document.createElement("div");
+  b.className = "oa-bubble " + (m.from === "biz" ? "biz" : "cust");
+  b.textContent = m.text;
+  th.appendChild(b);
+  if (m.from === "biz") {
+    const tag = document.createElement("div");
+    tag.className = "oa-ai-tag";
+    tag.innerHTML = AI_TAG_SVG + "AI · auto-replied";
+    th.appendChild(tag);
+  }
+  th.scrollTop = th.scrollHeight;
+}
+function openOwnerConv(name) {
+  $("oaDetailName").textContent = name;
+  const th = $("oaDetailThread");
+  th.innerHTML = "";
+  (convLogs[name] || SEED_LOGS[name] || []).forEach(appendOwnerBubble);
+  $("oaDetail").classList.add("open");
+  const row = oaList.querySelector('[data-name="' + name + '"]');
+  if (row) {
+    const u = row.querySelector(".oa-unread");
+    if (u) u.remove();
+    row.classList.remove("fresh");
+  }
+}
+function closeOwnerConv() {
+  $("oaDetail").classList.remove("open");
+}
+$("oaBack").addEventListener("click", closeOwnerConv);
+oaList.addEventListener("click", (e) => {
+  const row = e.target.closest(".oa-row");
+  if (row) openOwnerConv(row.dataset.name);
+});
+
+// --- reviews feed ---
+const SEED_REVIEWS = [
+  { name: "Jennifer Kowalski", stars: 5, text: "Called at 8am with a busted water heater, had hot water again by 2pm.", status: "google", when: "2w" },
+  { name: "Dave Reznick", stars: 5, text: "Final bill matched the quote to the penny.", status: "google", when: "1mo" },
+];
+let ownerReviews = [];
+function renderOwnerReviews() {
+  const el = $("panelReviews");
+  el.innerHTML = "";
+  [...ownerReviews, ...SEED_REVIEWS].forEach((r) => {
+    const { inner, bg } = ownerAvatarFor(r.name);
+    const row = document.createElement("div");
+    row.className = "oa-review";
+    row.innerHTML =
+      '<div class="oa-avatar" style="background:' + bg + '">' + inner + '</div>' +
+      '<div class="oa-rev-mid"><div class="oa-rev-name">' + r.name + ' <span style="color:#98a2b3;font-weight:600;font-size:11px">· ' + r.when + '</span></div>' +
+      '<div class="oa-rev-stars">' + "★".repeat(r.stars) + '<span class="off">' + "★".repeat(5 - r.stars) + '</span></div>' +
+      '<div class="oa-rev-text">' + r.text + '</div></div>' +
+      (r.status === "google"
+        ? '<span class="oa-chip google">On Google</span>'
+        : '<span class="oa-chip private">Private · Call back</span>');
+    el.appendChild(row);
+  });
+}
+
+// --- bookings feed ---
+const SEED_BOOKINGS = [
+  { when: ["Thu", "10:00am"], job: "Sump pump install", where: "Marcus Webb · Aurora", urgent: false },
+  { when: ["Fri", "1:30pm"], job: "Camera inspection", where: "Priya Nair · Centennial", urgent: false },
+];
+let ownerBookings = [];
+function renderOwnerBookings() {
+  const el = $("panelBookings");
+  el.innerHTML = "";
+  [...ownerBookings, ...SEED_BOOKINGS].forEach((b) => {
+    const row = document.createElement("div");
+    row.className = "oa-booking" + (b.urgent ? " urgent" : "");
+    row.innerHTML =
+      '<div class="oa-when"><b>' + b.when[0] + '</b><span>' + b.when[1] + '</span></div>' +
+      '<div><div class="oa-book-job">' + b.job + '</div>' +
+      '<div class="oa-book-where">' + b.where + '</div></div>';
+    el.appendChild(row);
+  });
+}
+function ownerBooking(when, job, where, urgent = false) {
+  ownerBookings.unshift({ when, job, where, urgent });
+  if ($("panelBookings").classList.contains("active")) renderOwnerBookings();
+}
+function ownerReview(stars, text, status) {
+  ownerReviews.unshift({ name: "Mike Radliff", stars, text, status, when: "now" });
+  if ($("panelReviews").classList.contains("active")) renderOwnerReviews();
+}
+
 function resetOwnerView() {
   setPhoneView("customer");
+  setOwnerTab("convos");
+  closeOwnerConv();
+  Object.keys(convLogs).forEach((k) => delete convLogs[k]);
+  ownerReviews = [];
+  ownerBookings = [];
   ownerUnseen = 0;
   ownerBellCount = 0;
   vtBadge.hidden = true;
@@ -2777,6 +3068,7 @@ async function chooseStars(n) {
     if (!(await step(800))) return;
     addReviewCard(n);
     ownerEvent("Mike Radliff", "⭐ Left a " + n + "-star Google review", "New " + n + "-star Google review from Mike Radliff");
+    ownerReview(n, "Fast, professional, fixed it same day. Couldn't ask for more.", "google");
     if (!(await step(1100))) return;
     bumpStats({ revenue: 620 });
   } else {
@@ -2793,6 +3085,7 @@ async function chooseStars(n) {
     if (!(await step(1400))) return;
     showOwnerAlert("<b>" + n + "★ rating from Mike R. was intercepted</b> and never reached Google. His full comments went to your phone so you can make it right.");
     ownerEvent("Mike Radliff", n + "-star feedback intercepted · call him back", n + "-star feedback intercepted, kept off Google. Full comments inside. Call Mike back.");
+    ownerReview(n, "Tech was 30 minutes late and tracked some mud into the hallway. The repair itself was fine.", "private");
   }
 }
 
@@ -2836,6 +3129,7 @@ async function startScenario(n) {
 // ---- 1. Missed Call Text-Back ----
 async function scnMissedCall() {
   const s = await startScenario(1);
+  currentConv = "(303) 555-8142";
   setClock({ status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" });
   clearThread();
 
@@ -2874,6 +3168,7 @@ async function scnMissedCall() {
   hideTyping();
   addIncoming("You're on the books for today between 2 and 4pm. You'll get a confirmation text shortly. 👍");
   ownerEvent("(303) 555-8142", "Booked today 2-4pm · leaking water heater", "Job booked: leaking water heater, today 2-4pm · 2847 Yarrow St");
+  ownerBooking(["Today", "2-4pm"], "Leaking water heater", "2847 Yarrow St, Lakewood");
 
   if (!(await step(900))) return;
   bumpStats({ rescued: 1, jobs: 1, revenue: 480 });
@@ -2884,6 +3179,7 @@ async function scnMissedCall() {
 async function runSpeedToLead(name, issue) {
   // called after form submit (manual or simulated)
   const s = await startScenario(2);
+  currentConv = name;
   setClock({ status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" });
   clearThread();
 
@@ -2911,6 +3207,7 @@ async function runSpeedToLead(name, issue) {
   hideTyping();
   addIncoming("Done. You're on for 8am tomorrow with Miguel. He'll text you when he's 20 minutes out. 👍");
   ownerEvent(name, "Booked tomorrow 8am · Miguel assigned", "Job booked: " + name + ", tomorrow 8am · Miguel assigned");
+  ownerBooking(["Tmrw", "8:00am"], issue.charAt(0).toUpperCase() + issue.slice(1), name + " · Miguel assigned");
 
   if (!(await step(1000))) return;
   bumpStats({ jobs: 1, revenue: 350 });
@@ -2942,6 +3239,7 @@ leadForm.addEventListener("submit", (e) => {
 // ---- 3. Review Engine (gated) ----
 async function scnJobComplete() {
   const s = await startScenario(3);
+  currentConv = "Mike Radliff";
   setClock({ status: "4:52", sep: "Today 4:52 PM", read: "Read 4:53 PM" });
   clearThread();
   addDaySep();
@@ -2965,6 +3263,7 @@ async function scnJobComplete() {
 // ---- 4. After-Hours AI Answer ----
 async function scnAfterHours() {
   const s = await startScenario(4);
+  currentConv = "(720) 555-9034";
   setClock({ status: "11:47 PM", sep: "Today 11:47 PM", read: "Read 11:49 PM" });
   clearThread();
 
@@ -2992,6 +3291,7 @@ async function scnAfterHours() {
   hideTyping();
   addIncoming("On it. Emergency tech is headed your way, ETA 45 minutes. Shut off your main water valve if you can (usually near the water meter). Hang tight, help is coming.");
   ownerEvent("(720) 555-9034", "🚨 EMERGENCY dispatched · burst pipe · ETA 45 min", "EMERGENCY at 11:47 PM: burst pipe, tech dispatched. Booked while you slept.");
+  ownerBooking(["NOW", "ETA 45m"], "Burst pipe · emergency", "Dispatched at 11:47 PM", true);
 
   if (!(await step(1000))) return;
   bumpStats({ rescued: 1, jobs: 1, revenue: 850 });
@@ -3001,6 +3301,7 @@ async function scnAfterHours() {
 // ---- 5. Reset ----
 function scnReset() {
   cancelRun();
+  currentConv = null;
   hideTyping();
   hideCall();
   hideBanner();
