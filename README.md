@@ -96,7 +96,9 @@ you're typing in the form, so type freely.
    later the customer's phone lights up with a personalized text pulling the actual form values.
    Narrate: *"Your competitor calls back tomorrow. You texted back in five seconds."*
 4. **`1` - Missed Call.** Customer calls, nobody answers... and 47 seconds later the system
-   texts back, holds the conversation, and books the job for 2-4pm. Watch the stats card bump.
+   texts back, qualifies the issue, and locks in a 2:30 callback with the lead tech. No
+   sight-unseen commitments, just a captured lead with a time on the calendar. Watch the
+   stats card bump.
 5. **`4` - After-Hours.** 11:47 PM, pipe burst. The AI answers, dispatches emergency service,
    and even tells the customer to shut off the water main. This is the "you were asleep and
    still made $850" moment.

@@ -3333,22 +3333,22 @@ async function scnMissedCall() {
   showTyping();
   if (!(await step(1900))) return;
   hideTyping();
-  addIncoming("Sorry to hear that! We can have a tech out today. What's your address?");
+  addIncoming("Sorry to hear that! Miguel, our lead tech, can give you a quick call to talk it through and get you a straight price. Does 2:30 today work, or is after 4 better?");
 
   if (!(await step(2100))) return;
-  if (!(await customerTypesAndSends("2847 Yarrow St, Lakewood"))) return;
+  if (!(await customerTypesAndSends("2:30 works"))) return;
 
   if (!(await step(1000))) return;
   markRead();
   showTyping();
   if (!(await step(2000))) return;
   hideTyping();
-  addIncoming("You're on the books for today between 2 and 4pm. You'll get a confirmation text shortly. 👍");
-  ownerEvent("(303) 555-8142", "Booked today 2-4pm · leaking water heater", "Job booked: leaking water heater, today 2-4pm · 2847 Yarrow St");
-  ownerBooking(["Today", "2-4pm"], "Leaking water heater", "2847 Yarrow St, Lakewood");
+  addIncoming("Perfect. Miguel will call you at 2:30 today. If it gets worse before then, reply here and we'll bump you to emergency service. 👍");
+  ownerEvent("(303) 555-8142", "Callback set: today 2:30pm · leaking water heater", "Callback scheduled: Miguel calls (303) 555-8142 at 2:30 about a leaking water heater");
+  ownerBooking(["Today", "2:30pm"], "Phone consult: leaking water heater", "(303) 555-8142 · Miguel to call");
 
   if (!(await step(900))) return;
-  bumpStats({ rescued: 1, jobs: 1, revenue: 480 });
+  bumpStats({ rescued: 1, revenue: 480 });
   s.done();
 }
 
