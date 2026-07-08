@@ -2359,6 +2359,296 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
    ============================================================ */
 
 /* ============================================================
+   PERSONALIZATION ENGINE
+   The demo reads a config from the URL hash (#cfg=<base64 json>)
+   written by builder.html. With no config, it stays Summit
+   Plumbing. Trade presets swap services, scenarios, and copy;
+   fields swap identity (name, phone, metro, cities, rating).
+   ============================================================ */
+const TRADES = {
+  plumbing: null, // the built-in default
+  handyman: {
+    person: "Handyman", urlPrefix: "handyman", nounLine: "home repair",
+    badge: "FREE ESTIMATES", chip2: "Same-Week Scheduling",
+    grid: [
+      ["Custom Woodworking", "Built-ins, shelving, trim, and one-off pieces measured, built, and installed to fit your space."],
+      ["Floor Installation", "Laminate, LVP, and tile laid clean and level, with the baseboards and transitions done right."],
+      ["Drywall & Paint", "Patches, texture match, and full rooms painted clean, with the tape lines crisp."],
+      ["Punch List Repairs", "Doors, fixtures, fans, and the whole honey-do list knocked out in one visit."],
+    ],
+    services10: ["Custom Woodworking", "Floor Installation", "Drywall Repair", "Interior Painting", "Door & Window Repair", "Deck & Fence Repair", "Furniture Refurbishing", "Fixture Installation", "TV Mounting", "Punch List Repairs"],
+    gallery: [
+      ["Custom built-in bookshelves", "Measured, built, installed"],
+      ["LVP floor install, whole living room", "Done in two days"],
+      ["Deck repair and re-stain", "Ready for summer"],
+      ["Kitchen cabinet refurbish", "Paint and new hardware"],
+      ["Bathroom fixture swap", "Faucets, fan, and lights"],
+      ["Fence gate rebuild", "Square and swinging right"],
+    ],
+    reviews: [
+      "Had a whole list: two doors, drywall, and a wobbly ceiling fan. One visit, all of it done, and he cleaned up after himself.",
+      "Built us custom shelves for the den that look like they came with the house. The final bill matched the quote to the penny.",
+      "They text you when they're on the way, with a photo so you know who's coming. Best service experience I've had from any trade.",
+    ],
+    sectionH2: "Every job on the list, handled.",
+    sectionSub: "From a squeaky door to a full floor install, we show up on time with the tools on the truck.",
+    texts: {
+      mcIssue: "Got a list: two doors that stick and a drywall patch",
+      mcJob: "sticking doors and a drywall patch", mcJobShort: "doors + drywall",
+      autoIssue: "Ceiling fan swap and drywall patch",
+      ahCust: "Front door won't lock and I can't secure the house",
+      ahAi: "On it. You're the first stop tomorrow, 7am sharp. For tonight, a chair wedged under the interior handle will hold it shut. We'll have you locking right first thing.",
+      ahSnip: "After-hours lead · broken lock · booked 7am",
+      ahNotif: "After-hours lead at 11:47 PM: broken front door lock, booked for 7am. Captured while you slept.",
+      ahWhen: ["Tmrw", "7:00am"], ahJob: "Front door lock repair", ahWhere: "Booked at 11:47 PM", ahRevenue: 450,
+      revThanksJob: "knock out your list",
+      gReview: "Knocked out my whole list in one afternoon. Couldn't ask for more. Highly recommend these guys.",
+      revCard: "Knocked out my whole punch list in one afternoon. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
+      gateJob: "your repairs",
+    },
+  },
+  hvac: {
+    person: "HVAC Contractor", urlPrefix: "hvac", nounLine: "heating & cooling",
+    badge: "24/7 EMERGENCY SERVICE", chip2: "60-Min Emergency Response",
+    grid: [
+      ["Furnace Repair & Install", "Same-day furnace repair and full replacements sized right for your home, not oversold."],
+      ["AC Repair & Install", "Tune-ups, refrigerant leaks, and new high-efficiency systems installed clean."],
+      ["Mini-Split Systems", "Ductless heating and cooling for additions, garages, and rooms that never feel right."],
+      ["Duct Cleaning & Sealing", "Cleaner air and lower bills from ductwork that actually holds pressure."],
+    ],
+    services10: ["Furnace Repair", "Furnace Installation", "AC Repair", "AC Installation", "Mini-Split Systems", "Heat Pumps", "Duct Cleaning & Sealing", "Thermostats & Controls", "Indoor Air Quality", "Emergency HVAC"],
+    gallery: [
+      ["High-efficiency furnace swap", "In and out same day"],
+      ["AC condenser replacement", "Cooling again by dinner"],
+      ["Mini-split install, garage gym", "Heats and cools year-round"],
+      ["Full duct sealing", "Bills dropped the next month"],
+      ["Smart thermostat setup", "Programmed and dialed in"],
+      ["Heat pump conversion", "Furnace and AC in one"],
+    ],
+    reviews: [
+      "Furnace died on the coldest night of the year. They had heat back on the same day and the price matched the quote.",
+      "Walked me through every option on the new AC without the scare tactics. Install crew was clean and fast.",
+      "They text you when the tech is on the way, with a photo so you know who's coming. Best service experience I've had from any trade.",
+    ],
+    sectionH2: "Every system, every season, handled.",
+    sectionSub: "From a tune-up to a full system swap, our licensed techs show up on time with the parts on the truck.",
+    texts: {
+      mcIssue: "Our furnace is blowing cold air",
+      mcJob: "a furnace blowing cold air", mcJobShort: "furnace no-heat",
+      autoIssue: "AC not cooling the upstairs",
+      ahCust: "EMERGENCY - furnace died and it's below freezing tonight",
+      ahAi: "On it. Emergency tech is headed your way, ETA 45 minutes. Keep bedroom doors closed to hold the heat, and keep any space heaters away from bedding. Help is coming.",
+      ahSnip: "🚨 EMERGENCY dispatched · furnace out · ETA 45 min",
+      ahNotif: "EMERGENCY at 11:47 PM: furnace out in freezing temps, tech dispatched. Booked while you slept.",
+      ahWhen: ["NOW", "ETA 45m"], ahJob: "Furnace out · emergency", ahWhere: "Dispatched at 11:47 PM", ahRevenue: 850,
+      revThanksJob: "handle your furnace",
+      gReview: "Had our heat back on the same day we called. Couldn't ask for more. Highly recommend these guys.",
+      revCard: "Fast, professional, had our heat back the same day. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
+      gateJob: "your furnace",
+    },
+  },
+  electrical: {
+    person: "Electrician", urlPrefix: "electrician", nounLine: "electrical work",
+    badge: "24/7 EMERGENCY SERVICE", chip2: "60-Min Emergency Response",
+    grid: [
+      ["Panel Upgrades", "Modern panels that handle EVs, hot tubs, and everything your house actually runs now."],
+      ["EV Charger Install", "Level 2 chargers installed, permitted, and inspected. Charge overnight, every night."],
+      ["Lighting & Fans", "Recessed lighting, ceiling fans, and fixtures hung level, wired right, zero flicker."],
+      ["Troubleshooting & Repair", "Dead outlets, tripping breakers, and mystery switches solved, not just patched."],
+    ],
+    services10: ["Panel Upgrades", "EV Charger Installation", "Lighting Installation", "Ceiling Fans", "Outlets & Switches", "Whole-Home Rewiring", "Generator Installation", "Hot Tub & Spa Wiring", "Smoke & CO Detectors", "Emergency Electrical"],
+    gallery: [
+      ["200-amp panel upgrade", "Permitted and inspected"],
+      ["Level 2 EV charger install", "Charges overnight, every night"],
+      ["Kitchen recessed lighting", "Bright, even, dimmable"],
+      ["Standby generator install", "Power stays on, period"],
+      ["Hot tub circuit and hookup", "GFCI protected, done right"],
+      ["Whole-home rewire", "Old knob and tube, gone"],
+    ],
+    reviews: [
+      "Half our kitchen outlets were dead. Found the problem in twenty minutes, fixed it, and checked the whole panel while he was in there.",
+      "EV charger quoted, permitted, and installed inside a week. The final bill matched the quote to the penny.",
+      "They text you when the tech is on the way, with a photo so you know who's coming. Best service experience I've had from any trade.",
+    ],
+    sectionH2: "Every circuit, every problem, handled.",
+    sectionSub: "From a dead outlet to a full rewire, our licensed electricians show up on time with the parts on the truck.",
+    texts: {
+      mcIssue: "Half the outlets in my kitchen stopped working",
+      mcJob: "dead kitchen outlets", mcJobShort: "dead outlets",
+      autoIssue: "Need two ceiling fans installed",
+      ahCust: "EMERGENCY - burning smell coming from the breaker panel",
+      ahAi: "Take that seriously. If you can do it safely, flip the main breaker off now. Emergency electrician is headed your way, ETA 45 minutes. Help is coming.",
+      ahSnip: "🚨 EMERGENCY dispatched · panel burning smell · ETA 45 min",
+      ahNotif: "EMERGENCY at 11:47 PM: burning smell at panel, electrician dispatched. Booked while you slept.",
+      ahWhen: ["NOW", "ETA 45m"], ahJob: "Panel emergency", ahWhere: "Dispatched at 11:47 PM", ahRevenue: 850,
+      revThanksJob: "sort out your panel",
+      gReview: "Found and fixed the problem the same day. Couldn't ask for more. Highly recommend these guys.",
+      revCard: "Fast, professional, fixed it the same day. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
+      gateJob: "your electrical work",
+    },
+  },
+  roofing: {
+    person: "Roofer", urlPrefix: "roofer", nounLine: "roofing",
+    badge: "FREE ROOF INSPECTIONS", chip2: "Storm Response Team",
+    grid: [
+      ["Roof Replacement", "Full tear-offs and re-roofs done in days, with the yard spotless when we leave."],
+      ["Roof Repair", "Missing shingles, flashing leaks, and soft spots fixed before they become ceilings."],
+      ["Hail & Storm Damage", "Honest inspections and help with the insurance claim from photos to final nail."],
+      ["Gutters & Downspouts", "Seamless gutters sized and pitched right, so water goes where it should."],
+    ],
+    services10: ["Roof Replacement", "Roof Repair", "Hail Damage Claims", "Storm Damage Repair", "Asphalt Shingles", "Metal Roofing", "Flat & TPO Roofing", "Gutters & Downspouts", "Skylights", "Roof Inspections"],
+    gallery: [
+      ["Full tear-off and re-roof", "Done in two days"],
+      ["Hail claim, approved and replaced", "We handled the adjuster"],
+      ["Standing seam metal roof", "The last roof they'll buy"],
+      ["Seamless gutter install", "Pitched right, drains right"],
+      ["Storm repair and tarp-off", "Dry by nightfall"],
+      ["Skylight replacement", "No more drips"],
+    ],
+    reviews: [
+      "Hail took out half the neighborhood. They handled our insurance claim, and the new roof was on in two days with the yard spotless.",
+      "Fixed a leak two other companies couldn't find. The final bill matched the quote to the penny.",
+      "They text you when the crew is on the way, with a photo so you know who's coming. Best service experience I've had from any trade.",
+    ],
+    sectionH2: "Every roof, every storm, handled.",
+    sectionSub: "From one missing shingle to a full replacement, our crews show up on time with the materials on the truck.",
+    texts: {
+      mcIssue: "Shingles blew off in last night's wind",
+      mcJob: "wind-damaged shingles", mcJobShort: "wind damage",
+      autoIssue: "Hail damage from last week's storm",
+      ahCust: "EMERGENCY - tree limb went through the roof and it's raining in",
+      ahAi: "On it. Crew will be there at first light to tarp it. Tonight: bucket under the drip, move anything valuable out of that room, and stay out from under the sag. You're first on the list.",
+      ahSnip: "🚨 Storm call · limb through roof · tarp at dawn",
+      ahNotif: "EMERGENCY at 11:47 PM: limb through roof, tarp crew booked for first light. Captured while you slept.",
+      ahWhen: ["Dawn", "Tarp crew"], ahJob: "Limb through roof", ahWhere: "Booked at 11:47 PM", ahRevenue: 850,
+      revThanksJob: "handle your roof",
+      gReview: "Roof replaced in two days and the yard was spotless after. Couldn't ask for more. Highly recommend these guys.",
+      revCard: "Fast, professional, roof done in two days. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
+      gateJob: "your roof",
+    },
+  },
+};
+
+function decodeCfg() {
+  try {
+    const m = location.hash.match(/cfg=([A-Za-z0-9_\-]+)/);
+    if (!m) return null;
+    return JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, "+").replace(/_/g, "/")))));
+  } catch (e) { return null; }
+}
+const CFG = decodeCfg();
+const PRESET = CFG ? (TRADES[CFG.trade] || null) : null;
+const P = {
+  active: !!CFG,
+  name: CFG ? CFG.name : "Summit Plumbing Co.",
+  short: CFG ? (CFG.short || CFG.name.replace(/\s*(LLC|Inc\.?|Co\.?|Services)\s*$/i, "").trim()) : "Summit Plumbing",
+  phone: CFG ? CFG.phone : "(720) 555-0148",
+  metro: CFG ? CFG.metro : "Denver",
+  state: CFG ? (CFG.state || "CO").toUpperCase() : "CO",
+  cities: CFG && CFG.cities && CFG.cities.length ? CFG.cities : null,
+  rating: CFG ? (CFG.rating || "4.9") : "4.9",
+  count: CFG ? (parseInt(CFG.count, 10) || 27) : 180,
+  domain: CFG ? (CFG.name.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 24) + ".com") : "summitplumbingco.com",
+  person: PRESET ? PRESET.person : "Plumber",
+  urlPrefix: PRESET ? PRESET.urlPrefix : "plumber",
+  photosOff: !!CFG && CFG.trade !== "plumbing",
+};
+const T = Object.assign({
+  mcIssue: "My water heater is leaking",
+  mcJob: "a leaking water heater", mcJobShort: "leaking water heater",
+  autoIssue: "Kitchen sink backing up",
+  ahCust: "EMERGENCY - pipe burst",
+  ahAi: "On it. Emergency tech is headed your way, ETA 45 minutes. Shut off your main water valve if you can (usually near the water meter). Hang tight, help is coming.",
+  ahSnip: "🚨 EMERGENCY dispatched · burst pipe · ETA 45 min",
+  ahNotif: "EMERGENCY at 11:47 PM: burst pipe, tech dispatched. Booked while you slept.",
+  ahWhen: ["NOW", "ETA 45m"], ahJob: "Burst pipe · emergency", ahWhere: "Dispatched at 11:47 PM", ahRevenue: 850,
+  revThanksJob: "handle your water heater",
+  gReview: "Fast, professional, fixed it same day. Couldn't ask for more. Highly recommend these guys.",
+  revCard: "Fast, professional, fixed it same day. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
+  gateJob: "your water heater",
+}, PRESET ? PRESET.texts : {});
+
+function applyPersonalization() {
+  if (!P.active) return;
+  const pairs = [];
+  const add = (a, b) => { if (a && b && a !== b) pairs.push([a, b]); };
+  // identity
+  add("Family-owned since 2009. Upfront pricing, licensed techs, and", "Local to " + P.metro + ". Upfront pricing, honest work, and");
+  add("Summit Plumbing Co.", P.name);
+  add("SUMMIT PLUMBING CO.", P.name.toUpperCase());
+  add("Summit Plumbing", P.short);
+  add("(720) 555-0148", P.phone);
+  add("summitplumbingco.com", P.domain);
+  add("summitplumbing.co/feedback", P.domain + "/feedback");
+  add("24/7 Plumber in Denver", P.badgeTab || (P.person + " in " + P.metro));
+  add("Plumber · Englewood, CO", P.person + " · " + P.metro + ", " + P.state);
+  add("4.9", P.rating);
+  add("180", String(P.count));
+  add("Denver Metro", P.metro + " Area");
+  add("around Denver.", "around " + P.metro + ".");
+  add("the Denver metro", "the " + P.metro + " area");
+  add("Serving Denver Metro".toUpperCase(), ("Serving the " + P.metro + " area").toUpperCase());
+  add("Proudly serving Denver, Englewood, Littleton & Aurora", "Proudly serving " + P.metro + " and the surrounding area");
+  add("4180 S Broadway, Englewood, CO 80113", P.metro + ", " + P.state);
+  add("Colorado Master Plumber License #MP-188442", "Licensed & Insured");
+  if (PRESET) {
+    add("Fast, honest plumbing,", "Fast, honest " + PRESET.nounLine + ",");
+    add("24/7 EMERGENCY SERVICE", PRESET.badge);
+    add("60-Min Emergency Response", PRESET.chip2);
+    add("Every pipe, every problem, handled.", PRESET.sectionH2);
+    add("From a dripping faucet to a whole-home repipe, our licensed techs show up on time with the parts on the truck.", PRESET.sectionSub);
+    add("Water heaters, repipes, drains, and everything in between.", "Recent work, straight off the truck.");
+    add("Thanks for trusting us with your water heater today.", "Thanks for trusting us with " + T.gateJob + " today.");
+    add("Kitchen sink is backing up and smells terrible…", T.autoIssue + "…");
+    const GRID = [
+      ["Water Heaters", "Repair & same-day replacement of tank and tankless systems. Most swaps done in under 4 hours."],
+      ["Drain Cleaning", "Hydro-jetting and camera inspections that clear any clog and show you exactly what caused it."],
+      ["Whole-Home Repipes", "Copper & PEX repipes with clean drywall repair included. Financing available on approved credit."],
+      ["Sump Pumps", "Installs, battery backups, and flood prevention that keeps your basement dry through spring melt."],
+    ];
+    GRID.forEach(([t, b], i) => { add(t, PRESET.grid[i][0]); add(b, PRESET.grid[i][1]); });
+    const GAL = [
+      ["50-gal water heater swap", "Littleton · In and out same day"],
+      ["Copper-to-PEX whole home repipe", "Wash Park · 3 days, walls patched"],
+      ["Sump pump with battery backup", "Aurora · Basement's been dry since"],
+      ["Kitchen drain line cleared", "Lakewood · 40 feet of clog, gone"],
+      ["Tankless conversion", "Highlands Ranch · Endless hot water"],
+      ["Main sewer line replacement", "Englewood · New line in, backfilled next day"],
+    ];
+    const gcities = P.cities || [P.metro];
+    GAL.forEach(([t, m], i) => {
+      add(t, PRESET.gallery[i][0]);
+      add(m, gcities[i % gcities.length] + " · " + PRESET.gallery[i][1]);
+    });
+    const REVS = [
+      "Called at 8am with a busted water heater, had hot water again by 2pm. Fair price, zero pressure, and they laid down floor protection without being asked.",
+      "Miguel walked me through everything before starting and the final bill matched the quote to the penny. That never happens with contractors.",
+      "They text you when the tech is on the way, with a photo so you know who's coming. Best service experience I've had from any trade, period.",
+    ];
+    REVS.forEach((r, i) => add(r, PRESET.reviews[i]));
+  }
+  pairs.sort((x, y) => y[0].length - x[0].length);
+  const rewrite = (t) => { for (const [a, b] of pairs) if (t.includes(a)) t = t.split(a).join(b); return t; };
+  const it = document.createNodeIterator(document.body, NodeFilter.SHOW_TEXT);
+  let n;
+  while ((n = it.nextNode())) {
+    const v = rewrite(n.nodeValue);
+    if (v !== n.nodeValue) n.nodeValue = v;
+  }
+  document.querySelectorAll("[placeholder],[alt]").forEach((el) => {
+    ["placeholder", "alt"].forEach((at) => {
+      const v = el.getAttribute(at);
+      if (v) { const w = rewrite(v); if (w !== v) el.setAttribute(at, w); }
+    });
+  });
+  document.title = rewrite(document.title);
+  // avatar initials from the short name
+  const initials = P.short.split(/\s+/).map((w) => w[0]).join("").replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase() || "A";
+  document.querySelectorAll(".msg-avatar, .call-avatar, .gate-logo").forEach((el) => { el.textContent = initials; });
+}
+applyPersonalization();
+
+/* ============================================================
    YOUR JOB PHOTOS
    Six entries, one per "Recent jobs" card, in order.
 
@@ -2624,7 +2914,7 @@ function resetStats() {
 }
 
 // ---------- website: reviews ----------
-let reviewCount = 180;
+let reviewCount = P.count;
 let addedReviews = 0;
 function renderReviewCounts(animate) {
   document.querySelectorAll(".review-count").forEach((el) => {
@@ -2658,7 +2948,7 @@ function addReviewCard(stars = 5) {
         '<div class="rev-meta">Just now</div></div>' +
         '<div class="rev-stars">' + starHtml + '</div>' +
       '</div>' +
-      '<p class="rev-text">Fast, professional, fixed it same day. They even texted me this review link so I didn\'t have to hunt for it. Highly recommend.</p>' +
+      '<p class="rev-text">' + T.revCard + '</p>' +
     '</div>';
   reviewList.insertBefore(wrap, reviewList.firstChild);
   // animate height + fade without layout jank
@@ -2680,7 +2970,7 @@ function addReviewCard(stars = 5) {
 }
 function resetReviews() {
   document.querySelectorAll(".rev-wrap").forEach((el) => el.remove());
-  reviewCount = 180;
+  reviewCount = P.count;
   addedReviews = 0;
   renderReviewCounts(false);
 }
@@ -2692,6 +2982,7 @@ function scrollSiteTo(sel) {
 // ---------- website: address autocomplete (simulated Places) ----------
 const ADDR_INPUT = () => $("f-address");
 const addrDrop = $("addrDrop");
+const STREET_CITY = P.active ? P.metro + ", " + P.state : null;
 const STREETS = [
   ["2847", "Yarrow St", "Lakewood, CO 80226"],
   ["415", "S Clarkson St", "Englewood, CO 80113"],
@@ -2706,6 +2997,7 @@ const STREETS = [
   ["2205", "S Gaylord St", "Denver, CO 80209"],
   ["918", "W Bowles Ave", "Littleton, CO 80123"],
 ];
+if (STREET_CITY) STREETS.forEach((st) => { st[2] = STREET_CITY; });
 let addrItems = [];
 let addrActive = -1;
 function escapeHtml(t) {
@@ -2908,15 +3200,15 @@ document.querySelectorAll(".oa-tab").forEach((t) =>
 let currentConv = null;
 const SEED_LOGS = {
   "Jennifer Kowalski": [
-    { from: "biz", text: "All done, Jennifer! Water's back on and we hauled away the old unit. Thanks for choosing Summit." },
+    { from: "biz", text: "All done, Jennifer! Everything on the list is finished and cleaned up. Thanks for the work." },
     { from: "cust", text: "Thanks again, you guys were great!" },
   ],
   "Dave Reznick": [
-    { from: "biz", text: "Here's the quote we talked through: $1,840 for the repipe section, parts and labor." },
+    { from: "biz", text: "Here's the quote we talked through: $1,840, parts and labor." },
     { from: "cust", text: "Quote approved, see you Thursday 👍" },
   ],
   "Angela Torres": [
-    { from: "biz", text: "Miguel is scheduled for Monday at 9am. He'll text when he's on the way." },
+    { from: "biz", text: "You're on for Monday at 9am. You'll get a text when we're on the way." },
     { from: "cust", text: "Perfect, the gate code is 4482" },
   ],
 };
@@ -2986,7 +3278,7 @@ oaList.addEventListener("click", (e) => {
 
 // --- reviews feed ---
 const SEED_REVIEWS = [
-  { name: "Jennifer Kowalski", stars: 5, text: "Called at 8am with a busted water heater, had hot water again by 2pm.", status: "google", when: "2w" },
+  { name: "Jennifer Kowalski", stars: 5, text: "Fast, fair, and done right the first time.", status: "google", when: "2w" },
   { name: "Dave Reznick", stars: 5, text: "Final bill matched the quote to the penny.", status: "google", when: "1mo" },
 ];
 let ownerReviews = [];
@@ -3011,8 +3303,8 @@ function renderOwnerReviews() {
 
 // --- bookings feed ---
 const SEED_BOOKINGS = [
-  { when: ["Thu", "10:00am"], job: "Sump pump install", where: "Marcus Webb · Aurora", urgent: false },
-  { when: ["Fri", "1:30pm"], job: "Camera inspection", where: "Priya Nair · Centennial", urgent: false },
+  { when: ["Thu", "10:00am"], job: "Estimate visit", where: "Marcus Webb", urgent: false },
+  { when: ["Fri", "1:30pm"], job: "Follow-up visit", where: "Priya Nair", urgent: false },
 ];
 let ownerBookings = [];
 function renderOwnerBookings() {
@@ -3076,13 +3368,13 @@ function resetOwnerView() {
 }
 
 // ---------- SEO pages (services + locations, simulated navigation) ----------
-const SERVICES_LIST = [
+const SERVICES_LIST = (PRESET && PRESET.services10) || [
   "Water Heater Repair", "Tankless Water Heaters", "Drain Cleaning",
   "Sewer Line Repair", "Whole-Home Repipes", "Sump Pumps",
   "Gas Line Services", "Leak Detection", "Toilet & Faucet Repair",
   "Emergency Plumbing",
 ];
-const LOCATIONS_LIST = [
+const LOCATIONS_LIST = P.cities || [
   "Denver", "Englewood", "Littleton", "Lakewood", "Aurora",
   "Highlands Ranch", "Centennial", "Arvada", "Wheat Ridge", "Castle Rock",
 ];
@@ -3124,18 +3416,18 @@ function goHomePage() {
 function goServicePage(name) {
   setPage({
     h1: name + ", <em>done right.</em>",
-    sub: "Same-day " + name.toLowerCase() + " across the Denver metro. Upfront pricing, licensed techs, and a real person answering the phone.",
-    url: "summitplumbingco.com/" + slugify(name),
-    title: name + " | Summit Plumbing Co.",
+    sub: "Honest " + name.toLowerCase() + " across the " + P.metro + " area. Upfront pricing, clean work, and a real person answering the phone.",
+    url: P.domain + "/" + slugify(name),
+    title: name + " | " + P.name,
     crumbText: name,
   });
 }
 function goLocationPage(city) {
   setPage({
-    h1: "Fast, honest plumbing in <em>" + city + "</em>.",
-    sub: "Serving " + city + " since 2009. Upfront pricing, licensed techs, and a real person answering the phone, day or night.",
-    url: "summitplumbingco.com/plumber-" + slugify(city) + "-co",
-    title: "Plumber in " + city + ", CO | Summit Plumbing Co.",
+    h1: "Fast, honest " + ((PRESET && PRESET.nounLine) || "plumbing") + " in <em>" + city + "</em>.",
+    sub: "Serving " + city + " and the surrounding area. Upfront pricing, clean work, and a real person answering the phone, day or night.",
+    url: P.domain + "/" + P.urlPrefix + "-" + slugify(city) + "-" + P.state.toLowerCase(),
+    title: P.person + " in " + city + ", " + P.state + " | " + P.name,
     crumbText: city + ", CO",
   });
 }
@@ -3234,7 +3526,7 @@ async function chooseStars(n) {
       sndTick();
     }
     if (!(await step(700))) return;
-    if (!(await typeFake($("gText"), "Fast, professional, fixed it same day. Couldn't ask for more. Highly recommend these guys.")))
+    if (!(await typeFake($("gText"), T.gReview)))
       return;
     if (!(await step(600))) return;
     if (!(await pressCta("gPost"))) return;
@@ -3245,7 +3537,7 @@ async function chooseStars(n) {
     if (!(await step(800))) return;
     addReviewCard(n);
     ownerEvent("Mike Radliff", "⭐ Left a " + n + "-star Google review", "New " + n + "-star Google review from Mike Radliff");
-    ownerReview(n, "Fast, professional, fixed it same day. Couldn't ask for more.", "google");
+    ownerReview(n, T.gReview, "google");
     if (!(await step(1100))) return;
     bumpStats({ revenue: 620 });
   } else {
@@ -3320,20 +3612,20 @@ async function scnMissedCall() {
   if (!(await step(3000))) return;
 
   addIncoming(
-    "Hey, this is Summit Plumbing. Sorry we missed your call, we're out on a job right now. What can we help you with? Reply here and we'll get you taken care of.",
+    "Hey, this is " + P.short + ". Sorry we missed your call, we're out on a job right now. What can we help you with? Reply here and we'll get you taken care of.",
     { caption: "Sent 47 seconds after missed call" }
   );
   ownerEvent("(303) 555-8142", "Missed call rescued · auto text-back sent", "Missed call rescued: text-back sent to (303) 555-8142 automatically");
 
   if (!(await step(2600))) return;
-  if (!(await customerTypesAndSends("My water heater is leaking"))) return;
+  if (!(await customerTypesAndSends(T.mcIssue))) return;
 
   if (!(await step(1100))) return;
   markRead();
   showTyping();
   if (!(await step(1900))) return;
   hideTyping();
-  addIncoming("Sorry to hear that! Miguel, our lead tech, can give you a quick call to talk it through and get you a straight price. Does 2:30 today work, or is after 4 better?");
+  addIncoming("Sorry to hear that! The owner can give you a quick call to talk it through and get you a straight price. Does 2:30 today work, or is after 4 better?");
 
   if (!(await step(2100))) return;
   if (!(await customerTypesAndSends("2:30 works"))) return;
@@ -3343,9 +3635,9 @@ async function scnMissedCall() {
   showTyping();
   if (!(await step(2000))) return;
   hideTyping();
-  addIncoming("Perfect. Miguel will call you at 2:30 today. If it gets worse before then, reply here and we'll bump you to emergency service. 👍");
-  ownerEvent("(303) 555-8142", "Callback set: today 2:30pm · leaking water heater", "Callback scheduled: Miguel calls (303) 555-8142 at 2:30 about a leaking water heater");
-  ownerBooking(["Today", "2:30pm"], "Phone consult: leaking water heater", "(303) 555-8142 · Miguel to call");
+  addIncoming("Perfect. You'll get a call at 2:30 today. If anything changes before then, just reply here. 👍");
+  ownerEvent("(303) 555-8142", "Callback set: today 2:30pm · " + T.mcJobShort, "Callback scheduled: call (303) 555-8142 at 2:30 about " + T.mcJob);
+  ownerBooking(["Today", "2:30pm"], "Phone consult: " + T.mcJobShort, "(303) 555-8142 · callback");
 
   if (!(await step(900))) return;
   bumpStats({ rescued: 1, revenue: 480 });
@@ -3370,7 +3662,7 @@ async function runSpeedToLead(name, issue, address = "", phone = "") {
 
   addDaySep();
   const issueShort = issue.trim().replace(/[.!?\s]+$/, "").toLowerCase();
-  const msg = "Hi " + firstName + ", thanks for reaching out to Summit Plumbing about your " + issueShort +
+  const msg = "Hi " + firstName + ", thanks for reaching out to " + P.short + " about your " + issueShort +
     ". When's a good time for a quick call? Or we can text you a quote, whatever's easier.";
   showBanner(msg);
   addIncoming(msg);
@@ -3385,9 +3677,9 @@ async function runSpeedToLead(name, issue, address = "", phone = "") {
   if (!(await step(1800))) return;
   hideTyping();
   const streetShort = address ? address.split(",")[0] : "";
-  addIncoming("Done. You're on for 8am tomorrow with Miguel" + (streetShort ? " at " + streetShort : "") + ". He'll text you when he's 20 minutes out. 👍");
-  ownerEvent(name, "Booked tomorrow 8am · Miguel assigned", "Job booked: " + name + ", tomorrow 8am · Miguel assigned");
-  ownerBooking(["Tmrw", "8:00am"], issue.charAt(0).toUpperCase() + issue.slice(1), name + (address ? " · " + address.split(",").slice(0, 2).join(",") : " · Miguel assigned"));
+  addIncoming("Done. You're on for 8am tomorrow" + (streetShort ? " at " + streetShort : "") + ". You'll get a text when we're 20 minutes out. 👍");
+  ownerEvent(name, "Booked tomorrow 8am · confirmed", "Job booked: " + name + ", tomorrow 8am · confirmed");
+  ownerBooking(["Tmrw", "8:00am"], issue.charAt(0).toUpperCase() + issue.slice(1), name + (address ? " · " + address.split(",").slice(0, 2).join(",") : ""));
 
   if (!(await step(1000))) return;
   bumpStats({ jobs: 1, revenue: 350 });
@@ -3419,10 +3711,10 @@ async function scnFormAuto() {
   pickAddr(0);
   addrEl.blur();
   if (!(await step(350))) return;
-  if (!(await typeIntoInput($("f-issue"), "Kitchen sink backing up"))) return;
+  if (!(await typeIntoInput($("f-issue"), T.autoIssue))) return;
   if (!(await step(500))) return;
   s.done();
-  runSpeedToLead("Sarah Mitchell", "Kitchen sink backing up", "2847 Yarrow St, Lakewood, CO 80226", "(303) 555-0192");
+  runSpeedToLead("Sarah Mitchell", T.autoIssue, P.active ? "2847 Yarrow St, " + P.metro + ", " + P.state : "2847 Yarrow St, Lakewood, CO 80226", "(303) 555-0192");
 }
 leadForm.addEventListener("submit", (e) => {
   e.preventDefault();
@@ -3440,7 +3732,7 @@ async function scnJobComplete() {
   addDaySep();
 
   if (!(await step(900))) return;
-  const msg = "Thanks for letting us handle your water heater today, Mike! If we did a good job, would you mind leaving us a quick review? It takes 10 seconds: ";
+  const msg = "Thanks for letting us " + T.revThanksJob + " today, Mike! If we did a good job, would you mind leaving us a quick review? It takes 10 seconds: ";
   showBanner(msg + "summitplumbing.co/feedback");
   const bubble = addIncoming(
     msg + '<span class="tap-link pulse-link">summitplumbing.co/feedback</span>',
@@ -3472,24 +3764,24 @@ async function scnAfterHours() {
   if (!(await step(2600))) return;
 
   addIncoming(
-    "Thanks for calling Summit Plumbing! We're closed right now, but I can get you on tomorrow's schedule or dispatch emergency service if this can't wait. Which do you need?",
+    "Thanks for calling " + P.short + "! We're closed right now, but I can get you on tomorrow's schedule, or if something can't wait, tell me what's going on and we'll figure it out.",
     { caption: "AI answered at 11:47 PM, 38 seconds after the call" }
   );
 
   if (!(await step(2400))) return;
-  if (!(await customerTypesAndSends("EMERGENCY - pipe burst"))) return;
+  if (!(await customerTypesAndSends(T.ahCust))) return;
 
   if (!(await step(900))) return;
   markRead();
   showTyping();
   if (!(await step(1700))) return;
   hideTyping();
-  addIncoming("On it. Emergency tech is headed your way, ETA 45 minutes. Shut off your main water valve if you can (usually near the water meter). Hang tight, help is coming.");
-  ownerEvent("(720) 555-9034", "🚨 EMERGENCY dispatched · burst pipe · ETA 45 min", "EMERGENCY at 11:47 PM: burst pipe, tech dispatched. Booked while you slept.");
-  ownerBooking(["NOW", "ETA 45m"], "Burst pipe · emergency", "Dispatched at 11:47 PM", true);
+  addIncoming(T.ahAi);
+  ownerEvent("(720) 555-9034", T.ahSnip, T.ahNotif);
+  ownerBooking(T.ahWhen, T.ahJob, T.ahWhere, true);
 
   if (!(await step(1000))) return;
-  bumpStats({ rescued: 1, jobs: 1, revenue: 850 });
+  bumpStats({ rescued: 1, jobs: 1, revenue: T.ahRevenue });
   s.done();
 }
 
@@ -3579,7 +3871,7 @@ function loadJobPhoto(el, candidates, idx) {
   el.appendChild(img);
 }
 document.querySelectorAll(".job-photo").forEach((el, i) => {
-  const entry = JOB_PHOTOS[i];
+  const entry = P.photosOff ? null : JOB_PHOTOS[i];
   if (!entry) return;
   loadJobPhoto(el, Array.isArray(entry) ? entry : [entry], 0);
 });

@@ -135,6 +135,19 @@ photo ever fails to load the tile falls back to the placeholder rather than a br
 image. The captions live in the HTML right below each card if you want to change
 neighborhoods or job types.
 
+## Personalized prospect demos (builder.html)
+
+Open `builder.html` (locally or at /builder.html on the hosted URL), fill in a prospect
+from your list (business name, phone, trade, city, nearby cities, Google rating and
+review count), and click **Open personalized demo**. The whole demo rebrands itself:
+name, phone, avatars, services, scenario conversations, city SEO pages, reviews, and
+stats, using a trade preset (plumbing, HVAC, electrical, roofing, handyman).
+
+The config lives in the link itself (`index.html#cfg=...`), so every link is permanent
+and shareable with the prospect, and nothing needs to be rebuilt or redeployed. Gallery
+photos switch to styled tiles for non-plumbing trades. Record the video from that link,
+send the same link in your outreach.
+
 ## Rolling this out for real clients
 
 The `template/` folder contains a config-driven static site generator that turns this
