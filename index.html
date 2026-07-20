@@ -2367,6 +2367,46 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
    ============================================================ */
 const TRADES = {
   plumbing: null, // the built-in default
+  treeservice: {
+    person: "Tree Service", urlPrefix: "tree-service", nounLine: "tree care",
+    badge: "24/7 STORM RESPONSE", chip2: "Free On-Site Estimates",
+    grid: [
+      ["Tree Removal", "Full takedowns of any size, from tight backyards to crane jobs over the house. Hauled off same day."],
+      ["Trimming & Pruning", "Canopy raises, roof clearance, and health pruning that keeps trees strong and looking right."],
+      ["Stump Grinding", "Stumps ground below grade, chips hauled or left for mulch. Ready for sod or replanting."],
+      ["Storm Damage Cleanup", "Downed limbs and leaners handled fast, day or night, with the yard raked clean after."],
+    ],
+    services10: ["Tree Removal", "Tree Trimming & Pruning", "Stump Grinding", "Storm Damage Cleanup", "Emergency Tree Service", "Land & Lot Clearing", "Tree Health Assessments", "Cabling & Bracing", "Firewood & Wood Chips", "Commercial Tree Care"],
+    gallery: [
+      ["60-foot cottonwood removal", "Craned out over the house"],
+      ["Full canopy trim, 8 oaks", "Cleaned up same day"],
+      ["Stump grinding, whole yard", "Ready for new sod"],
+      ["Storm cleanup, 3 downed trees", "Cleared by nightfall"],
+      ["Lot clearing for new build", "Half an acre in two days"],
+      ["Cabling on a split maple", "Saved the tree"],
+    ],
+    reviews: [
+      "Huge cottonwood leaning over the house after a storm. They had it down and hauled off in a day without touching a shingle.",
+      "Trimmed eight mature oaks and the yard was cleaner when they left than when they showed up. The bill matched the quote to the penny.",
+      "They text you when the crew is on the way, with a photo so you know who's coming. Best service experience I've had from any trade.",
+    ],
+    sectionH2: "Every tree, every job, handled.",
+    sectionSub: "From a single trim to a full removal, our crews show up on time with the equipment on the trailer.",
+    texts: {
+      mcIssue: "Got a big dead branch hanging over my driveway",
+      mcJob: "a dead branch hanging over a driveway", mcJobShort: "hanging dead limb",
+      autoIssue: "Two trees need trimming away from the roof",
+      ahCust: "EMERGENCY - tree came down on my fence and it's leaning near the power line",
+      ahAi: "Stay well away from it, and if it's touching the line, call the power company right now too. Our emergency crew is headed your way, ETA 45 minutes. Nobody goes near that tree until we're there.",
+      ahSnip: "🚨 EMERGENCY dispatched · tree down near line · ETA 45 min",
+      ahNotif: "EMERGENCY at 11:47 PM: tree down near a power line, crew dispatched. Booked while you slept.",
+      ahWhen: ["NOW", "ETA 45m"], ahJob: "Tree down · emergency", ahWhere: "Dispatched at 11:47 PM", ahRevenue: 1200,
+      revThanksJob: "handle your trees",
+      gReview: "Took the big cottonwood down clean and hauled everything the same day. Couldn't ask for more. Highly recommend these guys.",
+      revCard: "Fast, professional, and the cleanup was spotless. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
+      gateJob: "your trees",
+    },
+  },
   handyman: {
     person: "Handyman", urlPrefix: "handyman", nounLine: "home repair",
     badge: "FREE ESTIMATES", chip2: "Same-Week Scheduling",
