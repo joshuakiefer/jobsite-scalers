@@ -2369,6 +2369,43 @@ const TRADES = {
   plumbing: null, // the built-in default
   treeservice: {
     person: "Tree Service", urlPrefix: "tree-service", nounLine: "tree care",
+    logoSvg: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 2 7 9h2.5L4.5 17H10v5h4v-5h5.5L14.5 9H17L12 2z" fill="#fff"/></svg>',
+    tabFav: '<svg width="14" height="14" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#2e7d43"/><path d="M12 4 8 9.5h2L6.5 15H10v4h4v-4h3.5L14 9.5h2L12 4z" fill="#fff"/></svg>',
+    gridIcons: [
+      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 7.5 9h2.2L6 15h4.5v4h3v-4H18l-3.7-6h2.2L12 2.5z" stroke="#2e7d43" stroke-width="1.7" stroke-linejoin="round"/><path d="M4 21.5h16" stroke="#2e7d43" stroke-width="1.7" stroke-linecap="round"/></svg>',
+      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><circle cx="7" cy="17.5" r="2.3" stroke="#2e7d43" stroke-width="1.7"/><circle cx="17" cy="17.5" r="2.3" stroke="#2e7d43" stroke-width="1.7"/><path d="M8.5 15.7 17.5 4.5M15.5 15.7 6.5 4.5" stroke="#2e7d43" stroke-width="1.7" stroke-linecap="round"/></svg>',
+      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="13" rx="6.5" ry="2.6" stroke="#2e7d43" stroke-width="1.7"/><path d="M5.5 13v5c0 1.4 2.9 2.6 6.5 2.6s6.5-1.2 6.5-2.6v-5" stroke="#2e7d43" stroke-width="1.7"/><path d="M12 2.5V9M9.3 6.8 12 9.5l2.7-2.7" stroke="#2e7d43" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M7 14.5a4 4 0 1 1 .6-7.9 5 5 0 0 1 9.6 1.3 3.4 3.4 0 0 1-.6 6.6H7z" stroke="#2e7d43" stroke-width="1.7" stroke-linejoin="round"/><path d="m12.5 14.5-2.2 4h2.4l-1.2 4 4.5-5.5h-2.4l1.3-2.5h-2.4z" fill="#2e7d43"/></svg>',
+    ],
+    phIcons: [
+      '<svg width="66" height="66" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 7.5 9h2.2L6 15h4.5v4.5h3V15H18l-3.7-6h2.2L12 2.5z" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/><path d="M4 22h16" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg>',
+      '<svg width="66" height="66" viewBox="0 0 24 24" fill="none"><circle cx="7" cy="17.5" r="2.3" stroke="#fff" stroke-width="1.3"/><circle cx="17" cy="17.5" r="2.3" stroke="#fff" stroke-width="1.3"/><path d="M8.5 15.7 17.5 4.5M15.5 15.7 6.5 4.5" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg>',
+      '<svg width="66" height="66" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="13" rx="6.5" ry="2.6" stroke="#fff" stroke-width="1.3"/><path d="M5.5 13v5c0 1.4 2.9 2.6 6.5 2.6s6.5-1.2 6.5-2.6v-5" stroke="#fff" stroke-width="1.3"/><path d="M12 2.5V9M9.3 6.8 12 9.5l2.7-2.7" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      '<svg width="66" height="66" viewBox="0 0 24 24" fill="none"><path d="M7 14.5a4 4 0 1 1 .6-7.9 5 5 0 0 1 9.6 1.3 3.4 3.4 0 0 1-.6 6.6H7z" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/><path d="m12.5 14.5-2.2 4h2.4l-1.2 4 4.5-5.5h-2.4l1.3-2.5h-2.4z" fill="#fff"/></svg>',
+      '<svg width="66" height="66" viewBox="0 0 24 24" fill="none"><path d="M8 4 4.8 9h1.7L3 14.5h4V18h2v-3.5h4L9.7 9h1.7L8 4z" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/><path d="M17 9l-2.3 3.6h1.3L13.5 17h2.8v3h1.6v-3h2.6L18 12.6h1.3L17 9z" stroke="#fff" stroke-width="1.3" stroke-linejoin="round"/><path d="M3 21.5h18" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg>',
+      '<svg width="66" height="66" viewBox="0 0 24 24" fill="none"><path d="M7.5 21V8M16.5 21V8" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/><path d="M7.5 8C6 6 6.5 3.5 7.5 2.5 8.5 3.5 9 6 7.5 8zM16.5 8C15 6 15.5 3.5 16.5 2.5 17.5 3.5 18 6 16.5 8z" stroke="#fff" stroke-width="1.3"/><path d="M7.5 12c2.5-1.5 6.5-1.5 9 0M7.5 15.5c2.5 1.5 6.5 1.5 9 0" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/></svg>',
+    ],
+    themeCSS: [
+      '.site{--navy:#16382a;--blue:#2e7d43;--amber:#e8a33d}',
+      '.hero{background:radial-gradient(900px 400px at 85% -10%,rgba(64,145,86,.32),transparent 60%),radial-gradient(700px 500px at -10% 110%,rgba(232,163,61,.16),transparent 55%),linear-gradient(160deg,#143325 0%,#1e4d36 55%,#122c20 100%)}',
+      '.hero::after{content:"";position:absolute;bottom:0;left:0;right:0;height:58px;background:url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'140\' height=\'58\' viewBox=\'0 0 140 58\'%3E%3Cpath d=\'M0 58V47l9-14 9 14 7-24 11 20 9-30 11 26 7-18 11 22 9-14 8 10 9-16 9 18 9-12 11 16 11-10v23z\' fill=\'%230a2418\'/%3E%3C/svg%3E") repeat-x bottom;opacity:.55;pointer-events:none}',
+      '.brand-mark{background:linear-gradient(145deg,#2e7d43,#16382a)}',
+      '.lead-submit{background:linear-gradient(180deg,#2f8a4a,#236b38);box-shadow:0 8px 20px rgba(46,125,67,.32)}',
+      '.btn-primary{background:linear-gradient(180deg,#f2b653,#e0952b);box-shadow:0 8px 22px rgba(232,163,61,.35)}',
+      '.svc-icon{background:#e7f3ea}',
+      '.site-footer{background:#0c261b}',
+      '.hero-eyebrow{background:rgba(232,163,61,.14);border-color:rgba(232,163,61,.45)}',
+      '.msg-avatar,.call-avatar,.gate-logo{background:linear-gradient(180deg,#2e7d43,#16382a)}',
+      '.dropdown a:hover{background:#ecf6ee;color:#2e7d43}',
+      '.field input:focus,.field textarea:focus{border-color:#2e7d43;box-shadow:0 0 0 3px rgba(46,125,67,.14)}',
+      '.lead-card .dot-live{background:#2ea45c}',
+      '.work-grid figure:nth-of-type(1) .job-photo{--g1:#2c5e3f !important;--g2:#16382a !important}',
+      '.work-grid figure:nth-of-type(2) .job-photo{--g1:#4d6b52 !important;--g2:#27392b !important}',
+      '.work-grid figure:nth-of-type(3) .job-photo{--g1:#6d5537 !important;--g2:#3d2e1c !important}',
+      '.work-grid figure:nth-of-type(4) .job-photo{--g1:#44586a !important;--g2:#232f3a !important}',
+      '.work-grid figure:nth-of-type(5) .job-photo{--g1:#1f5c46 !important;--g2:#0f2f23 !important}',
+      '.work-grid figure:nth-of-type(6) .job-photo{--g1:#59663a !important;--g2:#2c331d !important}',
+    ].join("\n"),
     badge: "24/7 STORM RESPONSE", chip2: "Free On-Site Estimates",
     grid: [
       ["Tree Removal", "Full takedowns of any size, from tight backyards to crane jobs over the house. Hauled off same day."],
@@ -2685,6 +2722,25 @@ function applyPersonalization() {
   // avatar initials from the short name
   const initials = P.short.split(/\s+/).map((w) => w[0]).join("").replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase() || "A";
   document.querySelectorAll(".msg-avatar, .call-avatar, .gate-logo").forEach((el) => { el.textContent = initials; });
+  // trade visual identity: colors, logo, icons
+  if (PRESET && PRESET.themeCSS) {
+    const st = document.createElement("style");
+    st.textContent = PRESET.themeCSS;
+    document.head.appendChild(st);
+  }
+  if (PRESET && PRESET.logoSvg) {
+    document.querySelectorAll(".brand-mark").forEach((el) => { el.innerHTML = PRESET.logoSvg; });
+  }
+  if (PRESET && PRESET.tabFav) {
+    const tf = document.querySelector(".tab-fav");
+    if (tf) tf.innerHTML = PRESET.tabFav;
+  }
+  if (PRESET && PRESET.gridIcons) {
+    document.querySelectorAll(".svc-icon").forEach((el, i) => { if (PRESET.gridIcons[i]) el.innerHTML = PRESET.gridIcons[i]; });
+  }
+  if (PRESET && PRESET.phIcons) {
+    document.querySelectorAll(".ph-art").forEach((el, i) => { if (PRESET.phIcons[i]) el.innerHTML = PRESET.phIcons[i]; });
+  }
 }
 applyPersonalization();
 
