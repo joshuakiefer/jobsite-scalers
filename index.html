@@ -418,6 +418,12 @@ input, textarea { font-family: inherit; }
   color: #98a2b3;
   font-weight: 600;
 }
+.form-hint {
+  font-size: 11px;
+  color: #7a8694;
+  margin: -5px 0 13px;
+  line-height: 1.45;
+}
 .lead-submit {
   width: 100%;
   background: linear-gradient(180deg, #2a7de0, #1a63bd);
@@ -2722,6 +2728,35 @@ function applyPersonalization() {
   // avatar initials from the short name
   const initials = P.short.split(/\s+/).map((w) => w[0]).join("").replace(/[^A-Za-z0-9]/g, "").slice(0, 2).toUpperCase() || "A";
   document.querySelectorAll(".msg-avatar, .call-avatar, .gate-logo").forEach((el) => { el.textContent = initials; });
+  // optional copy overrides: applied after the walker so they win outright
+  if (PRESET) {
+    if (PRESET.heroH1) { const el = document.getElementById("heroH1"); if (el) el.innerHTML = PRESET.heroH1; }
+    if (PRESET.heroSub) { const el = document.getElementById("heroSub"); if (el) el.textContent = PRESET.heroSub; }
+    if (PRESET.ctaPrimary) { const el = document.querySelector(".hero-ctas .btn-primary"); if (el) el.textContent = PRESET.ctaPrimary; }
+    if (PRESET.formTitle) { const el = document.querySelector(".lead-card h3"); if (el) el.textContent = PRESET.formTitle; }
+    if (PRESET.formSubmit) { const el = document.querySelector(".lead-submit"); if (el) el.textContent = PRESET.formSubmit; }
+    if (PRESET.formHint) {
+      const issueField = document.getElementById("f-issue");
+      if (issueField) {
+        const hint = document.createElement("p");
+        hint.className = "form-hint";
+        hint.textContent = PRESET.formHint;
+        issueField.closest(".field").insertAdjacentElement("afterend", hint);
+      }
+    }
+    if (PRESET.stats) {
+      document.querySelectorAll(".why-strip .why-item").forEach((el, i) => {
+        if (PRESET.stats[i]) {
+          el.querySelector(".big").textContent = PRESET.stats[i][0];
+          el.querySelector(".small").textContent = PRESET.stats[i][1];
+        }
+      });
+    }
+    if (PRESET.footerCred) {
+      const el = document.querySelector(".site-footer .footer-grid > div:first-child p");
+      if (el) el.innerHTML = P.metro + ", " + P.state + "<br>" + PRESET.footerCred;
+    }
+  }
   // trade visual identity: colors, logo, icons
   if (PRESET && PRESET.themeCSS) {
     const st = document.createElement("style");
@@ -3521,7 +3556,9 @@ function goServicePage(name) {
 function goLocationPage(city) {
   setPage({
     h1: "Fast, honest " + ((PRESET && PRESET.nounLine) || "plumbing") + " in <em>" + city + "</em>.",
-    sub: "Serving " + city + " and the surrounding area. Upfront pricing, clean work, and a real person answering the phone, day or night.",
+    sub: (PRESET && PRESET.locSub)
+      ? PRESET.locSub.split("{city}").join(city)
+      : "Serving " + city + " and the surrounding area. Upfront pricing, clean work, and a real person answering the phone, day or night.",
     url: P.domain + "/" + P.urlPrefix + "-" + slugify(city) + "-" + P.state.toLowerCase(),
     title: P.person + " in " + city + ", " + P.state + " | " + P.name,
     crumbText: city + ", CO",
