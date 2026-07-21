@@ -6,14 +6,55 @@
 <title>Live System Demo | Jobsite Scalers</title>
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%232e7d43'/%3E%3Cpath d='M12 4 8 9.5h2L6.5 15H10v4h4v-4h3.5L14 9.5h2L12 4z' fill='white'/%3E%3C/svg%3E">
 <style>
-html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #0b0e14; }
-iframe { border: 0; width: 100%; height: 100%; display: block; }
+html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #0b0e14;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; }
+.bar {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 18px;
+  background: rgba(13,18,28,.97);
+  border-bottom: 1px solid rgba(255,255,255,.1);
+}
+.bar-brand { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; font-size: 14px; letter-spacing: .3px; white-space: nowrap; }
+.bar-mark { width: 30px; height: 30px; border-radius: 8px; background: linear-gradient(145deg,#2e7d43,#16382a); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.bar-brand small { display: block; color: #7e8fa5; font-size: 9.5px; font-weight: 800; letter-spacing: 1.4px; }
+.bar-hint { color: #8fa2ba; font-size: 12px; font-weight: 600; margin: 0 auto; text-align: center; }
+.bar-hint b { color: #cfe0d5; font-family: ui-monospace, "SF Mono", Menlo, monospace; }
+.bar-cta {
+  background: linear-gradient(180deg,#2f8a4a,#236b38);
+  color: #fff;
+  font-weight: 800;
+  font-size: 13.5px;
+  padding: 11px 18px;
+  border-radius: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(46,125,67,.35);
+  flex-shrink: 0;
+}
+.bar-cta:hover { filter: brightness(1.08); }
+iframe { border: 0; width: 100%; height: calc(100% - 58px); display: block; }
+@media (max-width: 900px) { .bar-hint { display: none; } }
 </style>
 </head>
 <body>
+<div class="bar">
+  <span class="bar-brand">
+    <span class="bar-mark"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M12 4 8 9.5h2L6.5 15H10v4h4v-4h3.5L14 9.5h2L12 4z" fill="#fff"/></svg></span>
+    <span>Jobsite Scalers<small>LIVE SYSTEM DEMO</small></span>
+  </span>
+  <span class="bar-hint">This is a demo tree company running our system. Press <b>1-6</b> to fire the automations, or fill out the form yourself. Press <b>V</b> to see the owner's phone.</span>
+  <a class="bar-cta" id="ctaBtn" href="#" target="_blank" rel="noopener">Get This For Your Company</a>
+</div>
 <iframe id="demo" src="../index.html#cfg=eyJuYW1lIjoiVGltYmVybGluZSBUcmVlIENhcmUiLCJzaG9ydCI6IlRpbWJlcmxpbmUiLCJwaG9uZSI6Iig3MjApIDU1NS0wMTQ4IiwidHJhZGUiOiJ0cmVlc2VydmljZSIsIm1ldHJvIjoiRGVudmVyIiwic3RhdGUiOiJDTyIsImNpdGllcyI6WyJEZW52ZXIiLCJFbmdsZXdvb2QiLCJMaXR0bGV0b24iLCJMYWtld29vZCIsIkF1cm9yYSIsIkhpZ2hsYW5kcyBSYW5jaCIsIkNlbnRlbm5pYWwiLCJBcnZhZGEiLCJXaGVhdCBSaWRnZSIsIkNhc3RsZSBSb2NrIl0sInJhdGluZyI6IjQuOSIsImNvdW50IjoiMTQzIn0" title="Live system demo" allow="autoplay"></iframe>
 <script>
 "use strict";
+// paste your booking calendar link here
+var CAL_URL = "";
+if (CAL_URL) document.getElementById("ctaBtn").href = CAL_URL;
+else document.getElementById("ctaBtn").addEventListener("click", function (e) { e.preventDefault(); });
 var f = document.getElementById("demo");
 f.addEventListener("load", function () { try { f.contentWindow.focus(); } catch (e) {} });
 window.addEventListener("keydown", function (e) {
