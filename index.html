@@ -1177,6 +1177,42 @@ input, textarea { font-family: inherit; }
   animation: fadeIn .4s both;
 }
 
+/* MMS photo bubble */
+.mms-card {
+  align-self: flex-end;
+  width: 190px; height: 132px;
+  border-radius: 16px;
+  border-bottom-right-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 3px;
+  animation: bubblePop .34s cubic-bezier(.2,1.35,.45,1) both;
+  transform-origin: bottom right;
+  display: flex;
+  align-items: flex-end;
+}
+.mms-card::before {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0 2px, transparent 2px 18px);
+}
+.mms-label {
+  margin: 9px;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,.9);
+  background: rgba(0,0,0,.38);
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  position: relative;
+}
+.mms-tree {
+  position: absolute;
+  right: 14px; bottom: -6px;
+  opacity: .55;
+}
+
 /* typing indicator */
 .typing-bubble {
   align-self: flex-start;
@@ -2384,6 +2420,10 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" fill="#b3a4ff"/></svg>
     After-Hours Call <span class="kbd">4</span>
   </button>
+  <button class="cb-btn" id="btn6" type="button">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="14" rx="3" stroke="#9fe0b4" stroke-width="2"/><path d="M9 6 10.5 3.5h3L15 6" stroke="#9fe0b4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="4" stroke="#9fe0b4" stroke-width="2"/></svg>
+    Photo Quote <span class="kbd">6</span>
+  </button>
   <div class="cb-sep"></div>
   <button class="cb-btn reset" id="btn5" type="button">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 10a8 8 0 1 1 1.7 6.9" stroke="#ffb0aa" stroke-width="2.2" stroke-linecap="round"/><path d="M4 5v5h5" stroke="#ffb0aa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2396,7 +2436,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
   <button class="cb-icon-btn" id="presentBtn" type="button" title="Presentation mode (P)">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/></svg>
   </button>
-  <span class="cb-hint"><b>P</b> present &nbsp;·&nbsp; <b>V</b> owner view &nbsp;·&nbsp; <b>1-5</b> scenarios</span>
+  <span class="cb-hint"><b>P</b> present &nbsp;·&nbsp; <b>V</b> owner view &nbsp;·&nbsp; <b>1-6</b> scenarios</span>
 </div>
 
 <div id="toast"></div>
@@ -2505,8 +2545,17 @@ const TRADES = {
       ahAi: "Stay well away from it, and if it's touching the line, call the power company right now too. Our emergency crew is headed your way, ETA 45 minutes. Nobody goes near that tree until we're there.",
       ahSnip: "🚨 EMERGENCY dispatched · tree down near line · ETA 45 min",
       ahNotif: "EMERGENCY at 11:47 PM: tree down near a power line, crew dispatched. Booked while you slept.",
-      ahWhen: ["NOW", "ETA 45m"], ahJob: "Tree down · emergency", ahWhere: "Dispatched at 11:47 PM", ahRevenue: 1200,
+      ahWhen: ["NOW", "ETA 45m"], ahJob: "Tree down · emergency", ahWhere: "Dispatched at 11:47 PM", ahRevenue: 2400,
       revThanksJob: "handle your trees",
+      pqCust: "Big cottonwood in the backyard, want it gone. What would this run me?",
+      pqAi: "Thanks for the photo! Based on the size and location, you're likely looking at $1,800 to $2,600 for removal and haul-off. Want a firm number? I can have our arborist out tomorrow. 9am or 2pm work?",
+      pqYes: "2pm works",
+      pqBook: "Done. You're booked for tomorrow at 2:00 PM. You'll get a text with your arborist's name and photo before he arrives. 🌲",
+      pqNotif: "Photo estimate booked in 90 seconds. No phone tag, no windshield time.",
+      pqSnip: "Photo estimate · booked tomorrow 2pm",
+      pqJob: "Removal estimate · big cottonwood",
+      pqRevenue: 2200,
+      pqImg: "linear-gradient(160deg,#41684d,#22392b)",
       gReview: "Took the big cottonwood down clean and hauled everything the same day. Couldn't ask for more. Highly recommend these guys.",
       revCard: "Fast, professional, and the cleanup was spotless. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
       gateJob: "your trees",
@@ -2708,6 +2757,15 @@ const T = Object.assign({
   ahNotif: "EMERGENCY at 11:47 PM: burst pipe, tech dispatched. Booked while you slept.",
   ahWhen: ["NOW", "ETA 45m"], ahJob: "Burst pipe · emergency", ahWhere: "Dispatched at 11:47 PM", ahRevenue: 850,
   revThanksJob: "handle your water heater",
+  pqCust: "Water heater's leaking at the base. What would a swap run me?",
+  pqAi: "Thanks for the photo! Based on the size and setup, you're likely looking at $1,400 to $2,000 for a swap and haul-off. Want a firm number? I can have a tech out tomorrow. 9am or 2pm work?",
+  pqYes: "2pm works",
+  pqBook: "Done. You're booked for tomorrow at 2:00 PM. You'll get a text with your tech's name and photo before he arrives.",
+  pqNotif: "Photo estimate booked in 90 seconds. No phone tag, no windshield time.",
+  pqSnip: "Photo estimate · booked tomorrow 2pm",
+  pqJob: "Estimate · water heater swap",
+  pqRevenue: 1600,
+  pqImg: "linear-gradient(160deg,#5a6b7c,#2c3844)",
   gReview: "Fast, professional, fixed it same day. Couldn't ask for more. Highly recommend these guys.",
   revCard: "Fast, professional, fixed it same day. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
   gateJob: "your water heater",
@@ -3779,7 +3837,9 @@ function hideOwnerAlert() {
 // ============================================================
 // SCENARIOS
 // ============================================================
-const btns = { 1: $("btn1"), 2: $("btn2"), 3: $("btn3"), 4: $("btn4"), 5: $("btn5") };
+const btns = { 1: $("btn1"), 2: $("btn2"), 3: $("btn3"), 4: $("btn4"), 5: $("btn5"), 6: $("btn6") };
+const PQ_ENABLED = !PRESET || !!(PRESET.texts && PRESET.texts.pqCust);
+if (!PQ_ENABLED) btns[6].style.display = "none";
 function setRunning(n) {
   Object.values(btns).forEach((b) => b.classList.remove("running"));
   if (n) btns[n].classList.add("running");
@@ -3988,6 +4048,56 @@ async function scnAfterHours() {
   s.done();
 }
 
+// ---- 6. Photo Quote ----
+function addPhotoMMS() {
+  const card = document.createElement("div");
+  card.className = "mms-card";
+  card.style.background = T.pqImg;
+  card.innerHTML =
+    '<svg class="mms-tree" width="72" height="86" viewBox="0 0 24 28" fill="none"><path d="M12 1 6.5 10h2.8L4 19h6v8h4v-8h6l-5.3-9h2.8L12 1z" fill="rgba(10,30,18,.8)"/></svg>' +
+    '<span class="mms-label">IMG_2047.jpg</span>';
+  thread.appendChild(card);
+  if (currentConv) logConv(currentConv, "cust", "[Photo: IMG_2047.jpg]");
+  sndSend();
+  scrollThread();
+}
+async function scnPhotoQuote() {
+  if (!PQ_ENABLED) return;
+  const s = await startScenario(6);
+  currentConv = "(303) 555-4471";
+  setClock({ status: "10:05", sep: "Today 10:05 AM", read: "Read 10:07 AM" });
+  clearThread();
+  addDaySep();
+
+  if (!(await step(700))) return;
+  addPhotoMMS();
+  if (!(await step(500))) return;
+  addOutgoing(T.pqCust);
+
+  if (!(await step(1100))) return;
+  markRead();
+  showTyping();
+  if (!(await step(2000))) return;
+  hideTyping();
+  addIncoming(T.pqAi);
+
+  if (!(await step(2200))) return;
+  if (!(await customerTypesAndSends(T.pqYes))) return;
+
+  if (!(await step(900))) return;
+  markRead();
+  showTyping();
+  if (!(await step(1600))) return;
+  hideTyping();
+  addIncoming(T.pqBook);
+  ownerEvent("(303) 555-4471", T.pqSnip, T.pqNotif);
+  ownerBooking(["Tmrw", "2:00pm"], T.pqJob, "(303) 555-4471 · photo estimate");
+
+  if (!(await step(900))) return;
+  bumpStats({ jobs: 1, revenue: T.pqRevenue });
+  s.done();
+}
+
 // ---- 5. Reset ----
 function scnReset() {
   cancelRun();
@@ -4016,6 +4126,7 @@ btns[2].addEventListener("click", scnFormAuto);
 btns[3].addEventListener("click", scnJobComplete);
 btns[4].addEventListener("click", scnAfterHours);
 btns[5].addEventListener("click", scnReset);
+btns[6].addEventListener("click", scnPhotoQuote);
 
 function showToast(msg, dur = 2200) {
   toast.textContent = msg;
@@ -4049,6 +4160,7 @@ document.addEventListener("keydown", (e) => {
     case "3": scnJobComplete(); break;
     case "4": scnAfterHours(); break;
     case "5": scnReset(); break;
+    case "6": scnPhotoQuote(); break;
     case "v": case "V": setPhoneView(isOwnerView() ? "customer" : "owner"); break;
     case "p": case "P": togglePresentation(); break;
     case "s": case "S": $("soundBtn").click(); break;
