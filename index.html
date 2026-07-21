@@ -1211,6 +1211,7 @@ input, textarea { font-family: inherit; }
 }
 
 /* MMS photo bubble */
+.mms-card.portrait { width: 156px; height: 208px; }
 .mms-card {
   align-self: flex-end;
   width: 190px; height: 132px;
@@ -2637,7 +2638,9 @@ const TRADES = {
       pqJob: "Removal estimate · big cottonwood",
       pqRevenue: 2200,
       pqImg: "linear-gradient(160deg,#41684d,#22392b)",
-      pqPhoto: "photos/tree/customer-tree.jpg",
+      pqPhoto: "photos/tree/tree_quote_angle1.jpg",
+      pqPhotos: ["photos/tree/tree_quote_angle1.jpg", "photos/tree/tree_quote_angle2.jpg"],
+      pqPortrait: true,
       stlPhotoMsg: "Hi {first}, thanks for reaching out, and the photos help a lot! Looks like a clean trim on both trees, likely $450 to $700. Want us to firm that up in person? When's good for a quick look?",
       gReview: "Took the big cottonwood down clean and hauled everything the same day. Couldn't ask for more. Highly recommend these guys.",
       revCard: "Fast, professional, and the cleanup was spotless. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
@@ -2859,10 +2862,13 @@ const T = Object.assign({
   gateJob: "your water heater",
 }, PRESET ? PRESET.texts : {});
 
-function photoBg() {
-  return T.pqPhoto
-    ? "url('" + T.pqPhoto + "') center/cover no-repeat"
-    : (T.pqImg || "linear-gradient(160deg,#41684d,#22392b)");
+function photoAt(i) {
+  if (T.pqPhotos && T.pqPhotos.length) return T.pqPhotos[i % T.pqPhotos.length];
+  return T.pqPhoto || null;
+}
+function photoBg(i) {
+  var url = photoAt(i || 0);
+  return url ? "url('" + url + "') center/cover no-repeat" : (T.pqImg || "linear-gradient(160deg,#41684d,#22392b)");
 }
 function addFormPhoto() {
   const thumbs = document.getElementById("uploadThumbs");
@@ -2870,7 +2876,7 @@ function addFormPhoto() {
   const n = thumbs.children.length;
   const t = document.createElement("div");
   t.className = "up-thumb";
-  t.style.background = photoBg();
+  t.style.background = photoBg(n);
   t.innerHTML = '<span>IMG_20' + (47 + n) + '</span>';
   thumbs.appendChild(t);
   if (typeof sndTick === "function") { try { sndTick(); } catch (e) {} }
@@ -3620,7 +3626,7 @@ function appendOwnerBubble(m) {
       (m.data.photos
         ? '<div class="oa-form-row"><b>Photos</b><span style="display:flex;gap:6px">' +
           Array.from({ length: m.data.photos }, (_, i) =>
-            '<span style="width:38px;height:38px;border-radius:7px;display:inline-block;background:' + photoBg() + '"></span>'
+            '<span style="width:38px;height:38px;border-radius:7px;display:inline-block;background:' + photoBg(i) + '"></span>'
           ).join("") + '</span></div>'
         : '');
     th.appendChild(card);
@@ -4188,8 +4194,8 @@ async function scnAfterHours() {
 // ---- 6. Photo Quote ----
 function addPhotoMMS() {
   const card = document.createElement("div");
-  card.className = "mms-card";
-  card.style.background = photoBg();
+  card.className = "mms-card" + (T.pqPortrait ? " portrait" : "");
+  card.style.background = photoBg(0);
   card.innerHTML =
     '<svg class="mms-tree" width="72" height="86" viewBox="0 0 24 28" fill="none"><path d="M12 1 6.5 10h2.8L4 19h6v8h4v-8h6l-5.3-9h2.8L12 1z" fill="rgba(10,30,18,.8)"/></svg>' +
     '<span class="mms-label">IMG_2047.jpg</span>';
@@ -4271,10 +4277,11 @@ function openMobileSite() {
 function msAddPhoto() {
   const thumbs = $("msThumbs");
   if (!thumbs) return;
+  const n = thumbs.children.length;
   const t = document.createElement("div");
   t.className = "up-thumb";
-  t.style.background = photoBg();
-  t.innerHTML = '<span>IMG_20' + (51 + thumbs.children.length) + '</span>';
+  t.style.background = photoBg(n);
+  t.innerHTML = '<span>IMG_20' + (51 + n) + '</span>';
   thumbs.appendChild(t);
   sndTick();
 }
