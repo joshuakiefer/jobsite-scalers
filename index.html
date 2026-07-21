@@ -536,6 +536,24 @@ input, textarea { font-family: inherit; }
 .job-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
 @media (max-width: 980px) { .work-grid { grid-template-columns: 1fr 1fr; } }
 
+/* how it works */
+#how { background: #f7f8fa; }
+.how-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; max-width: 1000px; margin: 0 auto; }
+.how-step { text-align: center; padding: 0 10px; }
+.how-num {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--blue);
+  color: #fff;
+  font-size: 18px; font-weight: 850;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 14px;
+  box-shadow: 0 8px 20px rgba(14,42,71,.18);
+}
+.how-step h3 { font-size: 16px; font-weight: 800; color: var(--navy); margin-bottom: 7px; }
+.how-step p { font-size: 13.5px; color: var(--muted); line-height: 1.55; }
+@media (max-width: 980px) { .how-grid { grid-template-columns: 1fr; gap: 22px; } }
+
 /* why strip */
 .why-strip {
   background: var(--navy);
@@ -1812,6 +1830,31 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
           </div>
         </section>
 
+        <!-- how it works -->
+        <section class="section" id="how">
+          <div class="section-head">
+            <span class="kicker">How It Works</span>
+            <h2>Three steps, zero runaround.</h2>
+          </div>
+          <div class="how-grid">
+            <div class="how-step">
+              <div class="how-num">1</div>
+              <h3>Tell us what's going on</h3>
+              <p>Call or send the form. We reply in under 5 minutes.</p>
+            </div>
+            <div class="how-step">
+              <div class="how-num">2</div>
+              <h3>Get an upfront price</h3>
+              <p>No surprises. The number we quote is the number you pay.</p>
+            </div>
+            <div class="how-step">
+              <div class="how-num">3</div>
+              <h3>We show up on time</h3>
+              <p>You get a text with your tech's name and photo before we arrive.</p>
+            </div>
+          </div>
+        </section>
+
         <!-- recent jobs -->
         <section class="section" id="work">
           <div class="section-head">
@@ -2389,6 +2432,11 @@ const TRADES = {
     ],
     footerCred: "Fully insured · $2M general liability & workers' comp · ISA Certified Arborist on staff · Certificate of insurance provided on request",
     locSub: "Insured tree removal, trimming, and storm cleanup in {city}. Free estimates, certified arborists, and a real person answering the phone.",
+    howItWorks: [
+      ["Text us a photo of the tree", "Or request a free on-site estimate. Either way, you hear back within the hour."],
+      ["Get a firm, written quote", "An ISA-certified arborist prices the job. What we quote is what you pay."],
+      ["Crew arrives, yard leaves spotless", "Wood hauled, chips blown, lawn raked. You'd never know we were there, except the tree's gone."],
+    ],
     logoSvg: '<svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 2 7 9h2.5L4.5 17H10v5h4v-5h5.5L14.5 9H17L12 2z" fill="#fff"/></svg>',
     tabFav: '<svg width="14" height="14" viewBox="0 0 24 24"><rect width="24" height="24" rx="6" fill="#2e7d43"/><path d="M12 4 8 9.5h2L6.5 15H10v4h4v-4h3.5L14 9.5h2L12 4z" fill="#fff"/></svg>',
     gridIcons: [
@@ -2763,6 +2811,14 @@ function applyPersonalization() {
         if (PRESET.stats[i]) {
           el.querySelector(".big").textContent = PRESET.stats[i][0];
           el.querySelector(".small").textContent = PRESET.stats[i][1];
+        }
+      });
+    }
+    if (PRESET.howItWorks) {
+      document.querySelectorAll("#how .how-step").forEach((el, i) => {
+        if (PRESET.howItWorks[i]) {
+          el.querySelector("h3").textContent = PRESET.howItWorks[i][0];
+          el.querySelector("p").textContent = PRESET.howItWorks[i][1];
         }
       });
     }
