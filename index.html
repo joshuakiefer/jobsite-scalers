@@ -418,6 +418,39 @@ input, textarea { font-family: inherit; }
   color: #98a2b3;
   font-weight: 600;
 }
+.upload-zone {
+  border: 1.5px dashed #c7cfd8;
+  border-radius: 10px;
+  padding: 11px 13px;
+  margin-bottom: 13px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #5b6774;
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+  user-select: none;
+}
+.upload-zone:hover { border-color: var(--blue); background: #fafcfb; }
+.upload-zone .up-hint { color: #98a2ad; font-weight: 500; }
+.upload-thumbs { display: flex; gap: 8px; margin-top: 9px; }
+.upload-thumbs:empty { display: none; }
+.up-thumb {
+  width: 56px; height: 56px;
+  border-radius: 9px;
+  position: relative;
+  overflow: hidden;
+  animation: popIn .35s cubic-bezier(.2,1.4,.4,1) both;
+}
+.up-thumb span {
+  position: absolute;
+  bottom: 3px; left: 3px;
+  font-size: 6.5px;
+  color: rgba(255,255,255,.92);
+  background: rgba(0,0,0,.42);
+  padding: 1.5px 4px;
+  border-radius: 4px;
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
 .form-hint {
   font-size: 11px;
   color: #7a8694;
@@ -2463,7 +2496,8 @@ const TRADES = {
     ctaPrimary: "Get My Free Estimate",
     formTitle: "Get a Free Estimate",
     formSubmit: "Get My Free Estimate",
-    formHint: "Fastest option: snap a photo of the tree and we'll text you a ballpark within the hour.",
+    formHint: "Photo requests jump the line. Most get a ballpark text within the hour.",
+    formPhotos: true,
     stats: [
       ["$2M", "LIABILITY & WORKERS' COMP COVERAGE"],
       ["ISA", "CERTIFIED ARBORIST ON EVERY ESTIMATE"],
@@ -2556,6 +2590,7 @@ const TRADES = {
       pqJob: "Removal estimate · big cottonwood",
       pqRevenue: 2200,
       pqImg: "linear-gradient(160deg,#41684d,#22392b)",
+      stlPhotoMsg: "Hi {first}, thanks for reaching out, and the photos help a lot! Looks like a clean trim on both trees, likely $450 to $700. Want us to firm that up in person? When's good for a quick look?",
       gReview: "Took the big cottonwood down clean and hauled everything the same day. Couldn't ask for more. Highly recommend these guys.",
       revCard: "Fast, professional, and the cleanup was spotless. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
       gateJob: "your trees",
@@ -2771,6 +2806,21 @@ const T = Object.assign({
   gateJob: "your water heater",
 }, PRESET ? PRESET.texts : {});
 
+function addFormPhoto() {
+  const thumbs = document.getElementById("uploadThumbs");
+  if (!thumbs || thumbs.children.length >= 3) return;
+  const n = thumbs.children.length;
+  const t = document.createElement("div");
+  t.className = "up-thumb";
+  t.style.background = T.pqImg || "linear-gradient(160deg,#41684d,#22392b)";
+  t.innerHTML = '<span>IMG_20' + (47 + n) + '</span>';
+  thumbs.appendChild(t);
+  if (typeof sndTick === "function") { try { sndTick(); } catch (e) {} }
+}
+function formPhotoCount() {
+  const thumbs = document.getElementById("uploadThumbs");
+  return thumbs ? thumbs.children.length : 0;
+}
 function applyPersonalization() {
   if (!P.active) return;
   const pairs = [];
@@ -2855,6 +2905,18 @@ function applyPersonalization() {
     if (PRESET.ctaPrimary) { const el = document.querySelector(".hero-ctas .btn-primary"); if (el) el.textContent = PRESET.ctaPrimary; }
     if (PRESET.formTitle) { const el = document.querySelector(".lead-card h3"); if (el) el.textContent = PRESET.formTitle; }
     if (PRESET.formSubmit) { const el = document.querySelector(".lead-submit"); if (el) el.textContent = PRESET.formSubmit; }
+    if (PRESET.formPhotos) {
+      const issueField = document.getElementById("f-issue").closest(".field");
+      const zone = document.createElement("div");
+      zone.className = "upload-zone";
+      zone.id = "uploadZone";
+      zone.innerHTML =
+        '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" style="vertical-align:-2px;margin-right:6px"><rect x="3" y="6" width="18" height="14" rx="3" stroke="#5b6774" stroke-width="2"/><path d="M9 6 10.5 3.5h3L15 6" stroke="#5b6774" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="13" r="4" stroke="#5b6774" stroke-width="2"/></svg>' +
+        'Add photos of the tree <span class="up-hint">(tap to attach, speeds up your quote)</span>' +
+        '<div class="upload-thumbs" id="uploadThumbs"></div>';
+      issueField.insertAdjacentElement("afterend", zone);
+      zone.addEventListener("click", addFormPhoto);
+    }
     if (PRESET.formHint) {
       const issueField = document.getElementById("f-issue");
       if (issueField) {
@@ -3334,6 +3396,8 @@ function resetForm() {
   leadForm.reset();
   leadCard.classList.remove("submitted");
   closeAddrDrop();
+  const thumbs = document.getElementById("uploadThumbs");
+  if (thumbs) thumbs.innerHTML = "";
 }
 async function typeIntoInput(el, text) {
   el.focus();
@@ -3490,11 +3554,17 @@ function appendOwnerBubble(m) {
     card.innerHTML =
       '<div class="oa-form-head">' +
         '<svg width="11" height="11" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="#155eef" stroke-width="2.4"/><path d="M7.5 9h9M7.5 13h9M7.5 17h5" stroke="#155eef" stroke-width="2.4" stroke-linecap="round"/></svg>' +
-        'Website Form Submission<small>summitplumbingco.com</small></div>' +
+        'Website Form Submission<small>' + P.domain + '</small></div>' +
       '<div class="oa-form-row"><b>Name</b><span>' + esc(m.data.name) + '</span></div>' +
       '<div class="oa-form-row"><b>Mobile</b><span>' + esc(m.data.phone) + '</span></div>' +
       '<div class="oa-form-row"><b>Address</b><span>' + esc(m.data.address) + '</span></div>' +
-      '<div class="oa-form-row"><b>Issue</b><span>' + esc(m.data.issue) + '</span></div>';
+      '<div class="oa-form-row"><b>Issue</b><span>' + esc(m.data.issue) + '</span></div>' +
+      (m.data.photos
+        ? '<div class="oa-form-row"><b>Photos</b><span style="display:flex;gap:6px">' +
+          Array.from({ length: m.data.photos }, (_, i) =>
+            '<span style="width:38px;height:38px;border-radius:7px;display:inline-block;background:' + (T.pqImg || "linear-gradient(160deg,#41684d,#22392b)") + '"></span>'
+          ).join("") + '</span></div>'
+        : '');
     th.appendChild(card);
     th.scrollTop = th.scrollHeight;
     return;
@@ -3914,8 +3984,9 @@ async function runSpeedToLead(name, issue, address = "", phone = "") {
   currentConv = name;
   setClock({ status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" });
   clearThread();
+  const photoCount = formPhotoCount();
   // the owner's thread opens with everything the customer typed into the form
-  logConv(name, "form", "", { name, phone: phone || "(303) 555-0192", address: address || "Not provided", issue });
+  logConv(name, "form", "", { name, phone: phone || "(303) 555-0192", address: address || "Not provided", issue, photos: photoCount });
 
   const firstName = (name.trim().split(/\s+/)[0] || "there");
   successText.textContent = firstName + ", we're texting you right now.";
@@ -3925,8 +3996,10 @@ async function runSpeedToLead(name, issue, address = "", phone = "") {
 
   addDaySep();
   const issueShort = issue.trim().replace(/[.!?\s]+$/, "").toLowerCase();
-  const msg = "Hi " + firstName + ", thanks for reaching out to " + P.short + " about your " + issueShort +
-    ". When's a good time for a quick call? Or we can text you a quote, whatever's easier.";
+  const msg = (photoCount > 0 && T.stlPhotoMsg)
+    ? T.stlPhotoMsg.split("{first}").join(firstName)
+    : "Hi " + firstName + ", thanks for reaching out to " + P.short + " about your " + issueShort +
+      ". When's a good time for a quick call? Or we can text you a quote, whatever's easier.";
   showBanner(msg);
   addIncoming(msg);
   ownerEvent(name, "New website lead · replied to in 5 seconds", "New lead: " + name + " · " + issueShort);
@@ -3975,6 +4048,12 @@ async function scnFormAuto() {
   addrEl.blur();
   if (!(await step(350))) return;
   if (!(await typeIntoInput($("f-issue"), T.autoIssue))) return;
+  if (document.getElementById("uploadZone")) {
+    if (!(await step(450))) return;
+    addFormPhoto();
+    if (!(await step(550))) return;
+    addFormPhoto();
+  }
   if (!(await step(500))) return;
   s.done();
   runSpeedToLead("Sarah Mitchell", T.autoIssue, P.active ? "2847 Yarrow St, " + P.metro + ", " + P.state : "2847 Yarrow St, Lakewood, CO 80226", "(303) 555-0192");
