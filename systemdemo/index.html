@@ -11,7 +11,19 @@ iframe { border: 0; width: 100%; height: 100%; display: block; }
 </style>
 </head>
 <body>
-<iframe src="../index.html#cfg=eyJuYW1lIjoiVGltYmVybGluZSBUcmVlIENhcmUiLCJzaG9ydCI6IlRpbWJlcmxpbmUiLCJwaG9uZSI6Iig3MjApIDU1NS0wMTQ4IiwidHJhZGUiOiJ0cmVlc2VydmljZSIsIm1ldHJvIjoiRGVudmVyIiwic3RhdGUiOiJDTyIsImNpdGllcyI6WyJEZW52ZXIiLCJFbmdsZXdvb2QiLCJMaXR0bGV0b24iLCJMYWtld29vZCIsIkF1cm9yYSIsIkhpZ2hsYW5kcyBSYW5jaCIsIkNlbnRlbm5pYWwiLCJBcnZhZGEiLCJXaGVhdCBSaWRnZSIsIkNhc3RsZSBSb2NrIl0sInJhdGluZyI6IjQuOSIsImNvdW50IjoiMTQzIn0" title="Live system demo" allow="autoplay"></iframe>
+<iframe id="demo" src="../index.html#cfg=eyJuYW1lIjoiVGltYmVybGluZSBUcmVlIENhcmUiLCJzaG9ydCI6IlRpbWJlcmxpbmUiLCJwaG9uZSI6Iig3MjApIDU1NS0wMTQ4IiwidHJhZGUiOiJ0cmVlc2VydmljZSIsIm1ldHJvIjoiRGVudmVyIiwic3RhdGUiOiJDTyIsImNpdGllcyI6WyJEZW52ZXIiLCJFbmdsZXdvb2QiLCJMaXR0bGV0b24iLCJMYWtld29vZCIsIkF1cm9yYSIsIkhpZ2hsYW5kcyBSYW5jaCIsIkNlbnRlbm5pYWwiLCJBcnZhZGEiLCJXaGVhdCBSaWRnZSIsIkNhc3RsZSBSb2NrIl0sInJhdGluZyI6IjQuOSIsImNvdW50IjoiMTQzIn0" title="Live system demo" allow="autoplay"></iframe>
+<script>
+"use strict";
+var f = document.getElementById("demo");
+f.addEventListener("load", function () { try { f.contentWindow.focus(); } catch (e) {} });
+window.addEventListener("keydown", function (e) {
+  if (document.activeElement === f) return; // focus is inside; the demo already got it
+  try {
+    var d = f.contentDocument;
+    if (d) d.dispatchEvent(new KeyboardEvent("keydown", { key: e.key, bubbles: true }));
+  } catch (err) {}
+});
+</script>
 <noscript><a href="../index.html#cfg=eyJuYW1lIjoiVGltYmVybGluZSBUcmVlIENhcmUiLCJzaG9ydCI6IlRpbWJlcmxpbmUiLCJwaG9uZSI6Iig3MjApIDU1NS0wMTQ4IiwidHJhZGUiOiJ0cmVlc2VydmljZSIsIm1ldHJvIjoiRGVudmVyIiwic3RhdGUiOiJDTyIsImNpdGllcyI6WyJEZW52ZXIiLCJFbmdsZXdvb2QiLCJMaXR0bGV0b24iLCJMYWtld29vZCIsIkF1cm9yYSIsIkhpZ2hsYW5kcyBSYW5jaCIsIkNlbnRlbm5pYWwiLCJBcnZhZGEiLCJXaGVhdCBSaWRnZSIsIkNhc3RsZSBSb2NrIl0sInJhdGluZyI6IjQuOSIsImNvdW50IjoiMTQzIn0">Open the demo</a></noscript>
 </body>
 </html>
