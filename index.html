@@ -1884,7 +1884,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
                 <textarea id="f-issue" rows="3" placeholder="Kitchen sink is backing up and smells terrible…" required></textarea>
               </div>
               <button class="lead-submit" type="submit">Send Request</button>
-              <p class="lead-fineprint">By submitting, you agree to receive text messages from Summit Plumbing Co. Message &amp; data rates may apply.</p>
+              <p class="lead-fineprint">By submitting, you agree to receive text messages from Summit Plumbing Co. about your request. Message &amp; data rates may apply.</p>
             </form>
             <div class="lead-success">
               <div class="success-ring">
@@ -2120,7 +2120,7 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
             </div>
           </div>
           <div class="footer-bottom">
-            <span>© 2026 Summit Plumbing Co. All rights reserved.</span>
+            <span>© 2026 Summit Plumbing Co. · All rights reserved.</span>
             <span>Proudly serving Denver, Englewood, Littleton &amp; Aurora</span>
           </div>
         </footer>
@@ -2530,8 +2530,10 @@ const TRADES = {
   plumbing: null, // the built-in default
   treeservice: {
     person: "Tree Service", urlPrefix: "tree-service", nounLine: "tree care",
-    heroH1: 'That tree over your house? <em>Handled safely.</em>',
+    heroH1: 'That tree over your house? <em>Down safe, gone same day.</em>',
     heroSub: "Fully insured, ISA-certified crews for removals, trims, and storm damage. Free on-site estimates, or text us a photo and get a ballpark today.",
+    eyebrowTail: "Free Same-Day Estimates",
+    workSub: "Removals, trims, stump grinds, and storm cleanups.",
     ctaPrimary: "Get My Free Estimate",
     formTitle: "Get a Free Estimate",
     formSubmit: "Get My Free Estimate",
@@ -2592,7 +2594,7 @@ const TRADES = {
       '.work-grid figure:nth-of-type(5) .job-photo{--g1:#1f5c46 !important;--g2:#0f2f23 !important}',
       '.work-grid figure:nth-of-type(6) .job-photo{--g1:#59663a !important;--g2:#2c331d !important}',
     ].join("\n"),
-    badge: "24/7 STORM RESPONSE", chip2: "Free On-Site Estimates",
+    badge: "24/7 STORM RESPONSE", chip2: "ISA Certified Arborists",
     grid: [
       ["Tree Removal", "Full takedowns of any size, from tight backyards to crane jobs over the house. Hauled off same day."],
       ["Trimming & Pruning", "Canopy raises, roof clearance, and health pruning that keeps trees strong and looking right."],
@@ -2908,7 +2910,8 @@ function applyPersonalization() {
     add("60-Min Emergency Response", PRESET.chip2);
     add("Every pipe, every problem, handled.", PRESET.sectionH2);
     add("From a dripping faucet to a whole-home repipe, our licensed techs show up on time with the parts on the truck.", PRESET.sectionSub);
-    add("Water heaters, repipes, drains, and everything in between.", "Recent work, straight off the truck.");
+    add("Water heaters, repipes, drains, and everything in between.", PRESET.workSub || "Recent work, straight off the truck.");
+    if (PRESET.eyebrowTail) add("Same-Day Service", PRESET.eyebrowTail);
     add("Thanks for trusting us with your water heater today.", "Thanks for trusting us with " + T.gateJob + " today.");
     add("Kitchen sink is backing up and smells terrible…", T.autoIssue + "…");
     const GRID = [
@@ -2960,7 +2963,13 @@ function applyPersonalization() {
   if (PRESET) {
     if (PRESET.heroH1) { const el = document.getElementById("heroH1"); if (el) el.innerHTML = PRESET.heroH1; }
     if (PRESET.heroSub) { const el = document.getElementById("heroSub"); if (el) el.textContent = PRESET.heroSub; }
-    if (PRESET.ctaPrimary) { const el = document.querySelector(".hero-ctas .btn-primary"); if (el) el.textContent = PRESET.ctaPrimary; }
+    if (PRESET.ctaPrimary) {
+      const el = document.querySelector(".hero-ctas .btn-primary");
+      if (el) el.textContent = PRESET.ctaPrimary;
+      // keep the phone number in the hero: the ghost button becomes the call CTA
+      const gh = document.getElementById("heroRequestBtn");
+      if (gh) gh.textContent = "Call " + P.phone;
+    }
     if (PRESET.formTitle) { const el = document.querySelector(".lead-card h3"); if (el) el.textContent = PRESET.formTitle; }
     if (PRESET.formSubmit) { const el = document.querySelector(".lead-submit"); if (el) el.textContent = PRESET.formSubmit; }
     if (PRESET.formPhotos) {
