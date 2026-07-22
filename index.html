@@ -264,6 +264,14 @@ input, textarea { font-family: inherit; }
   transition: background .15s;
 }
 .call-btn:hover { background: #16406b; }
+/* progressive tightening when the brand + nav + badge outgrow the pane */
+.site-topbar.tight { gap: 14px; padding: 0 20px; }
+.site-topbar.tight .brand { font-size: 17px; gap: 8px; }
+.site-topbar.tight .site-nav { gap: 14px; margin-left: 0; }
+.site-topbar.tight .topbar-right { gap: 10px; }
+.site-topbar.tight .badge-247 { font-size: 10.5px; padding: 5px 9px; }
+.site-topbar.tight .call-btn { font-size: 13.5px; padding: 9px 13px; }
+.site-topbar.tighter .badge-247 { display: none; }
 
 /* --- hero --- */
 .hero {
@@ -565,6 +573,16 @@ input, textarea { font-family: inherit; }
 }
 .ph-art svg { opacity: .42; }
 .job-cap { padding: 13px 16px 15px; text-align: left; }
+/* featured before/after card */
+.ba-card { grid-column: 1 / -1; }
+.ba-split { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; height: 330px; background: #fff; }
+.ba-half { position: relative; overflow: hidden; }
+.ba-half img { width: 100%; height: 100%; object-fit: cover; display: block; filter: saturate(.95) contrast(1.02); transition: transform .45s cubic-bezier(.2,.7,.3,1); }
+.job-card.ba-card:hover .ba-half img { transform: scale(1.03); }
+.ba-tag { position: absolute; top: 12px; left: 12px; z-index: 2; font-size: 10.5px; font-weight: 850; letter-spacing: 1.1px; text-transform: uppercase; color: #fff; padding: 5px 11px; border-radius: 999px; }
+.ba-tag.b { background: rgba(15,23,32,.72); }
+.ba-tag.a { background: var(--blue); }
+@media (max-width: 980px) { .ba-split { height: 240px; } }
 .job-title { font-size: 14.5px; font-weight: 800; color: var(--navy); }
 .job-meta { font-size: 12px; color: var(--muted); margin-top: 3px; }
 @media (max-width: 980px) { .work-grid { grid-template-columns: 1fr 1fr; } }
@@ -2588,12 +2606,12 @@ const TRADES = {
       '.dropdown a:hover{background:#ecf6ee;color:#2e7d43}',
       '.field input:focus,.field textarea:focus{border-color:#2e7d43;box-shadow:0 0 0 3px rgba(46,125,67,.14)}',
       '.lead-card .dot-live{background:#2ea45c}',
-      '.work-grid figure:nth-of-type(1) .job-photo{--g1:#2c5e3f !important;--g2:#16382a !important}',
-      '.work-grid figure:nth-of-type(2) .job-photo{--g1:#4d6b52 !important;--g2:#27392b !important}',
-      '.work-grid figure:nth-of-type(3) .job-photo{--g1:#6d5537 !important;--g2:#3d2e1c !important}',
-      '.work-grid figure:nth-of-type(4) .job-photo{--g1:#44586a !important;--g2:#232f3a !important}',
-      '.work-grid figure:nth-of-type(5) .job-photo{--g1:#1f5c46 !important;--g2:#0f2f23 !important}',
-      '.work-grid figure:nth-of-type(6) .job-photo{--g1:#59663a !important;--g2:#2c331d !important}',
+      '.work-grid figure:nth-of-type(2) .job-photo{--g1:#2c5e3f !important;--g2:#16382a !important}',
+      '.work-grid figure:nth-of-type(3) .job-photo{--g1:#4d6b52 !important;--g2:#27392b !important}',
+      '.work-grid figure:nth-of-type(4) .job-photo{--g1:#6d5537 !important;--g2:#3d2e1c !important}',
+      '.work-grid figure:nth-of-type(5) .job-photo{--g1:#44586a !important;--g2:#232f3a !important}',
+      '.work-grid figure:nth-of-type(6) .job-photo{--g1:#1f5c46 !important;--g2:#0f2f23 !important}',
+      '.work-grid figure:nth-of-type(7) .job-photo{--g1:#59663a !important;--g2:#2c331d !important}',
     ].join("\n"),
     badge: "24/7 STORM RESPONSE", chip2: "ISA Certified Arborists",
     grid: [
@@ -2603,6 +2621,12 @@ const TRADES = {
       ["Storm Damage Cleanup", "Downed limbs and leaners handled fast, day or night, with the yard raked clean after."],
     ],
     services10: ["Tree Removal", "Tree Trimming & Pruning", "Stump Grinding", "Storm Damage Cleanup", "Emergency Tree Service", "Land & Lot Clearing", "Tree Health Assessments", "Cabling & Bracing", "Firewood & Wood Chips", "Commercial Tree Care"],
+    beforeAfter: {
+      before: "photos/tree/removal-before.jpg",
+      after: "photos/tree/removal-after.jpg",
+      title: "Dead tree leaning over the house",
+      meta: "{metro} · Down safe, hauled off, and the lawn raked clean",
+    },
     gallery: [
       ["60-foot cottonwood removal", "Craned out over the house"],
       ["Full canopy trim, 8 oaks", "Cleaned up same day"],
@@ -3016,6 +3040,21 @@ function applyPersonalization() {
       const el = document.querySelector(".site-footer .footer-grid > div:first-child p");
       if (el) el.innerHTML = P.metro + ", " + P.state + "<br>" + PRESET.footerCred;
     }
+    if (PRESET.beforeAfter) {
+      const wg = document.querySelector(".work-grid");
+      if (wg) {
+        const ba = PRESET.beforeAfter;
+        const fig = document.createElement("figure");
+        fig.className = "job-card ba-card";
+        fig.innerHTML =
+          '<div class="ba-split">' +
+            '<div class="ba-half"><span class="ba-tag b">Before</span><img src="' + ba.before + '" alt="Before the job"></div>' +
+            '<div class="ba-half"><span class="ba-tag a">After</span><img src="' + ba.after + '" alt="After the job"></div>' +
+          '</div>' +
+          '<figcaption class="job-cap"><div class="job-title">' + ba.title + '</div><div class="job-meta">' + metroize(ba.meta || "") + '</div></figcaption>';
+        wg.insertBefore(fig, wg.firstElementChild);
+      }
+    }
   }
   // trade visual identity: colors, logo, icons
   if (PRESET && PRESET.themeCSS) {
@@ -3038,6 +3077,16 @@ function applyPersonalization() {
   }
 }
 applyPersonalization();
+// keep the topbar on one clean line no matter how long the business name is
+function fitTopbar() {
+  const tb = document.querySelector(".site-topbar");
+  if (!tb) return;
+  tb.classList.remove("tight", "tighter");
+  if (tb.scrollWidth > tb.clientWidth + 1) tb.classList.add("tight");
+  if (tb.scrollWidth > tb.clientWidth + 1) tb.classList.add("tighter");
+}
+fitTopbar();
+window.addEventListener("resize", fitTopbar);
 
 /* ============================================================
    YOUR JOB PHOTOS
