@@ -2638,6 +2638,8 @@ const TRADES = {
       pqRevenue: 2200,
       pqImg: "linear-gradient(160deg,#41684d,#22392b)",
       stlPhotoMsg: "Hi {first}, thanks for reaching out, and the photos help a lot! Looks like a clean trim on both trees, likely $450 to $700. Want us to firm that up in person? When's good for a quick look?",
+      stlAck: "Hi {first}! Thanks for reaching out to {biz}. We just got your estimate request and photos, and we're taking a look right now. One of our team will be right back with your ballpark, and you can reply here anytime in the meantime. 🌲",
+      stlReview: "Just went through your photos, you're likely looking at $450 to $700 for a clean trim on both trees. Want us to come firm that up in person? What works best for a quick look?",
       gReview: "Took the big cottonwood down clean and hauled everything the same day. Couldn't ask for more. Highly recommend these guys.",
       revCard: "Fast, professional, and the cleanup was spotless. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
       gateJob: "your trees",
@@ -2838,6 +2840,8 @@ const T = Object.assign({
   mcIssue: "My water heater is leaking",
   mcJob: "a leaking water heater", mcJobShort: "leaking water heater",
   autoIssue: "Kitchen sink backing up",
+  stlAck: "Hi {first}! Thanks for reaching out to {biz}. We just got your request and we're taking a look right now. You'll hear back in a minute with next steps, and feel free to reply here if you think of anything else. 👍",
+  stlFollow: "Thanks for waiting! We'd love to get you a firm number. When's a good time for a quick call, or want us to text you a quote?",
   ahCust: "EMERGENCY - pipe burst",
   ahAi: "On it. Emergency tech is headed your way, ETA 45 minutes. Shut off your main water valve if you can (usually near the water meter). Hang tight, help is coming.",
   ahSnip: "🚨 EMERGENCY dispatched · burst pipe · ETA 45 min",
@@ -4043,20 +4047,30 @@ async function runSpeedToLead(name, issue, address = "", phone = "") {
   const firstName = (name.trim().split(/\s+/)[0] || "there");
   successText.textContent = firstName + ", we're texting you right now.";
   leadCard.classList.add("submitted");
+  const issueShort = issue.trim().replace(/[.!?\s]+$/, "").toLowerCase();
 
   if (!(await step(4600))) return;
-
   addDaySep();
-  const issueShort = issue.trim().replace(/[.!?\s]+$/, "").toLowerCase();
-  const msg = (photoCount > 0 && T.stlPhotoMsg)
-    ? T.stlPhotoMsg.split("{first}").join(firstName)
-    : "Hi " + firstName + ", thanks for reaching out to " + P.short + " about your " + issueShort +
-      ". When's a good time for a quick call? Or we can text you a quote, whatever's easier.";
-  showBanner(msg);
-  addIncoming(msg);
-  ownerEvent(name, "New website lead · replied to in 5 seconds", "New lead: " + name + " · " + issueShort);
 
-  if (!(await step(3000))) return;
+  // 1) INSTANT automated acknowledgment — engages the lead in seconds so they
+  //    don't move on to the next company. This fires by itself, no human.
+  const ack = (T.stlAck || "Hi {first}! Thanks for reaching out to {biz}. We just got your request and we're taking a look right now. You'll hear back in a minute with next steps. 👍")
+    .split("{first}").join(firstName).split("{biz}").join(P.short);
+  showBanner(ack);
+  addIncoming(ack, { caption: "Auto-reply · sent 8 seconds after form submitted" });
+  ownerEvent(name, "New website lead · auto-replied in 8 seconds", "New lead: " + name + " · " + issueShort + (photoCount ? " · " + photoCount + " photos" : ""));
+
+  // 2) then the business follows up to move the lead toward booking
+  if (!(await step(2600))) return;
+  showTyping();
+  if (!(await step(1900))) return;
+  hideTyping();
+  const follow = (photoCount > 0 && T.stlReview)
+    ? T.stlReview
+    : (T.stlFollow || "We'd love to get you a firm number. When's a good time for a quick call, or want us to text you a quote?");
+  addIncoming(follow);
+
+  if (!(await step(2900))) return;
   if (!(await customerTypesAndSends("Tomorrow morning works, before 9 if you can"))) return;
 
   if (!(await step(1000))) return;
