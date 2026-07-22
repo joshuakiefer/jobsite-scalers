@@ -2641,7 +2641,6 @@ const TRADES = {
       stlAck: "Hi {first}! Thanks for reaching out to {biz}. We just got your estimate request and photos, and we're taking a look right now. One of our team will be right back with your ballpark, and you can reply here anytime in the meantime. 🌲",
       stlReview: "Just went through your photos, you're likely looking at $450 to $700 for a clean trim on both trees. Want us to come firm that up in person? What works best for a quick look?",
       gReview: "Took the big cottonwood down clean and hauled everything the same day. Couldn't ask for more. Highly recommend these guys.",
-      revCard: "Fast, professional, and the cleanup was spotless. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
       gateJob: "your trees",
     },
   },
@@ -2681,7 +2680,6 @@ const TRADES = {
       ahWhen: ["Tmrw", "7:00am"], ahJob: "Front door lock repair", ahWhere: "Booked at 11:47 PM", ahRevenue: 450,
       revThanksJob: "knock out your list",
       gReview: "Knocked out my whole list in one afternoon. Couldn't ask for more. Highly recommend these guys.",
-      revCard: "Knocked out my whole punch list in one afternoon. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
       gateJob: "your repairs",
     },
   },
@@ -2721,7 +2719,6 @@ const TRADES = {
       ahWhen: ["NOW", "ETA 45m"], ahJob: "Furnace out · emergency", ahWhere: "Dispatched at 11:47 PM", ahRevenue: 850,
       revThanksJob: "handle your furnace",
       gReview: "Had our heat back on the same day we called. Couldn't ask for more. Highly recommend these guys.",
-      revCard: "Fast, professional, had our heat back the same day. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
       gateJob: "your furnace",
     },
   },
@@ -2761,7 +2758,6 @@ const TRADES = {
       ahWhen: ["NOW", "ETA 45m"], ahJob: "Panel emergency", ahWhere: "Dispatched at 11:47 PM", ahRevenue: 850,
       revThanksJob: "sort out your panel",
       gReview: "Found and fixed the problem the same day. Couldn't ask for more. Highly recommend these guys.",
-      revCard: "Fast, professional, fixed it the same day. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
       gateJob: "your electrical work",
     },
   },
@@ -2801,7 +2797,6 @@ const TRADES = {
       ahWhen: ["Dawn", "Tarp crew"], ahJob: "Limb through roof", ahWhere: "Booked at 11:47 PM", ahRevenue: 850,
       revThanksJob: "handle your roof",
       gReview: "Roof replaced in two days and the yard was spotless after. Couldn't ask for more. Highly recommend these guys.",
-      revCard: "Fast, professional, roof done in two days. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
       gateJob: "your roof",
     },
   },
@@ -2858,7 +2853,6 @@ const T = Object.assign({
   pqRevenue: 1600,
   pqImg: "linear-gradient(160deg,#5a6b7c,#2c3844)",
   gReview: "Fast, professional, fixed it same day. Couldn't ask for more. Highly recommend these guys.",
-  revCard: "Fast, professional, fixed it same day. They even texted me this review link so I didn't have to hunt for it. Highly recommend.",
   gateJob: "your water heater",
 }, PRESET ? PRESET.texts : {});
 
@@ -3333,7 +3327,7 @@ function addReviewCard(stars = 5) {
         '<div class="rev-meta">Just now</div></div>' +
         '<div class="rev-stars">' + starHtml + '</div>' +
       '</div>' +
-      '<p class="rev-text">' + T.revCard + '</p>' +
+      '<p class="rev-text">' + T.gReview + '</p>' +
     '</div>';
   reviewList.insertBefore(wrap, reviewList.firstChild);
   // animate height + fade without layout jank
