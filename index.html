@@ -2530,9 +2530,10 @@ const TRADES = {
   plumbing: null, // the built-in default
   treeservice: {
     person: "Tree Service", urlPrefix: "tree-service", nounLine: "tree care",
-    heroH1: 'That tree over your house? <em>Down safe, gone same day.</em>',
-    heroSub: "Fully insured, ISA-certified crews for removals, trims, and storm damage. Free on-site estimates, or text us a photo and get a ballpark today.",
+    heroH1: 'The tree crew your neighbors <em>call first.</em>',
+    heroSub: "Family owned and operated. Removals, trims, stump grinding, and storm cleanup around {metro}, done careful and raked clean. Free estimates, or text us a photo for a fast ballpark today.",
     eyebrowTail: "Free Same-Day Estimates",
+    reviewsKicker: "Word of Mouth",
     workSub: "Removals, trims, stump grinds, and storm cleanups.",
     ctaPrimary: "Get My Free Estimate",
     formTitle: "Get a Free Estimate",
@@ -2545,7 +2546,7 @@ const TRADES = {
       ["24/7", "STORM & EMERGENCY RESPONSE"],
       ["100%", "CLEANUP GUARANTEE, YARD RAKED CLEAN"],
     ],
-    footerCred: "Fully insured · $2M general liability & workers' comp · ISA Certified Arborist on staff · Certificate of insurance provided on request",
+    footerCred: "Family owned & operated · Fully insured, $2M general liability & workers' comp · ISA Certified Arborist on staff · Certificate of insurance on request",
     locSub: "Insured tree removal, trimming, and storm cleanup in {city}. Free estimates, certified arborists, and a real person answering the phone.",
     howItWorks: [
       ["Text us a photo of the tree", "Or request a free on-site estimate. Either way, you hear back within the hour."],
@@ -2912,6 +2913,7 @@ function applyPersonalization() {
     add("From a dripping faucet to a whole-home repipe, our licensed techs show up on time with the parts on the truck.", PRESET.sectionSub);
     add("Water heaters, repipes, drains, and everything in between.", PRESET.workSub || "Recent work, straight off the truck.");
     if (PRESET.eyebrowTail) add("Same-Day Service", PRESET.eyebrowTail);
+    if (PRESET.reviewsKicker) add("Our Reputation", PRESET.reviewsKicker);
     add("Thanks for trusting us with your water heater today.", "Thanks for trusting us with " + T.gateJob + " today.");
     add("Kitchen sink is backing up and smells terrible…", T.autoIssue + "…");
     const GRID = [
@@ -2961,8 +2963,9 @@ function applyPersonalization() {
   document.querySelectorAll(".msg-avatar, .call-avatar, .gate-logo").forEach((el) => { el.textContent = initials; });
   // optional copy overrides: applied after the walker so they win outright
   if (PRESET) {
-    if (PRESET.heroH1) { const el = document.getElementById("heroH1"); if (el) el.innerHTML = PRESET.heroH1; }
-    if (PRESET.heroSub) { const el = document.getElementById("heroSub"); if (el) el.textContent = PRESET.heroSub; }
+    const metroize = (s) => s.split("{metro}").join(P.metro);
+    if (PRESET.heroH1) { const el = document.getElementById("heroH1"); if (el) el.innerHTML = metroize(PRESET.heroH1); }
+    if (PRESET.heroSub) { const el = document.getElementById("heroSub"); if (el) el.textContent = metroize(PRESET.heroSub); }
     if (PRESET.ctaPrimary) {
       const el = document.querySelector(".hero-ctas .btn-primary");
       if (el) el.textContent = PRESET.ctaPrimary;
