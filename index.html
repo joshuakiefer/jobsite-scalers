@@ -2492,25 +2492,25 @@ body.presentation #control-bar { transform: translate(-50%, 130px); opacity: 0; 
 <!-- ================= CONTROL BAR ================= -->
 <div id="control-bar">
   <div class="cb-brand">Demo<b>Controls</b></div>
-  <button class="cb-btn" id="btn1" type="button">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M6.6 2.7c.5-.5 1.3-.4 1.7.1l2 2.6c.4.5.3 1.2-.1 1.6l-1.1 1.1c.8 1.7 2.2 3.1 3.9 3.9l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.6 2c.5.4.6 1.2.1 1.7l-1.5 1.5c-.5.5-1.3.7-2 .5-2.5-.7-4.9-2.1-6.9-4.1S4.7 8 4 5.5c-.2-.7 0-1.5.5-2l2.1-.8z" fill="#ff9d95"/><path d="M15 4l6 6M21 4l-6 6" stroke="#ff9d95" stroke-width="2" stroke-linecap="round"/></svg>
-    Missed Call <span class="kbd">1</span>
-  </button>
-  <button class="cb-btn" id="btn4" type="button">
-    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" fill="#b3a4ff"/></svg>
-    After-Hours Call <span class="kbd">2</span>
-  </button>
   <button class="cb-btn" id="btn2" type="button">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="#8fc3ff" stroke-width="2"/><path d="M7.5 9h9M7.5 13h9M7.5 17h5" stroke="#8fc3ff" stroke-width="2" stroke-linecap="round"/></svg>
-    Form Submission <span class="kbd">3</span>
+    Form Submission <span class="kbd">1</span>
   </button>
   <button class="cb-btn" id="btn7" type="button">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="6" y="2" width="12" height="20" rx="3" stroke="#9db8e8" stroke-width="2"/><path d="M10 5h4M10.5 18.5h3" stroke="#9db8e8" stroke-width="2" stroke-linecap="round"/></svg>
-    Mobile Quote <span class="kbd">4</span>
+    Mobile Quote <span class="kbd">2</span>
   </button>
   <button class="cb-btn" id="btn3" type="button">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2.5 14.8 8l6.2.9-4.5 4.4 1.1 6.2L12 16.6l-5.6 2.9 1.1-6.2L3 8.9 9.2 8 12 2.5z" fill="#ffd479"/></svg>
-    Job Complete <span class="kbd">5</span>
+    Job Complete <span class="kbd">3</span>
+  </button>
+  <button class="cb-btn" id="btn1" type="button">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M6.6 2.7c.5-.5 1.3-.4 1.7.1l2 2.6c.4.5.3 1.2-.1 1.6l-1.1 1.1c.8 1.7 2.2 3.1 3.9 3.9l1.1-1.1c.4-.4 1.1-.5 1.6-.1l2.6 2c.5.4.6 1.2.1 1.7l-1.5 1.5c-.5.5-1.3.7-2 .5-2.5-.7-4.9-2.1-6.9-4.1S4.7 8 4 5.5c-.2-.7 0-1.5.5-2l2.1-.8z" fill="#ff9d95"/><path d="M15 4l6 6M21 4l-6 6" stroke="#ff9d95" stroke-width="2" stroke-linecap="round"/></svg>
+    Missed Call <span class="kbd">4</span>
+  </button>
+  <button class="cb-btn" id="btn4" type="button">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z" fill="#b3a4ff"/></svg>
+    After-Hours Call <span class="kbd">5</span>
   </button>
   <div class="cb-sep"></div>
   <button class="cb-btn reset" id="btn5" type="button">
@@ -4024,7 +4024,7 @@ function hideOwnerAlert() {
 // ============================================================
 // SCENARIOS
 // ============================================================
-const btns = { 1: $("btn1"), 2: $("btn4"), 3: $("btn2"), 4: $("btn7"), 5: $("btn3"), 6: $("btn5") };
+const btns = { 1: $("btn2"), 2: $("btn7"), 3: $("btn3"), 4: $("btn1"), 5: $("btn4"), 6: $("btn5") };
 const PQ_ENABLED = !PRESET || !!(PRESET.texts && PRESET.texts.pqCust);
 function setRunning(n) {
   Object.values(btns).forEach((b) => b.classList.remove("running"));
@@ -4046,7 +4046,7 @@ async function startScenario(n) {
 
 // ---- 1. Missed Call Text-Back ----
 async function scnMissedCall() {
-  const s = await startScenario(1);
+  const s = await startScenario(4);
   currentConv = "(303) 555-8142";
   setClock({ status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" });
   clearThread();
@@ -4096,7 +4096,7 @@ async function scnMissedCall() {
 // ---- 2. Speed-to-Lead (form) ----
 async function runSpeedToLead(name, issue, address = "", phone = "") {
   // called after form submit (manual or simulated)
-  const s = await startScenario(3);
+  const s = await startScenario(1);
   currentConv = name;
   setClock({ status: "2:14", sep: "Today 2:14 PM", read: "Read 2:16 PM" });
   clearThread();
@@ -4149,7 +4149,7 @@ async function runSpeedToLead(name, issue, address = "", phone = "") {
 }
 async function scnFormAuto() {
   // keyboard/button path: auto-type the form, then submit
-  const s = await startScenario(3);
+  const s = await startScenario(1);
   resetForm();
   showEmptyThread();
   scrollSiteTo("#request");
@@ -4193,7 +4193,7 @@ leadForm.addEventListener("submit", (e) => {
 
 // ---- 3. Review Engine (gated) ----
 async function scnJobComplete() {
-  const s = await startScenario(5);
+  const s = await startScenario(3);
   currentConv = "Mike Radliff";
   setClock({ status: "4:52", sep: "Today 4:52 PM", read: "Read 4:53 PM" });
   clearThread();
@@ -4217,7 +4217,7 @@ async function scnJobComplete() {
 
 // ---- 4. After-Hours AI Answer ----
 async function scnAfterHours() {
-  const s = await startScenario(2);
+  const s = await startScenario(5);
   currentConv = "(720) 555-9034";
   setClock({ status: "11:47 PM", sep: "Today 11:47 PM", read: "Read 11:49 PM" });
   clearThread();
@@ -4348,7 +4348,7 @@ function msAddPhoto() {
   sndTick();
 }
 async function scnMobileLead() {
-  const s = await startScenario(4);
+  const s = await startScenario(2);
   currentConv = "Dana Whitfield";
   setClock({ status: "9:12", sep: "Today 9:12 AM", read: "Read 9:14 AM" });
   clearThread();
@@ -4430,11 +4430,11 @@ function scnReset() {
 // ============================================================
 // CONTROLS
 // ============================================================
-btns[1].addEventListener("click", scnMissedCall);
-btns[2].addEventListener("click", scnAfterHours);
-btns[3].addEventListener("click", scnFormAuto);
-btns[4].addEventListener("click", scnMobileLead);
-btns[5].addEventListener("click", scnJobComplete);
+btns[1].addEventListener("click", scnFormAuto);
+btns[2].addEventListener("click", scnMobileLead);
+btns[3].addEventListener("click", scnJobComplete);
+btns[4].addEventListener("click", scnMissedCall);
+btns[5].addEventListener("click", scnAfterHours);
 btns[6].addEventListener("click", scnReset);
 
 function showToast(msg, dur = 2200) {
@@ -4464,11 +4464,11 @@ document.addEventListener("keydown", (e) => {
     return;
   }
   switch (e.key) {
-    case "1": scnMissedCall(); break;
-    case "2": scnAfterHours(); break;
-    case "3": scnFormAuto(); break;
-    case "4": scnMobileLead(); break;
-    case "5": scnJobComplete(); break;
+    case "1": scnFormAuto(); break;
+    case "2": scnMobileLead(); break;
+    case "3": scnJobComplete(); break;
+    case "4": scnMissedCall(); break;
+    case "5": scnAfterHours(); break;
     case "6": scnReset(); break;
     case "v": case "V": setPhoneView(isOwnerView() ? "customer" : "owner"); break;
     case "p": case "P": togglePresentation(); break;

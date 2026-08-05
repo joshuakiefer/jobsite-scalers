@@ -25,22 +25,22 @@ Tips for a clean recording:
 
 | Key | Action |
 |-----|--------|
-| `1` | Simulate Missed Call → text-back conversation |
-| `2` | Simulate After-Hours Call (11:47 PM) → AI answer → emergency dispatch |
-| `3` | Simulate Form Submission (auto-fills and submits the website form, then the speed-to-lead text arrives) |
-| `4` | Simulate Mobile Quote (the customer visits the site on their phone and sends photos with the request) |
-| `5` | Simulate Job Complete → review request text with the smart feedback link |
+| `1` | Simulate Form Submission (auto-fills and submits the website form, then the speed-to-lead text arrives) |
+| `2` | Simulate Mobile Quote (the customer visits the site on their phone and sends photos with the request) |
+| `3` | Simulate Job Complete → review request text with the smart feedback link |
+| `4` | Simulate Missed Call → text-back conversation |
+| `5` | Simulate After-Hours Call (11:47 PM) → AI answer → emergency dispatch |
 | `6` | Reset demo (clears phone, stats, reviews, and form) |
 | `V` | Flip the phone between Customer view (iMessage) and Owner view (GHL-style app) |
 | `P` | Toggle presentation mode (hides/shows the control bar) |
 | `S` | Toggle sound |
 | `Esc` | Close the feedback page / exit presentation mode |
 
-### The review gate (key 5)
+### The review gate (key 3)
 
 The Job Complete scenario is interactive so you can show **both** outcomes:
 
-1. Press `5` - the customer gets the "job's done" text with a tappable link.
+1. Press `3` - the customer gets the "job's done" text with a tappable link.
 2. Click the link in the bubble (it opens itself after 8 seconds if you don't) - the phone
    opens the customer's feedback page with a 5-star rating picker.
 3. **While that page is open, keys `1`-`5` pick the star rating** (or click the stars):
@@ -93,17 +93,17 @@ you're typing in the form, so type freely.
    `summitplumbingco.com/plumber-littleton-co` with its own headline and page title. The
    line: *"That's 20 pages of Google real estate. When someone in Littleton searches
    'plumber near me', one of these pages is what ranks."* Click Home or the logo to go back.
-3. **`3` - Form Submission (the money shot).** The form fills itself and submits; ~5 seconds
+3. **`1` - Form Submission (the money shot).** The form fills itself and submits; ~5 seconds
    later the customer's phone lights up with a personalized text pulling the actual form values.
    Narrate: *"Your competitor calls back tomorrow. You texted back in five seconds."*
-4. **`1` - Missed Call.** Customer calls, nobody answers... and 47 seconds later the system
+4. **`4` - Missed Call.** Customer calls, nobody answers... and 47 seconds later the system
    texts back, qualifies the issue, and locks in a 2:30 callback with the lead tech. No
    sight-unseen commitments, just a captured lead with a time on the calendar. Watch the
    stats card bump.
-5. **`2` - After-Hours.** 11:47 PM, pipe burst. The AI answers, dispatches emergency service,
+5. **`5` - After-Hours.** 11:47 PM, pipe burst. The AI answers, dispatches emergency service,
    and even tells the customer to shut off the water main. This is the "you were asleep and
    still made $850" moment.
-6. **`5` - Job Complete (review gate).** Review request hits the customer's phone. Click the
+6. **`3` - Job Complete (review gate).** Review request hits the customer's phone. Click the
    link, tap **5 stars** → customer lands on Google, the review posts, and it slides onto the
    website as the count ticks 180 → 181. Then reset, run it again, and tap **2 stars** →
    the complaint goes privately to the owner and never touches Google. Good reviews amplified,
