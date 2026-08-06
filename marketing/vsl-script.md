@@ -37,7 +37,7 @@ business card nobody looks at."
 
 ## Beat 3: The money shot (0:55 - 1:50)
 
-**Screen:** [Press 2]. Form fills itself, submits, phone lights up ~5 seconds later.
+**Screen:** [Press 1]. Form fills itself, submits, phone lights up ~5 seconds later.
 Let the whole conversation play: customer replies, appointment books for 8am.
 
 **VO:**
@@ -52,7 +52,7 @@ plumbing. You're losing them because you answered second."
 
 ## Beat 4: The missed call (1:50 - 2:40)
 
-**Screen:** [Press 1]. Call screen, No Answer, text-back arrives with the "47 seconds"
+**Screen:** [Press 4]. Call screen, No Answer, text-back arrives with the "47 seconds"
 tag. Conversation plays out to the 2:30 callback.
 
 **VO:**
@@ -65,7 +65,7 @@ heater over text, it does the honest thing: books a time for the lead tech to ca
 
 ## Beat 5: After hours (2:40 - 3:15)
 
-**Screen:** [Press 4]. 11:47 PM status bar, missed call, emergency conversation.
+**Screen:** [Press 5]. 11:47 PM status bar, missed call, emergency conversation.
 
 **VO:**
 "11:47 at night. Pipe bursts. You're asleep, like a person. The system answers, figures
@@ -76,7 +76,7 @@ from someone who already hired your competitor at midnight."
 ## Beat 6: The review gate (3:15 - 4:05)
 
 **Screen:** [Press 3]. Review request text arrives. Click the link, tap 5 stars, let
-the Google review post and slide onto the website, 180 becomes 181. Then [Press 5] to
+the Google review post and slide onto the website, 180 becomes 181. Then [Press 6] to
 reset, [Press 3] again, tap 2 stars, let the private path play and the Owner Alert
 slide in.
 
@@ -120,6 +120,6 @@ no hard feelings. But do the math on one missed water heater job a month first."
 
 - Click the page once before recording so message sounds play
 - P for presentation mode, V flips are part of the show
-- Reset (5) between beats 3/4/5 so threads start clean
-- Beat 6 requires the reset mid-beat (5, then 3 again) for the two-star run
+- Reset (6) between beats 3/4/5 so threads start clean
+- Beat 6 requires the reset mid-beat (6, then 3 again) for the two-star run
 - Record each beat as its own take, cut together after; the demo resets cleanly
